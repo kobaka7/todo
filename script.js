@@ -5,7 +5,8 @@ var $addList = null;
 var $addListInput = null;
 var $body = null;
 var $main = null;
-var edit = null;
+var $edit = null;
+var $menu = null;
 var $editInputText = null;
 var $menuAll = null;
 var $menuFav = null;
@@ -36,6 +37,7 @@ function setObj(){
   $addList = $(".l-add-list"); // 追加画面
   $main = $(".l-main"); // タスク一覧画面
   $edit = $(".l-edit"); //編集画面
+  $menu = $(".l-menu");
   $outputArea = $(".m-output-area");
   $addListInput = $(".m-add-list-input");
   $editInputText = $(".m-edit-input");
@@ -65,6 +67,7 @@ function setBtn(){
     if ($addListInput.val() !== ""){ //空白禁止
       $addList.css({display:"none"});
       $($main).css({display:"block"});
+      $($menu).css({display:"block"});
       addListEl();
     } else {
       alert("タスクを入力してください");
@@ -73,20 +76,28 @@ function setBtn(){
   $addCancelBtn.on("click",function(){
       $addList.css({display:"none"});
       $($main).css({display:"block"});
+      $($menu).css({display:"block"});
   });
   $menuAll.on("click",function(evt){
+    $addList.css({display:"none"});
     menuListClick($(this));
     reload();
   });
   $menuFav.on("click",function(evt){
+    $addList.css({display:"none"});
+    $($main).css({display:"block"});
     menuListClick($(this));
     ShowFavList();
   });
   $menuComp.on("click",function(evt){
+    $addList.css({display:"none"});
+    $($main).css({display:"none"});
     menuListClick($(this));
     ShowCompList();
   });
   $menuBg.on("click",function(evt){
+    $addList.css({display:"none"});
+    $($main).css({display:"none"});
     $(".m-bg-list li img").fadeIn(1000);
     menuListClick($(this));
     bgChange();
@@ -94,6 +105,7 @@ function setBtn(){
   $editCancelBtn.on("click",function(evt){
     $edit.css({display:"none"});
     $($main).css({display:"block"});
+    $($menu).css({display:"block"});
   });
 
   // ------ 編集ボタン押したら ------
@@ -114,6 +126,7 @@ function setBtn(){
 
     $edit.css({display:"none"});
     $($main).css({display:"block"});
+    $($menu).css({display:"block"});
   });
 
   // ------ 完了ボタン押したら ------
@@ -135,6 +148,7 @@ function setBtn(){
 
     $edit.css({display:"none"});
     $($main).css({display:"block"});
+    $($menu).css({display:"block"});
   });
 }
 
@@ -255,9 +269,9 @@ function addListEl(){
 function showEdit(aTarget){
   aTarget.on("click",function(evt){
     num = $(this).index(); //liのthis番目取得
-    console.log(num);
 
     $($main).css({display:"none"});
+    $($menu).css({display:"none"});
     $edit.css({display:"block"});
 
     // liのテキストを最初から表示させる
@@ -276,26 +290,23 @@ function favBtn(aTarget) {
     $(this).toggleClass("is-active"); //isactiveなければつける
     var listArray = getLocalStorage("todo",listArray);
 
-    // 全てのタスクのとき
+    // 全てのタスクのときにふぁぼを押したら
     if(menuStatus === false){
-      if ($(this).hasClass("is-active")){ //もしisactiveがあったら
-        console.log(listArray[favCounter]);
+      //もしisactiveがあったら
+      if ($(this).hasClass("is-active")){
         listArray[num].fav = true;
       }
       else {
         listArray[num].fav = false;
         $(this).removeClass("is-active");
       }
-    }
-
-    // 重要なタスク一覧の時
-    else {
+    } else { // 重要なタスク一覧の時にふぁぼを押したら
       aTarget.slideUp(120, "linear",function(){
         aTarget.remove();
       })
+      // 配列の番号とtargetの番号を一致させる処理
       var favCounter = 0;
       for(var cnt=0; cnt<listArray.length; cnt++){
-        console.log(listArray[cnt].fav);
         if(listArray[cnt].fav === true){
           if(favCounter === num){
             break;
@@ -357,9 +368,9 @@ function ShowCompList(){
 
       // css操作
       $listEl.find(".m-list-txt").addClass("is-active")
-      .parent().find(".m-date-text").css({display:"none"})
-      .parent().find($favBtn).addClass("m-remove-btn")
-      .parent().find($favBtn).removeClass("m-fav-btn");
+      .parent().find(".m-fav-btn").addClass("m-remove-btn")
+      .parent().find(".m-remove-btn").removeClass("m-fav-btn");
+      console.log($listEl);
 
       // 各機能の実装
       compTrueBtn($listEl);
