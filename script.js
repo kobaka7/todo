@@ -21,6 +21,7 @@ var $compBtn = null;
 var $removeBtn = null;
 var $addListBtn = null;
 var num = 0;
+var menuStatus = false;
 
 setObj();
 setBtn();
@@ -46,7 +47,7 @@ function setObj(){
   $editBtn = $(".m-edit-btn");
   $editCompBtn = $(".m-edit-comp-btn");
   $editCancelBtn = $(".m-edit-cancel-btn");
-  $addBtn = $(".m-add-btn");
+  $addBtn = $(".l-menu-list-add");
   $addCancelBtn = $(".m-add-list-cancel-btn");
   $compBtn = $(".m-comp-btn");
   $removeBtn = (".m-remove-btn");
@@ -135,7 +136,6 @@ function setBtn(){
     $edit.css({display:"none"});
     $($main).css({display:"block"});
   });
-
 }
 
 function setEvent(){
@@ -160,6 +160,12 @@ function setLocalStorage(aKey,aJsonArray){
   // オブジェクトをJSONにする
   var objList = JSON.stringify(aJsonArray);
   localStorage.setItem(aKey,objList);
+}
+
+function clickMenu(aTruthValue){
+  menuStatus = aTruthValue;
+  $outputArea.empty();
+  console.log("menuStatus  " + menuStatus)
 }
 
 // li生成
@@ -192,7 +198,7 @@ function addListFunction(){
 // ======================================================================
 
 function reload(){
-  $outputArea.empty();
+  clickMenu(false);
   var listArray = getLocalStorage("todo",listArray);
   // もしローカルストレージにjsonがあったら
   if(listArray !== null) {
@@ -270,24 +276,34 @@ function favBtn(aTarget) {
     $(this).toggleClass("is-active"); //isactiveなければつける
     var listArray = getLocalStorage("todo",listArray);
 
-    var favCounter = 0;
-    for(var cnt=0; cnt<listArray.length; cnt++){
-      console.log(listArray[cnt].fav);
-      if(listArray[cnt].fav === true){
-        if(favCounter === num){
-          break;
-        }
-        favCounter++;
+    // 全てのタスクのとき
+    if(menuStatus === false){
+      if ($(this).hasClass("is-active")){ //もしisactiveがあったら
+        console.log(listArray[favCounter]);
+        listArray[num].fav = true;
+      }
+      else {
+        listArray[num].fav = false;
+        $(this).removeClass("is-active");
       }
     }
-    console.log(cnt);
-    console.log(favCounter);
-    if ($(this).hasClass("is-active")){ //もしisactiveがあったら
-      console.log(listArray[favCounter]);
-      listArray[num].fav = true; // ここをcntに変える
-    }
+
+    // 重要なタスク一覧の時
     else {
-      listArray[num].fav = false;
+      aTarget.slideUp(120, "linear",function(){
+        aTarget.remove();
+      })
+      var favCounter = 0;
+      for(var cnt=0; cnt<listArray.length; cnt++){
+        console.log(listArray[cnt].fav);
+        if(listArray[cnt].fav === true){
+          if(favCounter === num){
+            break;
+          }
+          favCounter++;
+        }
+      }
+      listArray[cnt].fav = false;
       $(this).removeClass("is-active");
     }
     setLocalStorage("todo",listArray);
@@ -310,7 +326,7 @@ function menuListClick(aTarget){
 // ======================================================================
 
 function ShowFavList(){
-  $outputArea.empty();
+  clickMenu(true);
   var listArray = getLocalStorage("todo",listArray);
   if (listArray !== null){
     //配列の数だけliを生成する
