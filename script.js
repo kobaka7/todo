@@ -15,6 +15,7 @@ var $editBtn  = null;
 var $editCompBtn = null;
 var $editCancelBtn = null;
 var $addBtn = null;
+var $favBtn = null;
 var $addCancelBtn = null;
 var $compBtn = null;
 var $removeBtn = null;
@@ -172,7 +173,7 @@ function createListEl(aTask){
               + "</div><span class='m-fav-btn'></span></div></li>");
     // 星済みだったら
     if(aTask.fav === true){
-      $listEl.find($favBtn).addClass("is-active");
+      $listEl.find(".m-fav-btn").addClass("is-active");
     }
     // 日付が未入力だったら
     if(aTask.date === null){
@@ -264,9 +265,9 @@ function showEdit(aTarget){
 // ======================================================================
 
 function favBtn(aTarget) {
-  aTarget.find($favBtn).on("click",function(evt){
+  aTarget.find(".m-fav-btn").on("click",function(evt){
     num = $(this).parent().parent().index(); //liのthis番目
-    $favBtn.eq(num).toggleClass("is-active"); //isactiveなければつける
+    $(this).toggleClass("is-active"); //isactiveなければつける
     var listArray = getLocalStorage("todo",listArray);
 
     var favCounter = 0;
@@ -283,10 +284,10 @@ function favBtn(aTarget) {
     console.log(favCounter);
     if ($(this).hasClass("is-active")){ //もしisactiveがあったら
       console.log(listArray[favCounter]);
-      listArray[favCounter].fav = true; // ここをnumに変える
+      listArray[num].fav = true; // ここをcntに変える
     }
     else {
-      listArray[favCounter].fav = false;
+      listArray[num].fav = false;
       $(this).removeClass("is-active");
     }
     setLocalStorage("todo",listArray);
@@ -310,14 +311,15 @@ function menuListClick(aTarget){
 
 function ShowFavList(){
   $outputArea.empty();
-  var favListArray = getLocalStorage("favTodo",favListArray);
-  if (favListArray !== null){
+  var listArray = getLocalStorage("todo",listArray);
+  if (listArray !== null){
     //配列の数だけliを生成する
-    for(var cnt=0; cnt < favListArray.length; cnt++){
-      createListEl(favListArray[cnt]);
-      addListFunction();
-      $listEl.appendTo($outputArea);
-
+    for(var cnt=0; cnt < listArray.length; cnt++){
+      if(listArray[cnt].fav === true) {
+        createListEl(listArray[cnt]);
+        addListFunction();
+        $listEl.appendTo($outputArea);
+      }
       // css操作
       $listEl.find($favBtn).addClass("is-active");
     }
