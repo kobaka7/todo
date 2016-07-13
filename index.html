@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,
+maximum-scale=1.0, user-scalable=no" />
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0-rc.2/themes/smoothness/jquery-ui.css">
+  <link rel="stylesheet" type="text/css" href=reset.css>
+  <link rel="stylesheet" type="text/css" href=style.css>
+  <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="datepicker.css">
+  <title>ToDo List</title>
+</head>
+<body>
+
+  <div class="l-menu">
+    <ul class="l-menu-list">
+      <li class="l-menu-list-main is-active">全てのタスク</li>
+      <li class="l-menu-list-fav">重要</li>
+      <li class="l-menu-list-comp">完了済み</li>
+      <li class="l-menu-list-comp">勉強時間</li>
+    </ul>
+  </div>
+
+  <div class="l-main">
+    <!-- todo表示 -->
+    <ul class="m-output-area"></ul>
+    <!-- 追加ボタン -->
+    <img class="m-add-btn" src="img/ic_add_btn.png">
+  </div>
+
+  <!-- ============================== 追加画面 ============================== -->
+  <div class="l-add-list">
+    <textarea class="m-add-list-input" placeholder="ToDoを追加する"></textarea>
+    <input class="m-add-list-limit" placeholder="期限">
+    <button class="m-add-list-btn">追加</button>
+    <button class="m-add-list-cancel-btn">キャンセル</button>
+  </div>
+
+  <!-- ============================== 編集画面 ============================== -->
+  <div class="l-edit">
+    <textarea class="m-edit-input" placeholder="ToDoを追加する"></textarea>
+    <input class="m-edit-limit" placeholder="期限">
+    <button class="m-edit-btn">編集</button>
+    <button class="m-edit-cancel-btn">キャンセル</button>
+    <button class="m-edit-comp-btn">完了</button>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.0.0.min.js" integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0=" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/ui/1.12.0-rc.2/jquery-ui.min.js" integrity="sha256-55Jz3pBCF8z9jBO1qQ7cIf0L+neuPTD1u7Ytzrp2dqo=" crossorigin="anonymous"></script>
+  <script src="dist/js/datepicker.standalone.js" charset="utf-8"></script>
+  <script src="script.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,296 @@
+/*======================== 背景画像 ============================*/
+body {
+  background-color: #fff;
+  font-size: 14px;
+  position: relative;
+  display: flex;
+}
+body.bg-0:before,
+body.bg-1:before,
+body.bg-2:before,
+body.bg-3:before,
+body.bg-4:before,
+body.bg-5:before {
+  position: fixed;
+  content: "";
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+body.bg-0:before {
+  background: url(img/bg0.jpg) no-repeat;
+  background-size: cover;
+}
+body.bg-1:before {
+  background: url(img/bg1.jpg) no-repeat;
+  background-size: cover;
+}
+body.bg-2:before {
+  background: url(img/bg2.jpg) no-repeat;
+  background-size: cover;
+}
+body.bg-3:before {
+  background: url(img/bg3.jpg) no-repeat;
+  background-size: cover;
+}
+body.bg-4:before {
+  background: url(img/bg4.jpg) no-repeat;
+  background-size: cover;
+}
+body.bg-5:before {
+  background: url(img/bg5.jpg) no-repeat;
+  background-size: cover;
+}
+
+a {
+  text-decoration: none;
+}
+/*==========================　メニュー ============================*/
+.l-menu {
+  color: #fff;
+  background-color: rgba(0,0,0,0.7);
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 40px;
+}
+.l-menu-list {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.l-menu-list li{
+  color: #fff;
+  margin: 14px;
+  padding: auto;
+  font-size: 13px;
+  display: inline-block;
+}
+.l-menu-list li.is-active{
+  background-color:rgba(77,208,225 ,0.6);
+}
+
+/*==========================　メイン画面 ============================*/
+.l-main {
+  width: 100%;
+  padding: 0 8px;
+  height: 100vh;
+  display: block;
+  overflow: hidden;
+}
+/* ------------ インプット ------------ */
+.l-input-wrapper {
+  position: relative;
+}
+.m-input {
+  width: 100%;
+  margin: 0 0 4px 0;
+  padding: 16px 0 16px 16px;
+  background-color: #000;
+  border: 1px solid #000;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
+  opacity: 0.6;
+  color: #fff;
+  position: relative;
+}
+.m-input::-webkit-input-placeholder {
+  color: #fff;
+  font-size: 14px;
+  font-weight: inherit;
+}
+.m-input-edit {
+  width: 100%;
+  margin: 0 0 4px 0;
+  padding: 16px 0 16px 16px;
+  background-color: #fff;
+  border: 1px solid #000;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
+  opacity: 0.6;
+  color: #000;
+}
+.m-output-area > li {
+  margin: 0 0 4px 0;
+  padding: 12px;
+  background-color: #fff;
+  list-style: none;
+  box-shadow:0px 3px 3px 0px rgba(0,0,0,0.4);
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+}
+.m-output-area > li:first-child {
+  margin: 48px 0 4px 0;
+}
+.l-list-item {
+  display: table;
+  padding: 0 0 0 16px;
+}
+.m-list-txt {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 86%;
+    margin: 0 0 8px 0;
+    font-size: 17px;
+}
+.m-list-txt.is-active {
+  color: #ccc;
+  text-decoration: line-through;
+}
+.m-comp-btn {
+  width: 22px;
+  height: 22px;
+  background: #FFF;
+  border: 1px solid #999;
+  border-radius: 70px;
+  transition: background-color 0.08s ease-in;
+  box-sizing: border-box;
+  display: inline-block;
+}
+.m-comp-btn:hover {
+  border: 1px solid #999;
+  background: url(img/ic_done.png) no-repeat;
+  background-size: 100%;
+}
+.m-comp-btn.is-active {
+  border: 1px solid #999;
+  background: url(img/ic_done.png) no-repeat;
+  background-size: 100%;
+}
+/*======================== 背景画像の切り替え ============================*/
+
+.l-bgselect-wrapper {
+  width: 100%;
+  padding: 0 16px 16px;
+  height: 100%;
+  min-height: 100vh;
+  display: none;
+}
+.m-bg-list {
+  font-size: 0;
+  text-align: center;
+}
+.m-bg-list li {
+  display: inline-block;
+  padding: 16px 0 0 16px;
+}
+.m-bg-list li img {
+  width: 300px;
+  height: 200px;
+  border: 1px solid rgba(255,255,255 ,0.1);
+  display: none;
+}
+
+/*======================== お気に入りボタン ============================*/
+
+.m-fav-btn {
+  width: 60px;
+  height: 50px;
+  background: url(img/fav.jpg) no-repeat;
+  background-position: -4px 0;
+  position: absolute;
+  top: 6px;
+  right: -4px;
+  transform: scale(0.7);
+}
+.m-fav-btn.is-active {
+  background-position: -3524px 0;
+  transition: background 0.5s steps(55);
+}
+
+/*======================== 削除ボタン ============================*/
+
+.m-remove-btn {
+  width: 22px;
+  height: 22px;
+  background: url(img/ic_remove.png) center no-repeat;
+  background-size: 100%;
+  position: absolute;
+  top: 30%;
+  right: 16px;
+  opacity: 0.2;
+}
+
+/*======================== 日付 ============================*/
+
+.m-date-text {
+    font-size: 13px;
+    color: #999;
+    background-size: 100%;
+}
+.m-ic-date {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  top: 14px;
+  right: 16px;
+}
+.m-output-time {
+  position: absolute;
+  top: 18px;
+  right: 56px;
+  color: #fff;
+  letter-spacing: 0.01em;
+}
+/*======================== 日付 ============================*/
+.m-add-btn img {
+    width: 64px;
+    position: absolute;
+    right: 0;
+    bottom: 16px;
+}
+
+/*======================== 追加画面 ============================*/
+
+.m-add-btn {
+  display: block;
+  width: 64px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.l-add-list,
+.l-edit {
+  width: 100vh;
+  height: 100vh;
+  background-color: #fff;
+  overflow: hidden;
+  text-align: center;
+  display: none;
+}
+.m-add-list-input,
+.m-add-list-limit,
+.m-edit-input,
+.m-edit-limit {
+  margin: 8px auto 8px;
+  width: 93%;
+  font-size: 17px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+.m-add-list-input,
+.m-edit-input {
+  height: 100px;
+}
+.m-add-list-btn,
+.m-add-list-cancel-btn,
+.m-edit-btn,
+.m-edit-cancel-btn,
+.m-edit-comp-btn {
+  display: block;
+  padding: 8px 16px;
+  font-size: 17px;
+  margin: 8px 30%;
+  border: 1px solid #ccc;
+  margin: 8px auto;
+}
+
+/*======================== 時間セット画面 ============================*/
+
