@@ -56,6 +56,7 @@ function setBtn(){
   $addBtn.on("click",function(){
     $($main).css({display:"none"});
     $addList.css({display:"block"});
+    // 最初からフォーカスを当ててくれる
     $addListInput.focus();
   });
   $addListBtn.on("click",function(){
@@ -92,6 +93,48 @@ function setBtn(){
     $edit.css({display:"none"});
     $($main).css({display:"block"});
   });
+
+  // ------ 編集ボタン押したら ------
+
+  $editBtn.on("click",function(evt){
+    var listArray = getLocalStorage("todo",listArray);
+    var $inputTxt = $editInputText.val();
+    var newTodo = {task:$inputTxt , comp:false, fav:false, date:null};
+    createListEl(newTodo);
+
+    // 元々あったliと新しいliを置き換える
+    $outputArea.find("li").eq(num).replaceWith($listEl);
+    addListFunction($listEl);
+
+    // ローカルストレージの編集
+    listArray[num].task = $inputTxt;
+    setLocalStorage("todo",listArray);
+
+    $edit.css({display:"none"});
+    $($main).css({display:"block"});
+  });
+
+  // ------ 完了ボタン押したら ------
+
+  $editCompBtn.on("click",function(evt){
+    $outputArea.find("li").eq(num).remove();
+
+    var listArray = getLocalStorage("todo",listArray);
+    var compListArray = getLocalStorage("compTodo",compListArray);
+
+    console.log(listArray[num]);
+    listArray[num].comp = true;
+    compListArray.unshift(listArray[num]);
+    // num番目から1つ配列を消す
+    listArray.splice(num,1);
+
+    setLocalStorage("todo",listArray);
+    setLocalStorage("compTodo",compListArray);
+
+    $edit.css({display:"none"});
+    $($main).css({display:"block"});
+  });
+
 }
 
 function setEvent(){
@@ -184,7 +227,6 @@ function bgReload(){
 
 function addListEl(){
   var listArray = getLocalStorage("todo",listArray);
-  // 最初からフォーカスを当ててくれる
   // インプット要素を取得してulにliを追加する
   var $inputText = $addListInput.val();
   var newList = {task:$inputText, comp:false, fav:false, date:null};
@@ -216,47 +258,6 @@ function showEdit(aTarget){
     $editInputText.val($inputText);
   });
 }
-
-// ------ 編集ボタン押したら ------
-
-$editBtn.on("click",function(evt){
-  var listArray = getLocalStorage("todo",listArray);
-  var $inputTxt = $editInputText.val();
-  var newTodo = {task:$inputTxt , comp:false, fav:false, date:null};
-  createListEl(newTodo);
-
-  // 元々あったliと新しいliを置き換える
-  $outputArea.find("li").eq(num).replaceWith($listEl);
-  addListFunction($listEl);
-
-  // ローカルストレージの編集
-  listArray[num].task = $inputTxt;
-  setLocalStorage("todo",listArray);
-
-  $edit.css({display:"none"});
-  $($main).css({display:"block"});
-});
-
-// ------ 完了ボタン押したら ------
-
-$editCompBtn.on("click",function(evt){
-  $outputArea.find("li").eq(num).remove();
-
-  var listArray = getLocalStorage("todo",listArray);
-  var compListArray = getLocalStorage("compTodo",compListArray);
-
-  console.log(listArray[num]);
-  listArray[num].comp = true;
-  compListArray.unshift(listArray[num]);
-  // num番目から1つ配列を消す
-  listArray.splice(num,1);
-
-  setLocalStorage("todo",listArray);
-  setLocalStorage("compTodo",compListArray);
-
-  $edit.css({display:"none"});
-  $($main).css({display:"block"});
-});
 
 // ======================================================================
                          // お気に入りボタン
