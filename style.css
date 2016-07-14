@@ -1,9 +1,8 @@
 /*======================== 背景画像 ============================*/
 body {
-  background-color: #fff;
+  background-color: #f4f4f4;
   font-size: 14px;
   position: relative;
-  display: flex;
 }
 body.bg-0:before,
 body.bg-1:before,
@@ -47,6 +46,22 @@ body.bg-5:before {
 a {
   text-decoration: none;
 }
+/*========================== ヘッダー ============================*/
+
+.l-header {
+  width: 100%;
+  background-color: #fff;
+  height: 64px;
+  position: relative;
+}
+
+.l-header p {
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  bottom: 50%;
+}
 /*==========================　メニュー ============================*/
 .l-menu {
   color: #fff;
@@ -54,28 +69,28 @@ a {
   position: fixed;
   bottom: 0;
   width: 100%;
-  height: 40px;
+  height: 50px;
 }
 .l-menu-list {
-  display: flex;
   width: 100%;
-  justify-content: space-between;
+  height: 50px;
+  display: table;
 }
 .l-menu-list li{
   color: #fff;
-  margin: 14px;
-  padding: auto;
+  width: 33%;
   font-size: 13px;
-  display: inline-block;
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+
 }
 .l-menu-list li.is-active{
   background-color:rgba(77,208,225 ,0.6);
 }
 
 /*==========================　メイン画面 ============================*/
-.l-main {
-  width: 100%;
-  padding: 0 8px;
+.l-task {
   height: 100vh;
   display: block;
   overflow: hidden;
@@ -115,32 +130,27 @@ a {
   color: #000;
 }
 .m-output-area > li {
-  margin: 0 0 4px 0;
   padding: 12px;
   background-color: #fff;
   list-style: none;
-  box-shadow:0px 3px 3px 0px rgba(0,0,0,0.4);
-  border-radius: 4px;
   position: relative;
   overflow: hidden;
-}
-.m-output-area > li:first-child {
-  margin: 48px 0 4px 0;
+  border: 1px solid rgba(189,189,189 ,0.1);
 }
 .l-list-item {
   display: table;
-  padding: 0 0 0 16px;
 }
 .m-list-txt {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
     width: 86%;
+    height: 20px;
     margin: 0 0 8px 0;
     font-size: 17px;
 }
 .m-list-txt.is-active {
-  color: #ccc;
+  color: rgba(189,189,189 ,1);
   text-decoration: line-through;
 }
 .m-comp-btn {
@@ -258,7 +268,6 @@ a {
 
 .l-add-list,
 .l-edit {
-  width: 100vh;
   height: 100vh;
   background-color: #fff;
   overflow: hidden;
@@ -272,7 +281,7 @@ a {
   margin: 8px auto 8px;
   width: 93%;
   font-size: 17px;
-  border: 1px solid #ccc;
+  border: 1px solid rgba(189,189,189 ,0.1);
   box-sizing: border-box;
 }
 .m-add-list-input,
@@ -288,9 +297,40 @@ a {
   padding: 8px 16px;
   font-size: 17px;
   margin: 8px 30%;
-  border: 1px solid #ccc;
+  border: 1px solid rgba(189,189,189 ,0.1);
   margin: 8px auto;
 }
 
-/*======================== 時間セット画面 ============================*/
+/*======================== メイン画面タブ ============================*/
 
+.l-task-tab {
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid rgba(189,189,189 ,0.1);
+  box-sizing: border-box;
+}
+
+.m-output-area {
+  width: 100%;
+}
+
+.l-task-tab-list {
+  height: 64px;
+  text-align: center;
+  position: relative;
+  display: table;
+  margin: 0 auto;
+}
+
+.l-task-tab-list > li {
+  padding: 16px;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+/*======================== ヘッダー ============================*/
+
+.m-add-title,
+.m-edit-title {
+  display: none;
+}

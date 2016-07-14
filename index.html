@@ -14,17 +14,27 @@ maximum-scale=1.0, user-scalable=no" />
 </head>
 <body>
 
+<div class="l-header">
+  <p class="m-header-title"></p>
+</div>
+
+<div class="l-task-tab">
+  <ul class="l-task-tab-list">
+    <li class="m-task-tab-all">全て</li>
+    <li class="m-task-tab-fav">重要</li>
+    <li class="m-task-tab-comp">完了済み</li>
+  </ul>
+</div>
+
   <div class="l-menu">
     <ul class="l-menu-list">
-      <li class="l-menu-list-main is-active">全てのタスク</li>
-      <li class="l-menu-list-fav">重要</li>
+      <li class="l-menu-list-task is-active">タスク</li>
       <li class="l-menu-list-add">追加</li>
-      <li class="l-menu-list-comp">完了済み</li>
       <li class="l-menu-list-comp">勉強時間</li>
     </ul>
   </div>
 
-  <div class="l-main">
+  <div class="l-task">
     <!-- todo表示 -->
     <ul class="m-output-area"></ul>
   </div>

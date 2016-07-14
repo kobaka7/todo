@@ -4,10 +4,11 @@ var $outputArea = null;
 var $addList = null;
 var $addListInput = null;
 var $body = null;
-var $main = null;
+var $task = null;
 var $edit = null;
 var $menu = null;
 var $editInputText = null;
+var $menuTask = null;
 var $menuAll = null;
 var $menuFav = null;
 var $menuComp = null;
@@ -35,16 +36,17 @@ setEvent();
 function setObj(){
   $body = $("body");
   $addList = $(".l-add-list"); // 追加画面
-  $main = $(".l-main"); // タスク一覧画面
+  $task = $(".l-task"); // タスク一覧画面
   $edit = $(".l-edit"); //編集画面
   $menu = $(".l-menu");
   $outputArea = $(".m-output-area");
   $addListInput = $(".m-add-list-input");
   $editInputText = $(".m-edit-input");
   $favBtn = $(".m-fav-btn");
-  $menuAll = $(".l-menu-list-main");
-  $menuFav = $(".l-menu-list-fav");
-  $menuComp = $(".l-menu-list-comp");
+  $menuTask = $(".l-menu-list-task");
+  $menuAll = $(".m-task-tab-all");
+  $menuFav = $(".m-task-tab-fav");
+  $menuComp = $(".m-task-tab-comp");
   $menuBg = $(".l-menu-list-bg");
   $editBtn = $(".m-edit-btn");
   $editCompBtn = $(".m-edit-comp-btn");
@@ -54,58 +56,85 @@ function setObj(){
   $compBtn = $(".m-comp-btn");
   $removeBtn = (".m-remove-btn");
   $addListBtn = $(".m-add-list-btn");
+  $taskTab = $(".l-task-tab");
+  $header = $(".l-header");
+  $headerTitle = $(".m-header-title");
 }
 
 function setBtn(){
   $addBtn.on("click",function(){
-    $($main).css({display:"none"});
+    $task.css({display:"none"});
+    $taskTab.css({display:"none"});
     $addList.css({display:"block"});
+    $headerTitle.text("タスクの追加");
     // 最初からフォーカスを当ててくれる
     $addListInput.focus();
   });
   $addListBtn.on("click",function(){
     if ($addListInput.val() !== ""){ //空白禁止
       $addList.css({display:"none"});
-      $($main).css({display:"block"});
-      $($menu).css({display:"block"});
+      $task.css({display:"block"});
+      $taskTab.css({display:"block"});
+      $headerTitle.text("Study Time");
+      $menu.css({display:"block"});
       addListEl();
     } else {
       alert("タスクを入力してください");
     }
   });
   $addCancelBtn.on("click",function(){
-      $addList.css({display:"none"});
-      $($main).css({display:"block"});
-      $($menu).css({display:"block"});
+    $addList.css({display:"none"});
+    $task.css({display:"block"});
+    $taskTab.css({display:"block"});
+    $menu.css({display:"block"});
+    $headerTitle.text("Study Time");
+  });
+  $menuTask.on("click",function(evt){
+    $addList.css({display:"none"});
+    $task.css({display:"block"});
+    $taskTab.css({display:"block"});
+    $headerTitle.text("Study Time");
+    menuListClick($(this));
   });
   $menuAll.on("click",function(evt){
     $addList.css({display:"none"});
+    $task.css({display:"block"});
+    $taskTab.css({display:"block"});
+    $headerTitle.text("Study Time");
     menuListClick($(this));
     reload();
   });
   $menuFav.on("click",function(evt){
     $addList.css({display:"none"});
-    $($main).css({display:"block"});
+    $task.css({display:"block"});
+    $taskTab.css({display:"block"});
+    $headerTitle.text("Study Time");
     menuListClick($(this));
     ShowFavList();
   });
   $menuComp.on("click",function(evt){
     $addList.css({display:"none"});
-    $($main).css({display:"none"});
+    $task.css({display:"block"});
+    $taskTab.css({display:"block"});
+    $headerTitle.text("Study Time");
     menuListClick($(this));
     ShowCompList();
   });
   $menuBg.on("click",function(evt){
     $addList.css({display:"none"});
-    $($main).css({display:"none"});
+    $task.css({display:"none"});
+    $taskTab.css({display:"none"});
+    $headerTitle.text("Study Time");
     $(".m-bg-list li img").fadeIn(1000);
     menuListClick($(this));
     bgChange();
   });
   $editCancelBtn.on("click",function(evt){
     $edit.css({display:"none"});
-    $($main).css({display:"block"});
-    $($menu).css({display:"block"});
+    $task.css({display:"block"});
+    $taskTab.css({display:"block"});
+    $headerTitle.text("Study Time");
+    $menu.css({display:"block"});
   });
 
   // ------ 編集ボタン押したら ------
@@ -125,8 +154,10 @@ function setBtn(){
     setLocalStorage("todo",listArray);
 
     $edit.css({display:"none"});
-    $($main).css({display:"block"});
-    $($menu).css({display:"block"});
+    $task.css({display:"block"});
+    $taskTab.css({display:"block"});
+    $headerTitle.text("Study Time");
+    $menu.css({display:"block"});
   });
 
   // ------ 完了ボタン押したら ------
@@ -147,14 +178,15 @@ function setBtn(){
     setLocalStorage("compTodo",compListArray);
 
     $edit.css({display:"none"});
-    $($main).css({display:"block"});
+    $task.css({display:"block"});
+    $taskTab.css({display:"block"});
+    $headerTitle.text("Study Time");
     $($menu).css({display:"block"});
   });
 }
 
 function setEvent(){
   reload();
-  bgReload();
 }
 
 // ローカルストレージから配列を取得する
@@ -213,6 +245,7 @@ function addListFunction(){
 
 function reload(){
   clickMenu(false);
+  $headerTitle.text("Study Time");
   var listArray = getLocalStorage("todo",listArray);
   // もしローカルストレージにjsonがあったら
   if(listArray !== null) {
@@ -224,20 +257,6 @@ function reload(){
       $outputArea.append($listEl);
     }
   }
-}
-
-// ------------- 背景リロード -----------
-
-function bgReload(){
-    var bgArray = getLocalStorage("bg",bgArray);
-    var bgImgNum = bgArray[0];
-    if(bgImgNum !== undefined){
-    $body.removeClass();
-    $body.addClass(bgImgNum);
-    } else {
-      // 何もない場合の初期値
-      $body.addClass("bg-0");
-    }
 }
 
 // ======================================================================
@@ -270,9 +289,10 @@ function showEdit(aTarget){
   aTarget.on("click",function(evt){
     num = $(this).index(); //liのthis番目取得
 
-    $($main).css({display:"none"});
+    $($task).css({display:"none"});
     $($menu).css({display:"none"});
     $edit.css({display:"block"});
+    $headerTitle.text("編集");
 
     // liのテキストを最初から表示させる
     var $inputText = $(this).find(".m-list-txt").text();
