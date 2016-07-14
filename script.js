@@ -9,10 +9,10 @@ var $edit = null;
 var $menu = null;
 var $editInputText = null;
 var $menuTask = null;
-var $menuAll = null;
-var $menuFav = null;
-var $menuComp = null;
-var $menuBg = null;
+var $taskTabAll = null;
+var $taskTab = null;
+var $taskTabFav = null;
+var $taskTabComp = null;
 var $editBtn  = null;
 var $editCompBtn = null;
 var $editCancelBtn = null;
@@ -21,7 +21,8 @@ var $favBtn = null;
 var $addCancelBtn = null;
 var $compBtn = null;
 var $removeBtn = null;
-var $addListBtn = null;
+var $doneAddBtn = null;
+var $study = null;
 var num = 0;
 var menuStatus = false;
 
@@ -34,154 +35,109 @@ setEvent();
 // ======================================================================
 
 function setObj(){
+  // ヘッダー
   $body = $("body");
-  $addList = $(".l-add-list"); // 追加画面
-  $task = $(".l-task"); // タスク一覧画面
-  $edit = $(".l-edit"); //編集画面
+  $header = $(".l-header");
+  $headerTitle = $(".m-header-title");
+
+  // タスク画面タブ
+  $taskTab = $(".l-task-tab");
+  $taskTabAll = $(".m-task-tab-all");
+  $taskTabFav = $(".m-task-tab-fav");
+  $taskTabComp = $(".m-task-tab-comp");
+
+  // 完了画面
+  $compBtn = $(".m-comp-btn");
+  $removeBtn = (".m-remove-btn");
+
+  // メニューバー
   $menu = $(".l-menu");
-  $outputArea = $(".m-output-area");
-  $addListInput = $(".m-add-list-input");
-  $editInputText = $(".m-edit-input");
-  $favBtn = $(".m-fav-btn");
   $menuTask = $(".l-menu-list-task");
-  $menuAll = $(".m-task-tab-all");
-  $menuFav = $(".m-task-tab-fav");
-  $menuComp = $(".m-task-tab-comp");
-  $menuBg = $(".l-menu-list-bg");
+  $addBtn = $(".l-menu-list-add");
+  $menuStudy = $(".l-menu-list-study");
+
+  // タスク画面
+  $task = $(".l-task");
+  $outputArea = $(".m-output-area");
+
+  // 新規作成画面
+  $addList = $(".l-add-list");
+  $addListInput = $(".m-add-list-input");
+  $addCancelBtn = $(".m-add-list-cancel-btn");
+  $doneAddBtn = $(".m-add-list-btn");
+
+  // 編集画面
+  $edit = $(".l-edit");
+  $editInputText = $(".m-edit-input");
   $editBtn = $(".m-edit-btn");
   $editCompBtn = $(".m-edit-comp-btn");
   $editCancelBtn = $(".m-edit-cancel-btn");
-  $addBtn = $(".l-menu-list-add");
-  $addCancelBtn = $(".m-add-list-cancel-btn");
-  $compBtn = $(".m-comp-btn");
-  $removeBtn = (".m-remove-btn");
-  $addListBtn = $(".m-add-list-btn");
-  $taskTab = $(".l-task-tab");
-  $header = $(".l-header");
-  $headerTitle = $(".m-header-title");
+  $favBtn = $(".m-fav-btn");
+
+  // 勉強時間画面
+  $study = $(".l-study");
+}
+
+// ボタン操作まとめ
+function showTask(){
+  $addList.css({display:"none"});
+  $edit.css({display:"none"});
+  $study.css({display:"none"});
+  $task.css({display:"block"});
+  $taskTab.css({display:"block"});
+  $menu.css({display:"block"});
+  $headerTitle.text("Study Time");
 }
 
 function setBtn(){
+  // 新規作成ボタンを押したら
   $addBtn.on("click",function(){
-    $task.css({display:"none"});
-    $taskTab.css({display:"none"});
-    $addList.css({display:"block"});
-    $headerTitle.text("タスクの追加");
-    // 最初からフォーカスを当ててくれる
-    $addListInput.focus();
+    showAddList();
   });
-  $addListBtn.on("click",function(){
+  // 新規作成画面で追加ボタンを押したら
+  $doneAddBtn.on("click",function(){
     if ($addListInput.val() !== ""){ //空白禁止
-      $addList.css({display:"none"});
-      $task.css({display:"block"});
-      $taskTab.css({display:"block"});
-      $headerTitle.text("Study Time");
-      $menu.css({display:"block"});
-      addListEl();
+        showTask();
+        addListEl();
     } else {
       alert("タスクを入力してください");
     }
   });
   $addCancelBtn.on("click",function(){
-    $addList.css({display:"none"});
-    $task.css({display:"block"});
-    $taskTab.css({display:"block"});
-    $menu.css({display:"block"});
-    $headerTitle.text("Study Time");
+    showTask();
   });
   $menuTask.on("click",function(evt){
-    $addList.css({display:"none"});
-    $task.css({display:"block"});
-    $taskTab.css({display:"block"});
-    $headerTitle.text("Study Time");
+    showTask();
     menuListClick($(this));
   });
-  $menuAll.on("click",function(evt){
-    $addList.css({display:"none"});
-    $task.css({display:"block"});
-    $taskTab.css({display:"block"});
-    $headerTitle.text("Study Time");
+  $taskTabAll.on("click",function(evt){
+    showTask();
     menuListClick($(this));
     reload();
   });
-  $menuFav.on("click",function(evt){
-    $addList.css({display:"none"});
-    $task.css({display:"block"});
-    $taskTab.css({display:"block"});
-    $headerTitle.text("Study Time");
+  $taskTabFav.on("click",function(evt){
+    showTask();
     menuListClick($(this));
     ShowFavList();
   });
-  $menuComp.on("click",function(evt){
-    $addList.css({display:"none"});
-    $task.css({display:"block"});
-    $taskTab.css({display:"block"});
-    $headerTitle.text("Study Time");
+  $taskTabComp.on("click",function(evt){
+    showTask();
     menuListClick($(this));
     ShowCompList();
   });
-  $menuBg.on("click",function(evt){
-    $addList.css({display:"none"});
-    $task.css({display:"none"});
-    $taskTab.css({display:"none"});
-    $headerTitle.text("Study Time");
-    $(".m-bg-list li img").fadeIn(1000);
-    menuListClick($(this));
-    bgChange();
-  });
   $editCancelBtn.on("click",function(evt){
-    $edit.css({display:"none"});
-    $task.css({display:"block"});
-    $taskTab.css({display:"block"});
-    $headerTitle.text("Study Time");
-    $menu.css({display:"block"});
+    showTask();
   });
-
-  // ------ 編集ボタン押したら ------
-
+  // 編集画面の編集ボタン押したら
   $editBtn.on("click",function(evt){
-    var listArray = getLocalStorage("todo",listArray);
-    var $inputTxt = $editInputText.val();
-    var newTodo = {task:$inputTxt , comp:false, fav:false, date:null};
-    createListEl(newTodo);
-
-    // 元々あったliと新しいliを置き換える
-    $outputArea.find("li").eq(num).replaceWith($listEl);
-    addListFunction($listEl);
-
-    // ローカルストレージの編集
-    listArray[num].task = $inputTxt;
-    setLocalStorage("todo",listArray);
-
-    $edit.css({display:"none"});
-    $task.css({display:"block"});
-    $taskTab.css({display:"block"});
-    $headerTitle.text("Study Time");
-    $menu.css({display:"block"});
+    doneEdit();
   });
-
-  // ------ 完了ボタン押したら ------
-
+  // 編集画面の完了ボタン押したら
   $editCompBtn.on("click",function(evt){
-    $outputArea.find("li").eq(num).remove();
-
-    var listArray = getLocalStorage("todo",listArray);
-    var compListArray = getLocalStorage("compTodo",compListArray);
-
-    console.log(listArray[num]);
-    listArray[num].comp = true;
-    compListArray.unshift(listArray[num]);
-    // num番目から1つ配列を消す
-    listArray.splice(num,1);
-
-    setLocalStorage("todo",listArray);
-    setLocalStorage("compTodo",compListArray);
-
-    $edit.css({display:"none"});
-    $task.css({display:"block"});
-    $taskTab.css({display:"block"});
-    $headerTitle.text("Study Time");
-    $($menu).css({display:"block"});
+    doneComp();
+  });
+  $menuStudy.on("click",function(evt){
+    showStudy();
   });
 }
 
@@ -208,10 +164,10 @@ function setLocalStorage(aKey,aJsonArray){
   localStorage.setItem(aKey,objList);
 }
 
+// 重要なタスク一覧用フラグ
 function clickMenu(aTruthValue){
   menuStatus = aTruthValue;
   $outputArea.empty();
-  console.log("menuStatus  " + menuStatus)
 }
 
 // li生成
@@ -240,7 +196,17 @@ function addListFunction(){
 }
 
 // ======================================================================
-                             //メイン画面
+                                //メニュー画面
+// ======================================================================
+
+function menuListClick(aTarget){
+  //全部isactiveリセット
+  $(".l-menu-list li").removeClass("is-active");
+  aTarget.addClass("is-active");
+}
+
+// ======================================================================
+                             // タスク画面（全て）
 // ======================================================================
 
 function reload(){
@@ -262,6 +228,16 @@ function reload(){
 // ======================================================================
                                 //新規作成画面
 // ======================================================================
+
+function showAddList(){
+  $task.css({display:"none"});
+  $taskTab.css({display:"none"});
+  $study.css({display:"none"});
+  $addList.css({display:"block"});
+  $headerTitle.text("タスクの新規作成");
+  // 最初からフォーカスを当ててくれる
+  $addListInput.focus();
+}
 
 // ------------- li生成 -----------
 
@@ -289,8 +265,9 @@ function showEdit(aTarget){
   aTarget.on("click",function(evt){
     num = $(this).index(); //liのthis番目取得
 
-    $($task).css({display:"none"});
-    $($menu).css({display:"none"});
+    $task.css({display:"none"});
+    $menu.css({display:"none"});
+    $study.css({display:"none"});
     $edit.css({display:"block"});
     $headerTitle.text("編集");
 
@@ -298,6 +275,43 @@ function showEdit(aTarget){
     var $inputText = $(this).find(".m-list-txt").text();
     $editInputText.val($inputText);
   });
+}
+
+// 編集ボタンを押したら
+function doneEdit(){
+  var listArray = getLocalStorage("todo",listArray);
+  var $inputTxt = $editInputText.val();
+  var newTodo = {task:$inputTxt , comp:false, fav:false, date:null};
+  createListEl(newTodo);
+
+  // 元々あったliと新しいliを置き換える
+  $outputArea.find("li").eq(num).replaceWith($listEl);
+  addListFunction($listEl);
+
+  // ローカルストレージの編集
+  listArray[num].task = $inputTxt;
+  setLocalStorage("todo",listArray);
+
+  // 画面切り替え
+  showTask();
+}
+
+// 完了ボタンを押したら
+function doneComp(num){
+  $outputArea.find("li").eq(num).remove();
+  var listArray = getLocalStorage("todo",listArray);
+  var compListArray = getLocalStorage("compTodo",compListArray);
+
+  listArray[num].comp = true;
+  compListArray.unshift(listArray[num]);
+  // num番目から1つ配列を消す
+  listArray.splice(num,1);
+
+  setLocalStorage("todo",listArray);
+  setLocalStorage("compTodo",compListArray);
+
+  // 画面切り替え
+  showTask();
 }
 
 // ======================================================================
@@ -338,18 +352,9 @@ function favBtn(aTarget) {
       $(this).removeClass("is-active");
     }
     setLocalStorage("todo",listArray);
-    evt.stopPropagation(); //liへのイベント伝播禁止
+    //liへのイベント伝播禁止
+    evt.stopPropagation();
   }); //クリック
-}
-
-// ======================================================================
-                                //メニュー画面
-// ======================================================================
-
-function menuListClick(aTarget){
-  //全部isactiveリセット
-  $(".l-menu-list li").removeClass("is-active");
-  aTarget.addClass("is-active");
 }
 
 // ======================================================================
@@ -374,7 +379,7 @@ function ShowFavList(){
 }
 
 // ======================================================================
-                                //完了したタスク一覧
+                           //完了したタスク一覧
 // ======================================================================
 
 function ShowCompList(){
@@ -390,7 +395,6 @@ function ShowCompList(){
       $listEl.find(".m-list-txt").addClass("is-active")
       .parent().find(".m-fav-btn").addClass("m-remove-btn")
       .parent().find(".m-remove-btn").removeClass("m-fav-btn");
-      console.log($listEl);
 
       // 各機能の実装
       compTrueBtn($listEl);
@@ -438,6 +442,20 @@ function removeBtn(aTarget){
     compListArray.splice(num,1);
     setLocalStorage("compTodo",compListArray);
   });
+}
+
+// ======================================================================
+                            // 勉強時間
+// ======================================================================
+
+function showStudy(){
+  $addList.css({display:"none"});
+  $edit.css({display:"none"});
+  $task.css({display:"none"});
+  $taskTab.css({display:"none"});
+  $menu.css({display:"block"});
+  $study.css({display:"block"});
+  $headerTitle.text("勉強時間");
 }
 
 }); //html実行後

@@ -14,32 +14,40 @@ maximum-scale=1.0, user-scalable=no" />
 </head>
 <body>
 
-<div class="l-header">
-  <p class="m-header-title"></p>
-</div>
+<!-- ===== ヘッダー ===== -->
 
-<div class="l-task-tab">
-  <ul class="l-task-tab-list">
-    <li class="m-task-tab-all">全て</li>
-    <li class="m-task-tab-fav">重要</li>
-    <li class="m-task-tab-comp">完了済み</li>
-  </ul>
-</div>
+  <div class="l-header">
+    <p class="m-header-title"></p>
+  </div>
 
-  <div class="l-menu">
-    <ul class="l-menu-list">
-      <li class="l-menu-list-task is-active">タスク</li>
-      <li class="l-menu-list-add">追加</li>
-      <li class="l-menu-list-comp">勉強時間</li>
+<!-- ===== タスク画面タブ ===== -->
+
+  <div class="l-task-tab">
+    <ul class="l-task-tab-list">
+      <li class="m-task-tab-all">全て</li>
+      <li class="m-task-tab-fav">重要</li>
+      <li class="m-task-tab-comp">完了済み</li>
     </ul>
   </div>
 
+<!-- ===== タブバー ===== -->
+
+  <div class="l-menu">
+    <ul class="l-menu-list">
+      <li class="l-menu-list-task">タスク</li>
+      <li class="l-menu-list-add">追加</li>
+      <li class="l-menu-list-study">勉強時間</li>
+    </ul>
+  </div>
+
+<!-- ===== タスク画面 ===== -->
+
   <div class="l-task">
-    <!-- todo表示 -->
     <ul class="m-output-area"></ul>
   </div>
 
-  <!-- ============================== 追加画面 ============================== -->
+<!-- ===== 新規作成画面 ===== -->
+
   <div class="l-add-list">
     <textarea class="m-add-list-input" placeholder="ToDoを追加する"></textarea>
     <input class="m-add-list-limit" placeholder="期限">
@@ -47,13 +55,19 @@ maximum-scale=1.0, user-scalable=no" />
     <button class="m-add-list-cancel-btn">キャンセル</button>
   </div>
 
-  <!-- ============================== 編集画面 ============================== -->
+<!-- ===== 編集画面 ===== -->
+
   <div class="l-edit">
     <textarea class="m-edit-input" placeholder="ToDoを追加する"></textarea>
     <input class="m-edit-limit" placeholder="期限">
     <button class="m-edit-btn">編集</button>
     <button class="m-edit-cancel-btn">キャンセル</button>
     <button class="m-edit-comp-btn">完了</button>
+  </div>
+
+<!-- ===== 勉強時間画面 ===== -->
+
+  <div class="l-study">
   </div>
 
   <script src="https://code.jquery.com/jquery-3.0.0.min.js" integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0=" crossorigin="anonymous"></script>
