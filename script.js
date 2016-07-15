@@ -503,34 +503,9 @@ function showCompEdit(aTarget){
   });
 }
 
-// 編集ボタンを押したら
-function doneCompEdit(){
-  var listArray = getLocalStorage("todo",listArray);
-  var $inputTxt = $editInputText.val();
-  var newTodo = {task:$inputTxt , comp:false, fav:false, date:null};
-  createListEl(newTodo);
-
-  // 元々あったliと新しいliを置き換える
-  $outputArea.find("li").eq(num).replaceWith($listEl);
-  addListFunction($listEl);
-
-  // ローカルストレージの編集
-  listArray[num].task = $inputTxt;
-  setLocalStorage("todo",listArray);
-
-  // 画面切り替え
-  showTask();
-}
-
 // 削除ボタンを押したら
 function doneRemove(num){
   $outputArea.find("li").eq(num).remove();
-  var compListArray = getLocalStorage("compTodo",compListArray);
-
-  listArray[num].comp = true;
-  compListArray.unshift(listArray[num]);
-  // num番目から1つ配列を消す
-  listArray.splice(num,1);
 
   // ------ ローカルストレージ処理 ------
   var compListArray = getLocalStorage("compTodo",compListArray);
