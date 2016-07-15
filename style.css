@@ -70,6 +70,7 @@ a {
   bottom: 0;
   width: 100%;
   height: 50px;
+  z-index: 1;
 }
 .l-menu-list {
   width: 100%;
@@ -204,27 +205,11 @@ a {
   height: 50px;
   background: url(img/fav.jpg) no-repeat;
   background-position: -4px 0;
-  position: absolute;
-  top: 6px;
-  right: -4px;
   transform: scale(0.7);
 }
 .m-fav-btn.is-active {
   background-position: -3524px 0;
   transition: background 0.5s steps(55);
-}
-
-/*======================== 削除ボタン ============================*/
-
-.m-remove-btn {
-  width: 22px;
-  height: 22px;
-  background: url(img/ic_remove.png) center no-repeat;
-  background-size: 100%;
-  position: absolute;
-  top: 30%;
-  right: 16px;
-  opacity: 0.2;
 }
 
 /*======================== 日付 ============================*/
@@ -248,15 +233,14 @@ a {
   color: #fff;
   letter-spacing: 0.01em;
 }
-/*======================== 日付 ============================*/
+
+/*======================== 追加 ============================*/
 .m-add-btn img {
     width: 64px;
     position: absolute;
     right: 0;
     bottom: 16px;
 }
-
-/*======================== 追加画面 ============================*/
 
 .m-add-btn {
   display: block;
@@ -267,7 +251,8 @@ a {
 }
 
 .l-add-list,
-.l-edit {
+.l-edit,
+.l-comp-edit {
   height: 100vh;
   background-color: #fff;
   overflow: hidden;
@@ -275,9 +260,11 @@ a {
   display: none;
 }
 .m-add-list-input,
-.m-add-list-limit,
+.m-add-list-subject,
 .m-edit-input,
-.m-edit-limit {
+.m-edit-limit,
+.m-comp-edit-input,
+.m-comp-edit-limit {
   margin: 8px auto 8px;
   width: 93%;
   font-size: 17px;
@@ -292,7 +279,11 @@ a {
 .m-add-list-cancel-btn,
 .m-edit-btn,
 .m-edit-cancel-btn,
-.m-edit-comp-btn {
+.m-edit-comp-btn,
+.m-comp-edit-btn,
+.m-comp-edit-delate-btn,
+.m-comp-edit-revival-btn,
+.m-comp-cancel-btn {
   display: block;
   padding: 8px 16px;
   font-size: 17px;
@@ -300,6 +291,9 @@ a {
   border: 1px solid rgba(189,189,189 ,0.1);
   margin: 8px auto;
 }
+
+/*======================== 完了編集画面 ============================*/
+
 
 /*======================== メイン画面タブ ============================*/
 
@@ -335,8 +329,16 @@ a {
   display: none;
 }
 
-/*======================== ヘッダー ============================*/
+/*======================== 勉強時間 ============================*/
 
 .l-study {
   display: none;
+}
+
+.m-fav.is-active {
+  width: 12px;
+  height: 12px;
+  background: url(img/ic_fav.png) no-repeat;
+  background-size: 100%;
+  display: inline-block;
 }

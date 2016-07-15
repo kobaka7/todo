@@ -9,7 +9,8 @@ maximum-scale=1.0, user-scalable=no" />
   <link rel="stylesheet" type="text/css" href=style.css>
   <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="stylesheet" href="datepicker.css">
+  <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
   <title>ToDo List</title>
 </head>
 <body>
@@ -49,8 +50,15 @@ maximum-scale=1.0, user-scalable=no" />
 <!-- ===== 新規作成画面 ===== -->
 
   <div class="l-add-list">
-    <textarea class="m-add-list-input" placeholder="ToDoを追加する"></textarea>
-    <input class="m-add-list-limit" placeholder="期限">
+    <form class="col s12">
+      <div class="row">
+        <div class="input-field col s12">
+          <textarea id="textarea1" class="m-add-list-input materialize-textarea" length="120"></textarea>
+          <label for="textarea1">タスクの追加</label>
+        </div>
+      </div>
+    </form>
+    <div class="m-fav-btn"></div>
     <button class="m-add-list-btn">追加</button>
     <button class="m-add-list-cancel-btn">キャンセル</button>
   </div>
@@ -58,11 +66,38 @@ maximum-scale=1.0, user-scalable=no" />
 <!-- ===== 編集画面 ===== -->
 
   <div class="l-edit">
-    <textarea class="m-edit-input" placeholder="ToDoを追加する"></textarea>
+    <form class="col s12">
+      <div class="row">
+        <div class="input-field col s12">
+          <textarea id="textarea1" class="m-edit-input materialize-textarea" length="120"></textarea>
+          <label for="textarea1">タスクの編集</label>
+        </div>
+      </div>
+    </form>
     <input class="m-edit-limit" placeholder="期限">
+    <div class="m-fav-btn"></div>
     <button class="m-edit-btn">編集</button>
     <button class="m-edit-cancel-btn">キャンセル</button>
     <button class="m-edit-comp-btn">完了</button>
+  </div>
+
+  <!-- ===== 完了編集画面 ===== -->
+
+  <div class="l-comp-edit">
+    <form class="col s12">
+      <div class="row">
+        <div class="input-field col s12">
+          <textarea id="textarea1" class="m-comp-edit-inpu materialize-textarea" length="120"></textarea>
+          <label for="textarea1">タスクの編集</label>
+        </div>
+      </div>
+    </form>
+    <input class="m-comp-edit-limit" placeholder="期限">
+    <div class="m-fav-btn"></div>
+    <button class="m-comp-edit-btn">編集</button>
+    <button class="m-comp-edit-cancel-btn">キャンセル</button>
+    <button class="m-comp-edit-delate-btn">削除</button>
+    <button class="m-comp-edit-revival-btn">元に戻す</button>
   </div>
 
 <!-- ===== 勉強時間画面 ===== -->
@@ -73,6 +108,8 @@ maximum-scale=1.0, user-scalable=no" />
   <script src="https://code.jquery.com/jquery-3.0.0.min.js" integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0=" crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/ui/1.12.0-rc.2/jquery-ui.min.js" integrity="sha256-55Jz3pBCF8z9jBO1qQ7cIf0L+neuPTD1u7Ytzrp2dqo=" crossorigin="anonymous"></script>
   <script src="dist/js/datepicker.standalone.js" charset="utf-8"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
