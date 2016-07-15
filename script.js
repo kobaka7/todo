@@ -308,10 +308,14 @@ function showEdit(aTarget){
     $editInputText.val($inputText);
 
     // リストのnum番目の星がactiveかどうかで星の初期表示を決める
-    if(listArray[num].fav === true){
-      $favBtn.addClass("is-active");
+    if(menuStatus === false){
+      if(listArray[num].fav === true){
+        $favBtn.addClass("is-active");
+      } else {
+        $favBtn.removeClass("is-active");
+      }
     } else {
-      $favBtn.removeClass("is-active");
+      $favBtn.addClass("is-active");
     }
   });
 }
@@ -321,29 +325,61 @@ function doneEdit(){
   var listArray = getLocalStorage("todo",listArray);
   var $inputTxt = $editInputText.val();
 
-  //編集画面の黄色の星にisactiveがついてるかどうかで
-  //ローカルと見た目の星をtrue版にする
-  if ($favBtn.hasClass("is-active")){
-    var newTodo = {task:$inputTxt , comp:false, fav:true, date:null};
-    createListEl(newTodo);
-  // 元々あったliと新しいliを置き換える
-    $outputArea.find("li").eq(num).replaceWith($listEl);
-    addListFunction($listEl);
-    $outputArea.find("li").eq(num).find(".m-fav").addClass("is-active");
-    listArray[num].fav = true;
-  } else {
-    var newTodo = {task:$inputTxt , comp:false, fav:false, date:null};
-    createListEl(newTodo);
-  // 元々あったliと新しいliを置き換える
-    $outputArea.find("li").eq(num).replaceWith($listEl);
-    addListFunction($listEl);
-    $outputArea.find("li").eq(num).find(".m-fav").removeClass("is-active");
-    listArray[num].fav = false;
+  // 全てのタスク一覧だったら
+  if (menuStatus === false){
+    // 編集画面の黄色の星にisactiveがついてるかどうかで
+    // ローカルと見た目の星をtrue版にする
+    if ($favBtn.hasClass("is-active")){
+      var newTodo = {task:$inputTxt , comp:false, fav:true, date:null};
+      createListEl(newTodo);
+    // 元々あったliと新しいliを置き換える
+      $outputArea.find("li").eq(num).replaceWith($listEl);
+      addListFunction($listEl);
+      $outputArea.find("li").eq(num).find(".m-fav").addClass("is-active");
+      listArray[num].fav = true;
+    } else {
+      var newTodo = {task:$inputTxt , comp:false, fav:false, date:null};
+      createListEl(newTodo);
+    // 元々あったliと新しいliを置き換える
+      $outputArea.find("li").eq(num).replaceWith($listEl);
+      addListFunction($listEl);
+      $outputArea.find("li").eq(num).find(".m-fav").removeClass("is-active");
+      listArray[num].fav = false;
+    }
+    // ローカルストレージの編集
+    listArray[num].task = $inputTxt;
+    setLocalStorage("todo",listArray);
   }
-
-  // ローカルストレージの編集
-  listArray[num].task = $inputTxt;
-  setLocalStorage("todo",listArray);
+  // もし重要なタスク一覧だったら
+  else {
+      // $outputArea.find("li").eq(num).remove();
+      var favCounter = 0;
+      for(var cnt=0; cnt<listArray.length; cnt++){
+        console.log(listArray[cnt].fav);
+        if(listArray[cnt].fav === true){
+          if(favCounter === num){
+            break;
+          }
+          favCounter++;
+        }
+      }
+      // もし黄色い星がisactiveだったら
+      if ($favBtn.hasClass("is-active")){
+        var newTodo = {task:$inputTxt , comp:false, fav:true, date:null};
+        createListEl(newTodo);
+      // 元々あったliと新しいliを置き換える
+        $outputArea.find("li").eq(num).replaceWith($listEl);
+        addListFunction($listEl);
+        $outputArea.find("li").eq(num).find(".m-fav").addClass("is-active");
+        listArray[cnt].fav = true;
+      } else {
+        $outputArea.find("li").eq(num).remove();
+        listArray[cnt].fav = false;
+      }
+      // ローカルストレージの編集
+      listArray[cnt].task = $inputTxt;
+      setLocalStorage("todo",listArray);
+  }
 
   // 画面切り替え
   showTask();
@@ -392,10 +428,11 @@ function ShowFavList(){
 
 function favBtn(){
   $favBtn.on("click",function(evt){
-    console.log(num);
+    var listArray = getLocalStorage("todo",listArray);
     $favBtn.toggleClass("is-active"); //isactiveなければつける
   }); //クリック
 }
+
 
 // ======================================================================
                            // 完了したタスク一覧
