@@ -214,17 +214,10 @@ a {
 
 /*======================== 日付 ============================*/
 
-.m-date-text {
+.m-time-text {
     font-size: 13px;
     color: #999;
     background-size: 100%;
-}
-.m-ic-date {
-  width: 24px;
-  height: 24px;
-  position: absolute;
-  top: 14px;
-  right: 16px;
 }
 .m-output-time {
   position: absolute;
@@ -262,9 +255,9 @@ a {
 .m-add-list-input,
 .m-add-list-subject,
 .m-edit-input,
-.m-edit-limit,
+.m-edit-time,
 .m-comp-edit-input,
-.m-comp-edit-limit {
+.m-comp-edit-time {
   margin: 8px auto 8px;
   width: 93%;
   font-size: 17px;
@@ -292,9 +285,26 @@ a {
   margin: 8px auto;
 }
 
-/*======================== 完了編集画面 ============================*/
+/*======================== 編集画面 ============================*/
 
+.m-edit-tab {
+  text-align: center;
+  background-color: #fff;
+  border-bottom: 1px solid #ccc;
+}
+.m-edit-tab li {
+  padding: 16px;
+}
+.m-edit-input-time {
+  display: inline-block;
+}
+.m-edit-timer {
+  display: inline-block;
+}
 
+.input-field {
+  padding: 16px;
+}
 /*======================== メイン画面タブ ============================*/
 
 .l-task-tab {

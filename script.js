@@ -25,10 +25,12 @@ var $addBtn = null;
 var $favBtn = null;
 var $addCancelBtn = null;
 var $compBtn = null;
+var $editCompInput = null;
 var $removeBtn = null;
 var $doneAddBtn = null;
 var $study = null;
 var $listEl = null;
+var $timeText = null;
 var num = 0;
 var menuStatus = false;
 
@@ -39,6 +41,11 @@ setEvent();
 // ======================================================================
                                 //初期化系
 // ======================================================================
+
+// マテリアルデザイン対応
+$(document).ready(function() {
+  $('select').material_select();
+});
 
 function setObj(){
   // ヘッダー
@@ -59,6 +66,7 @@ function setObj(){
   $compEditCancelBtn = $(".m-comp-edit-cancel-btn");
   $compEditDelateBtn = $(".m-comp-edit-delate-btn");
   $compEditRevivalBtn = $(".m-comp-edit-revival-btn");
+  $editCompInput = $(".m-comp-edit-input");
 
   // メニューバー
   $menu = $(".l-menu");
@@ -83,6 +91,7 @@ function setObj(){
   $editCompBtn = $(".m-edit-comp-btn");
   $editCancelBtn = $(".m-edit-cancel-btn");
   $favBtn = $(".m-fav-btn");
+  $timeText = $(".m-time-text");
 
   // 勉強時間画面
   $study = $(".l-study");
@@ -147,27 +156,14 @@ function setBtn(){
   $editCompBtn.on("click",function(evt){
     doneComp(num);
   });
-  $menuStudy.on("click",function(evt){
-    showStudy();
-  });
-}
-
-function createConpBtn(){
-  // 完了編集画面
-  $compEditBtn.on("click",function(evt){
-    doneCompEdit();
-  });
-  $compEditCancelBtn.on("click",function(evt){
-    showTask();
-  });
   $compEditCancelBtn.on("click",function(evt){
     showTask();
   });
   $compEditDelateBtn.on("click",function(evt){
     doneRemove(num);
   });
-  $compEditRevivalBtn.on("click",function(evt){
-
+  $menuStudy.on("click",function(evt){
+    showStudy();
   });
 }
 
@@ -207,19 +203,19 @@ function createListEl(aTask){
   if(aTask.comp !== null){
     $listEl = $("<li><div class='list-item'><p class='m-list-txt'>"
               + aTask.task
-              + "</p><div class='m-date-text'>"
-              + aTask.date
+              + "</p><div class='m-time-text'>"
+              + aTask.time
               + "</div><span class='m-fav'></span></div></li>");
     // 星済みだったら
     if(aTask.fav === true){
       $listEl.find(".m-fav").addClass("is-active");
     }
-    // 日付が未入力だったら
-    if(aTask.date === null){
+    // 勉強時間が未入力だったら
+    if(aTask.time === undefined || aTask.time === null ){
+      $listEl.find('.m-time-text').text("未着手");
     }
   }
 }
-
 
 // liの各機能をいっぺんに実装
 function addListFunction(){
@@ -276,7 +272,7 @@ function addListEl(){
   var listArray = getLocalStorage("todo",listArray);
   // インプット要素を取得してulにliを追加する
   var $inputText = $addListInput.val();
-  var newList = {task:$inputText, comp:false, fav:false, date:null};
+  var newList = {task:$inputText, comp:false, fav:false, time:null};
   createListEl(newList);
   addListFunction();
   $listEl.prependTo($outputArea);
@@ -299,6 +295,7 @@ function showEdit(aTarget){
 
     $task.css({display:"none"});
     $menu.css({display:"none"});
+    $taskTab.css({display:"none"});
     $study.css({display:"none"});
     $edit.css({display:"block"});
     $headerTitle.text("編集");
@@ -330,7 +327,7 @@ function doneEdit(){
     // 編集画面の黄色の星にisactiveがついてるかどうかで
     // ローカルと見た目の星をtrue版にする
     if ($favBtn.hasClass("is-active")){
-      var newTodo = {task:$inputTxt , comp:false, fav:true, date:null};
+      var newTodo = {task:$inputTxt , comp:false, fav:true, time:null};
       createListEl(newTodo);
     // 元々あったliと新しいliを置き換える
       $outputArea.find("li").eq(num).replaceWith($listEl);
@@ -338,7 +335,7 @@ function doneEdit(){
       $outputArea.find("li").eq(num).find(".m-fav").addClass("is-active");
       listArray[num].fav = true;
     } else {
-      var newTodo = {task:$inputTxt , comp:false, fav:false, date:null};
+      var newTodo = {task:$inputTxt , comp:false, fav:false, time:null};
       createListEl(newTodo);
     // 元々あったliと新しいliを置き換える
       $outputArea.find("li").eq(num).replaceWith($listEl);
@@ -365,7 +362,7 @@ function doneEdit(){
       }
       // もし黄色い星がisactiveだったら
       if ($favBtn.hasClass("is-active")){
-        var newTodo = {task:$inputTxt , comp:false, fav:true, date:null};
+        var newTodo = {task:$inputTxt , comp:false, fav:true, time:null};
         createListEl(newTodo);
       // 元々あったliと新しいliを置き換える
         $outputArea.find("li").eq(num).replaceWith($listEl);
@@ -447,39 +444,10 @@ function ShowCompList(){
       createListEl(compListArray[cnt]);
       $listEl.appendTo($outputArea);
 
-      // css操作
       $listEl.find(".m-list-txt").addClass("is-active");
-
-      // 各機能の実装
-      // compTrueBtn($listEl);
-      // removeBtn($listEl);
       showCompEdit($listEl);
     }
   }
-}
-
-// ------------------- 完了済みボタン --------------------
-
-function compTrueBtn(aTarget){
-  aTarget.find($compBtn).on("click",function(evt){
-    // liのthis番目取得
-    var num = $(this).parent().parent().index();
-    $(this).parent().parent().slideUp(120,"linear",function(){
-      $(this).remove();
-    })
-
-    // ------ ローカルストレージ処理 ------
-    var listArray = getLocalStorage("todo",listArray);
-    var compListArray = getLocalStorage("compTodo",compListArray);
-
-    compListArray[num].comp = false;
-    listArray.unshift(compListArray[num]);
-    // num番目から1つ配列を消す
-    compListArray.splice(num,1);
-
-    setLocalStorage("todo",listArray);
-    setLocalStorage("compTodo",compListArray);
-  });
 }
 
 // ======================================================================
@@ -494,12 +462,11 @@ function showCompEdit(aTarget){
     $menu.css({display:"none"});
     $study.css({display:"none"});
     $(".l-comp-edit").css({display:"block"});
-    $headerTitle.text("編集");
+    $headerTitle.text("完了したタスク");
 
     // liのテキストを最初から表示させる
     var $inputText = $(this).find(".m-list-txt").text();
-    $editInputText.val($inputText);
-    createConpBtn(); //完了画面ボタン実装
+    $editCompInput.val($inputText);
   });
 }
 
