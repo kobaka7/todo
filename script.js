@@ -200,7 +200,6 @@ function setBtn(){
 
 function setEvent(){
   reload();
-  favBtn();
 }
 
 // ローカルストレージから配列を取得する
@@ -232,44 +231,45 @@ function clickMenu(aTruthValue){
 function createListEl(aTask){
   // もし未完了なら
   if(aTask.comp !== null){
-    $listEl = $("<li class='button'><div class='list-item'><p class='m-list-txt'>"
+    $listEl = $("<li><div class='list-item'><p class='m-list-txt'>"
               + aTask.task
-              + "</p><div class='m-time-text'>"
-              + aTask.time
-              + "</div><span class='m-fav'></span></div></li>");
+              + "</p><div class='m-date-text'>"
+              + aTask.date
+              + "</div><span class='m-fav-btn'></span></div></li>");
     // 星済みだったら
     if(aTask.fav === true){
-      $listEl.find(".m-fav").addClass("is-active");
+      $listEl.find(".m-fav-btn").addClass("is-active");
     }
-    // 勉強時間が未入力だったら
-    if(aTask.time === undefined || aTask.time === null){
-      $listEl.find('.m-time-text').text("未着手");
+    // 日付が未入力だったら
+    if(aTask.date === null){
     }
-    // 科目ごとの色分け
-    var sbj = aTask.subject;
-    var listColor = null;
-    switch(sbj){
-        case "国語":
-            listColor = "red";
-            break;
-        case "数学":
-            listColor = "green";
-            break;
-        case "英語":
-            listColor = "blue";
-            break;
-        default:
-            listColor = "gray";
-            break;
-    }
-    console.log($listEl.find("li"));
-    $listEl.css({borderLeft:"3px solid " + listColor})
   }
+
+  // 科目ごとの色分け
+  var sbj = aTask.subject;
+  var listColor = null;
+  switch(sbj){
+      case "国語":
+          listColor = "red";
+          break;
+      case "数学":
+          listColor = "green";
+          break;
+      case "英語":
+          listColor = "blue";
+          break;
+      default:
+          listColor = "gray";
+          break;
+  }
+  console.log($listEl.find("li"));
+  $listEl.css({borderLeft:"3px solid " + listColor})
 }
 
 // liの各機能をいっぺんに実装
 function addListFunction(){
   showEdit($listEl);
+  favBtn($listEl);
 }
 
 // ======================================================================
@@ -479,12 +479,46 @@ function ShowFavList(){
   }
 }
 
-// ------- お気に入りボタン --------
+// お気に入りボタン
 
-function favBtn(){
-  $favBtn.on("click",function(evt){
+function favBtn(aTarget) {
+  aTarget.find(".m-fav-btn").on("click",function(evt){
+    num = $(this).parent().parent().index(); //liのthis番目
+    $(this).toggleClass("is-active"); //isactiveなければつける
     var listArray = getLocalStorage("todo",listArray);
-    $favBtn.toggleClass("is-active"); //isactiveなければつける
+
+    // 全てのタスクのとき
+    if(menuStatus === false){
+      if ($(this).hasClass("is-active")){ //もしisactiveがあったら
+        console.log(listArray[favCounter]);
+        listArray[num].fav = true;
+      }
+      else {
+        listArray[num].fav = false;
+        $(this).removeClass("is-active");
+      }
+    }
+
+    // 重要なタスク一覧の時
+    else {
+      aTarget.slideUp(120, "linear",function(){
+        aTarget.remove();
+      })
+      var favCounter = 0;
+      for(var cnt=0; cnt<listArray.length; cnt++){
+        console.log(listArray[cnt].fav);
+        if(listArray[cnt].fav === true){
+          if(favCounter === num){
+            break;
+          }
+          favCounter++;
+        }
+      }
+      listArray[cnt].fav = false;
+      $(this).removeClass("is-active");
+    }
+    setLocalStorage("todo",listArray);
+    evt.stopPropagation(); //liへのイベント伝播禁止
   }); //クリック
 }
 

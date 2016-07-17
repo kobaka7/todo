@@ -205,6 +205,9 @@ a {
   height: 50px;
   background: url(img/fav.jpg) no-repeat;
   background-position: -4px 0;
+  position: absolute;
+  top: 6px;
+  right: -4px;
   transform: scale(0.7);
 }
 .m-fav-btn.is-active {
