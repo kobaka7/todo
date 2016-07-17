@@ -108,6 +108,37 @@ function showTask(){
   $headerTitle.text("Study Time");
 }
 
+// $(function() {
+//   var touched = false;
+//   var touch_time = 0;
+//   $(".button").bind({
+//     'touchstart mousedown': function(e) {
+//       touched = true;
+//       touch_time = 0;
+//       document.interval = setInterval(function(){
+//         touch_time += 100;
+//         if (touch_time == 500) {
+//           alert("ok");
+//           showEdit($listEl);
+//           console.log($listEl);
+//         }
+//       }, 100)
+//       e.preventDefault();
+//     },
+//     'touchend mouseup mouseout': function(e) { // マウスが領域外に出たかどうかも拾うと、より自然
+//       if (touched) {
+//         if (touch_time < 500 ) {
+//           alert("!")
+//         }
+//       }
+//       touched = false;
+//       clearInterval(document.interval);
+//       e.preventDefault();
+//     }
+//   });
+// });
+
+
 function setBtn(){
   // 新規作成ボタンを押したら
   $addBtn.on("click",function(){
@@ -201,7 +232,7 @@ function clickMenu(aTruthValue){
 function createListEl(aTask){
   // もし未完了なら
   if(aTask.comp !== null){
-    $listEl = $("<li><div class='list-item'><p class='m-list-txt'>"
+    $listEl = $("<li class='button'><div class='list-item'><p class='m-list-txt'>"
               + aTask.task
               + "</p><div class='m-time-text'>"
               + aTask.time
@@ -211,9 +242,28 @@ function createListEl(aTask){
       $listEl.find(".m-fav").addClass("is-active");
     }
     // 勉強時間が未入力だったら
-    if(aTask.time === undefined || aTask.time === null ){
+    if(aTask.time === undefined || aTask.time === null){
       $listEl.find('.m-time-text').text("未着手");
     }
+    // 科目ごとの色分け
+    var sbj = aTask.subject;
+    var listColor = null;
+    switch(sbj){
+        case "国語":
+            listColor = "red";
+            break;
+        case "数学":
+            listColor = "green";
+            break;
+        case "英語":
+            listColor = "blue";
+            break;
+        default:
+            listColor = "gray";
+            break;
+    }
+    console.log($listEl.find("li"));
+    $listEl.css({borderLeft:"3px solid " + listColor})
   }
 }
 
@@ -272,7 +322,15 @@ function addListEl(){
   var listArray = getLocalStorage("todo",listArray);
   // インプット要素を取得してulにliを追加する
   var $inputText = $addListInput.val();
-  var newList = {task:$inputText, comp:false, fav:false, time:null};
+  var $inputSbject = "数学";
+
+  var newList = {
+    task:$inputText,
+    comp:false,
+    fav:false,
+    subject:$inputSbject,
+    time:null
+  };
   createListEl(newList);
   addListFunction();
   $listEl.prependTo($outputArea);
