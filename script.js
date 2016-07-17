@@ -16,6 +16,7 @@ var $taskTabComp = null;
 var $editBtn  = null;
 var $editCompBtn = null;
 var $editCancelBtn = null;
+var $comp = null;
 var $compEditCancelBtn = null;
 var $compEditBtn = null;
 var $compEditCancelBtn = null;
@@ -60,9 +61,9 @@ function setObj(){
   $taskTabComp = $(".m-task-tab-comp");
 
   // 完了画面
+  $comp = $(".l-comp")
   $compBtn = $(".m-comp-btn");
   $removeBtn = $(".m-remove-btn");
-  $compEditBtn = $(".m-comp-edit-btn");
   $compEditCancelBtn = $(".m-comp-edit-cancel-btn");
   $compEditDelateBtn = $(".m-comp-edit-delate-btn");
   $compEditRevivalBtn = $(".m-comp-edit-revival-btn");
@@ -154,10 +155,6 @@ function setBtn(){
   $editBtn.on("click",function(evt){
     doneEdit();
   });
-  // 編集画面の完了ボタン押したら
-  $editCompBtn.on("click",function(evt){
-    doneComp(num);
-  });
   $compEditCancelBtn.on("click",function(evt){
     showTask();
   });
@@ -174,12 +171,16 @@ function longPress(){
   var touch_time = 0;
   $outputArea.find("li").bind({
     'touchstart mousedown': function(e) {
+      var num = 0;
+      num = $(this).index();
       touched = true;
       touch_time = 0;
       document.interval = setInterval(function(){
         touch_time += 100;
         if (touch_time == 1000) {
-          alert();
+          // ここがwindowになってる
+          // showEditはliが取れてる
+          showComp(num);
         }
       }, 100)
       e.preventDefault();
@@ -187,7 +188,8 @@ function longPress(){
     'touchend mouseup mouseout': function(e) { // マウスが領域外に出たかどうかも拾うと、より自然
       if (touched) {
         if (touch_time < 1000 ) {
-          alert();
+          showEdit($(this));
+          console.log($(this));
         }
       }
       touched = false;
@@ -266,7 +268,6 @@ function subjectColor(aTarget){
 
 // liの各機能をいっぺんに実装
 function addListFunction(){
-  showEdit($listEl);
   favBtn($listEl);
 }
 
@@ -345,9 +346,9 @@ function addListEl(){
 // ======================================================================
 
 function showEdit(aTarget){
-  aTarget.on("click",function(evt){
     var listArray = getLocalStorage("todo",listArray);
-    num = $(this).index(); //liのthis番目取得
+    num = aTarget.index(); //liのthis番目取得
+    console.log(num);
 
     $task.css({display:"none"});
     $menu.css({display:"none"});
@@ -357,9 +358,8 @@ function showEdit(aTarget){
     $headerTitle.text("編集");
 
     // liのテキストを最初から表示させる
-    var $inputText = $(this).find(".m-list-txt").text();
+    var $inputText = aTarget.find(".m-list-txt").text();
     $editInputText.val($inputText);
-  });
 }
 
 // 編集ボタンを押したら
@@ -420,23 +420,41 @@ function doneEdit(){
   showTask();
 }
 
-// 完了ボタンを押したら
-function doneComp(num){
-  $outputArea.find("li").eq(num).remove();
+// ======================================================================
+                            // 完了画面
+// ======================================================================
+
+function showComp(num){
   var listArray = getLocalStorage("todo",listArray);
-  var compListArray = getLocalStorage("compTodo",compListArray);
+  console.log(num);
 
-  listArray[num].comp = true;
-  compListArray.unshift(listArray[num]);
-  // num番目から1つ配列を消す
-  listArray.splice(num,1);
+  $task.css({display:"none"});
+  $menu.css({display:"none"});
+  $taskTab.css({display:"none"});
+  $study.css({display:"none"});
+  $edit.css({display:"none"});
+  $comp.css({display:"block"});
+  $headerTitle.text("完了");
 
-  setLocalStorage("todo",listArray);
-  setLocalStorage("compTodo",compListArray);
+  // 完了ボタン押したら
+  $compBtn.on("click",function(evt){
+    $outputArea.find("li").eq(num).remove();
+    var listArray = getLocalStorage("todo",listArray);
+    var compListArray = getLocalStorage("compTodo",compListArray);
 
-  // 画面切り替え
-  showTask();
+    listArray[num].comp = true;
+    compListArray.unshift(listArray[num]);
+    // num番目から1つ配列を消す
+    listArray.splice(num,1);
+
+    setLocalStorage("todo",listArray);
+    setLocalStorage("compTodo",compListArray);
+
+    // 画面切り替え
+    showTask();
+  });
 }
+
 
 // ======================================================================
                                 //重要なタスク一覧

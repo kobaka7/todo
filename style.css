@@ -275,11 +275,11 @@ a {
 .m-add-list-cancel-btn,
 .m-edit-btn,
 .m-edit-cancel-btn,
-.m-edit-comp-btn,
 .m-comp-edit-btn,
 .m-comp-edit-delate-btn,
 .m-comp-edit-revival-btn,
-.m-comp-cancel-btn {
+.m-comp-cancel-btn,
+.m-comp-btn {
   display: block;
   padding: 8px 16px;
   font-size: 17px;
@@ -355,6 +355,17 @@ a {
   background-size: 100%;
   display: inline-block;
 }
+
+/*======================== 勉強時間 ============================*/
+
+.l-comp {
+  width: 100%;
+  height: 100vh;
+  background-color: #fff;
+  display: none;
+}
+
+
 
 /*li.button{
   background-size: 201% 100%;
