@@ -67,6 +67,7 @@ function setObj(){
   $compEditDelateBtn = $(".m-comp-edit-delate-btn");
   $compEditRevivalBtn = $(".m-comp-edit-revival-btn");
   $editCompInput = $(".m-comp-edit-input");
+  $compEdit = $(".l-comp-edit")
 
   // メニューバー
   $menu = $(".l-menu");
@@ -102,42 +103,12 @@ function showTask(){
   $addList.css({display:"none"});
   $edit.css({display:"none"});
   $study.css({display:"none"});
+  $compEdit.css({display:"none"});
   $task.css({display:"block"});
   $taskTab.css({display:"block"});
   $menu.css({display:"block"});
   $headerTitle.text("Study Time");
 }
-
-// $(function() {
-//   var touched = false;
-//   var touch_time = 0;
-//   $(".button").bind({
-//     'touchstart mousedown': function(e) {
-//       touched = true;
-//       touch_time = 0;
-//       document.interval = setInterval(function(){
-//         touch_time += 100;
-//         if (touch_time == 500) {
-//           alert("ok");
-//           showEdit($listEl);
-//           console.log($listEl);
-//         }
-//       }, 100)
-//       e.preventDefault();
-//     },
-//     'touchend mouseup mouseout': function(e) { // マウスが領域外に出たかどうかも拾うと、より自然
-//       if (touched) {
-//         if (touch_time < 500 ) {
-//           alert("!")
-//         }
-//       }
-//       touched = false;
-//       clearInterval(document.interval);
-//       e.preventDefault();
-//     }
-//   });
-// });
-
 
 function setBtn(){
   // 新規作成ボタンを押したら
@@ -233,15 +204,10 @@ function createListEl(aTask){
   if(aTask.comp !== null){
     $listEl = $("<li><div class='list-item'><p class='m-list-txt'>"
               + aTask.task
-              + "</p><div class='m-date-text'>"
-              + aTask.date
-              + "</div><span class='m-fav-btn'></span></div></li>");
+              + "</p><span class='m-fav-btn'></span></div></li>");
     // 星済みだったら
     if(aTask.fav === true){
       $listEl.find(".m-fav-btn").addClass("is-active");
-    }
-    // 日付が未入力だったら
-    if(aTask.date === null){
     }
   }
 
@@ -262,7 +228,6 @@ function createListEl(aTask){
           listColor = "gray";
           break;
   }
-  console.log($listEl.find("li"));
   $listEl.css({borderLeft:"3px solid " + listColor})
 }
 
@@ -322,7 +287,8 @@ function addListEl(){
   var listArray = getLocalStorage("todo",listArray);
   // インプット要素を取得してulにliを追加する
   var $inputText = $addListInput.val();
-  var $inputSbject = "数学";
+  var $inputSbject = $(".m-add-subject").val();
+  console.log($inputSbject);
 
   var newList = {
     task:$inputText,
@@ -361,17 +327,6 @@ function showEdit(aTarget){
     // liのテキストを最初から表示させる
     var $inputText = $(this).find(".m-list-txt").text();
     $editInputText.val($inputText);
-
-    // リストのnum番目の星がactiveかどうかで星の初期表示を決める
-    if(menuStatus === false){
-      if(listArray[num].fav === true){
-        $favBtn.addClass("is-active");
-      } else {
-        $favBtn.removeClass("is-active");
-      }
-    } else {
-      $favBtn.addClass("is-active");
-    }
   });
 }
 
@@ -379,27 +334,27 @@ function showEdit(aTarget){
 function doneEdit(){
   var listArray = getLocalStorage("todo",listArray);
   var $inputTxt = $editInputText.val();
+  var $inputSbject = $(".m-edit-subject").val();
+
+  // 編集した内容を新しいオブジェクトとして生成し、元あった場所と置き換える
+  function createNewTodo(num,arrayNum,isFav){
+    var newTodo = {task:$inputTxt , comp:false, fav:isFav, time:null, subject:$inputSbject};
+    createListEl(newTodo);
+    // 元々あったliと新しいliを置き換える
+    $outputArea.find("li").eq(num).replaceWith($listEl);
+    addListFunction($listEl);
+    listArray[num].fav = isFav;
+  }
 
   // 全てのタスク一覧だったら
   if (menuStatus === false){
-    // 編集画面の黄色の星にisactiveがついてるかどうかで
-    // ローカルと見た目の星をtrue版にする
-    if ($favBtn.hasClass("is-active")){
-      var newTodo = {task:$inputTxt , comp:false, fav:true, time:null};
-      createListEl(newTodo);
-    // 元々あったliと新しいliを置き換える
-      $outputArea.find("li").eq(num).replaceWith($listEl);
-      addListFunction($listEl);
+    // もしnum番目のふぁぼがactiveだったら
+    if ($outputArea.find("li").eq(num).find(".m-fav-btn").hasClass("is-active")){
+      createNewTodo(num,num,true);
       $outputArea.find("li").eq(num).find(".m-fav").addClass("is-active");
-      listArray[num].fav = true;
     } else {
-      var newTodo = {task:$inputTxt , comp:false, fav:false, time:null};
-      createListEl(newTodo);
-    // 元々あったliと新しいliを置き換える
-      $outputArea.find("li").eq(num).replaceWith($listEl);
-      addListFunction($listEl);
+      createNewTodo(num,num,false);
       $outputArea.find("li").eq(num).find(".m-fav").removeClass("is-active");
-      listArray[num].fav = false;
     }
     // ローカルストレージの編集
     listArray[num].task = $inputTxt;
@@ -407,35 +362,26 @@ function doneEdit(){
   }
   // もし重要なタスク一覧だったら
   else {
-      // $outputArea.find("li").eq(num).remove();
-      var favCounter = 0;
-      for(var cnt=0; cnt<listArray.length; cnt++){
-        console.log(listArray[cnt].fav);
-        if(listArray[cnt].fav === true){
-          if(favCounter === num){
-            break;
-          }
-          favCounter++;
+    var favCounter = 0;
+    for(var cnt=0; cnt<listArray.length; cnt++){
+      if(listArray[cnt].fav === true){
+        if(favCounter === num){
+          break;
         }
+        favCounter++;
       }
-      // もし黄色い星がisactiveだったら
-      if ($favBtn.hasClass("is-active")){
-        var newTodo = {task:$inputTxt , comp:false, fav:true, time:null};
-        createListEl(newTodo);
-      // 元々あったliと新しいliを置き換える
-        $outputArea.find("li").eq(num).replaceWith($listEl);
-        addListFunction($listEl);
-        $outputArea.find("li").eq(num).find(".m-fav").addClass("is-active");
-        listArray[cnt].fav = true;
-      } else {
-        $outputArea.find("li").eq(num).remove();
-        listArray[cnt].fav = false;
+    }
+    if ($outputArea.find("li").eq(num).find(".m-fav-btn").hasClass("is-active")){
+      createNewTodo(num,num,true);
+      $outputArea.find("li").eq(num).find(".m-fav").addClass("is-active");
+    } else {
+      $outputArea.find("li").eq(num).remove();
+      listArray[cnt].fav = false;
       }
       // ローカルストレージの編集
       listArray[cnt].task = $inputTxt;
       setLocalStorage("todo",listArray);
-  }
-
+    }
   // 画面切り替え
   showTask();
 }
@@ -490,7 +436,6 @@ function favBtn(aTarget) {
     // 全てのタスクのとき
     if(menuStatus === false){
       if ($(this).hasClass("is-active")){ //もしisactiveがあったら
-        console.log(listArray[favCounter]);
         listArray[num].fav = true;
       }
       else {
@@ -553,7 +498,7 @@ function showCompEdit(aTarget){
     $task.css({display:"none"});
     $menu.css({display:"none"});
     $study.css({display:"none"});
-    $(".l-comp-edit").css({display:"block"});
+    $compEdit.css({display:"block"});
     $headerTitle.text("完了したタスク");
 
     // liのテキストを最初から表示させる

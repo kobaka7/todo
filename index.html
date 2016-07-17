@@ -60,27 +60,26 @@ maximum-scale=1.0, user-scalable=no" />
     </form>
 
     <div class="input-field col s12">
-      <select>
+      <select class="m-add-subject">
         <option value="" disabled selected></option>
-        <option value="1">国語</option>
-        <option value="2">数学</option>
-        <option value="3">英語</option>
+        <option value="国語">国語</option>
+        <option value="数学">数学</option>
+        <option value="英語">英語</option>
       </select>
       <label>教科を選ぶ</label>
     </div>
 
-    <div class="m-fav-btn"></div>
     <button class="m-add-list-btn">追加</button>
     <button class="m-add-list-cancel-btn">キャンセル</button>
   </div>
 
 <!-- ===== 編集画面 ===== -->
-  <div class="m-edit-tab">
-    <li class="m-edit-input-time">勉強時間入力</li>
-    <li class="m-edit-timer">タイマー</li>
-  </div>
 
   <div class="l-edit">
+    <div class="m-edit-tab">
+      <li class="m-edit-input-time">勉強時間入力</li>
+      <li class="m-edit-timer">タイマー</li>
+    </div>
     <form class="col s12">
       <div class="row">
         <div class="input-field col s12">
@@ -91,16 +90,14 @@ maximum-scale=1.0, user-scalable=no" />
     </form>
 
     <div class="input-field col s12">
-      <select>
+      <select class="m-edit-subject">
         <option value="" disabled selected>未設定</option>
-        <option value="1">国語</option>
-        <option value="2">数学</option>
-        <option value="3">英語</option>
+        <option value="国語">国語</option>
+        <option value="数学">数学</option>
+        <option value="英語">英語</option>
       </select>
       <label>教科を選ぶ</label>
     </div>
-
-    <div class="m-fav-btn"></div>
 
     <button class="m-edit-btn">編集</button>
     <button class="m-edit-cancel-btn">キャンセル</button>
