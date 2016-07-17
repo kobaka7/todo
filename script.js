@@ -169,8 +169,37 @@ function setBtn(){
   });
 }
 
+function longPress(){
+  var touched = false;
+  var touch_time = 0;
+  $outputArea.find("li").bind({
+    'touchstart mousedown': function(e) {
+      touched = true;
+      touch_time = 0;
+      document.interval = setInterval(function(){
+        touch_time += 100;
+        if (touch_time == 1000) {
+          alert();
+        }
+      }, 100)
+      e.preventDefault();
+    },
+    'touchend mouseup mouseout': function(e) { // マウスが領域外に出たかどうかも拾うと、より自然
+      if (touched) {
+        if (touch_time < 1000 ) {
+          alert();
+        }
+      }
+      touched = false;
+      clearInterval(document.interval);
+      e.preventDefault();
+    }
+  });
+}
+
 function setEvent(){
   reload();
+  longPress();
 }
 
 // ローカルストレージから配列を取得する
@@ -210,9 +239,13 @@ function createListEl(aTask){
       $listEl.find(".m-fav-btn").addClass("is-active");
     }
   }
-
   // 科目ごとの色分け
-  var sbj = aTask.subject;
+  subjectColor(aTask.subject);
+}
+
+function subjectColor(aTarget){
+  // 科目ごとの色分け
+  var sbj = aTarget;
   var listColor = null;
   switch(sbj){
       case "国語":
@@ -287,8 +320,7 @@ function addListEl(){
   var listArray = getLocalStorage("todo",listArray);
   // インプット要素を取得してulにliを追加する
   var $inputText = $addListInput.val();
-  var $inputSbject = $(".m-add-subject").val();
-  console.log($inputSbject);
+  var $inputSbject = $("select").val();
 
   var newList = {
     task:$inputText,
@@ -344,6 +376,8 @@ function doneEdit(){
     $outputArea.find("li").eq(num).replaceWith($listEl);
     addListFunction($listEl);
     listArray[num].fav = isFav;
+  // 科目ごとの色分け
+  subjectColor(listArray[num].subject);
   }
 
   // 全てのタスク一覧だったら
