@@ -7,6 +7,11 @@ var $body = null;
 var $task = null;
 var $edit = null;
 var $menu = null;
+var $header = null;
+var $headerTitle = null;
+var $backBtn = null;
+var $cancelBtn = null;
+var $logo = null;
 var $editInputText = null;
 var $menuTask = null;
 var $taskTabAll = null;
@@ -48,11 +53,18 @@ $(document).ready(function() {
   $('select').material_select();
 });
 
+$(document).ready(function(){
+  $('.modal-trigger').leanModal();
+});
+
 function setObj(){
   // ヘッダー
   $body = $("body");
   $header = $(".l-header");
   $headerTitle = $(".m-header-title");
+  $logo = $(".m-logo");
+  $backBtn = $(".m-header-back");
+  $cancelBtn = $(".m-header-cancel");
 
   // タスク画面タブ
   $taskTab = $(".l-task-tab");
@@ -105,10 +117,19 @@ function showTask(){
   $edit.css({display:"none"});
   $study.css({display:"none"});
   $compEdit.css({display:"none"});
+  $comp.css({display:"none"});
   $task.css({display:"block"});
   $taskTab.css({display:"block"});
   $menu.css({display:"block"});
-  $headerTitle.text("Study Time");
+  $(".m-logo").css({display:"block"});
+  $header.css({display:"block"});
+  $backBtn.css({display:"none"});
+  $cancelBtn.css({display:"none"});
+  $headerTitle.text("");
+  $header
+  .css({background:"url(img/bg-01.jpg) 0 no-repeat"})
+  .css({backgroundSize:"110%"})
+  .css({backgroundPositionY:"-140px"});
 }
 
 function setBtn(){
@@ -131,24 +152,31 @@ function setBtn(){
   });
   $menuTask.on("click",function(evt){
     showTask();
+    tabListClick($(this));
     menuListClick($(this));
   });
   $taskTabAll.on("click",function(evt){
     showTask();
-    menuListClick($(this));
+    tabListClick($(this));
     reload();
   });
   $taskTabFav.on("click",function(evt){
     showTask();
-    menuListClick($(this));
+    tabListClick($(this));
     ShowFavList();
   });
   $taskTabComp.on("click",function(evt){
     showTask();
-    menuListClick($(this));
+    tabListClick($(this));
     ShowCompList();
   });
   $editCancelBtn.on("click",function(evt){
+    showTask();
+  });
+  $backBtn.on("click",function(evt){
+    showTask();
+  });
+  $cancelBtn.on("click",function(evt){
     showTask();
   });
   // 編集画面の編集ボタン押したら
@@ -162,6 +190,7 @@ function setBtn(){
     doneRemove(num);
   });
   $menuStudy.on("click",function(evt){
+    menuListClick($(this));
     showStudy();
   });
 }
@@ -171,15 +200,12 @@ function longPress(){
   var touch_time = 0;
   $outputArea.find("li").bind({
     'touchstart mousedown': function(e) {
-      var num = 0;
       num = $(this).index();
       touched = true;
       touch_time = 0;
       document.interval = setInterval(function(){
         touch_time += 100;
         if (touch_time == 1000) {
-          // ここがwindowになってる
-          // showEditはliが取れてる
           showComp(num);
         }
       }, 100)
@@ -201,7 +227,6 @@ function longPress(){
 
 function setEvent(){
   reload();
-  longPress();
 }
 
 // ローカルストレージから配列を取得する
@@ -251,13 +276,13 @@ function subjectColor(aTarget){
   var listColor = null;
   switch(sbj){
       case "国語":
-          listColor = "red";
+          listColor = "#00CCC6";
           break;
       case "数学":
-          listColor = "green";
+          listColor = "#F5A623";
           break;
       case "英語":
-          listColor = "blue";
+          listColor = "#BA78FF";
           break;
       default:
           listColor = "gray";
@@ -275,9 +300,15 @@ function addListFunction(){
                                 //メニュー画面
 // ======================================================================
 
+function tabListClick(aTarget){
+  //全部isactiveリセット
+  $(".l-task-tab-list > li").removeClass("is-active");
+  aTarget.addClass("is-active");
+}
+
 function menuListClick(aTarget){
   //全部isactiveリセット
-  $(".l-menu-list li").removeClass("is-active");
+  $(".l-menu-list > li").removeClass("is-active");
   aTarget.addClass("is-active");
 }
 
@@ -299,6 +330,7 @@ function reload(){
       $outputArea.append($listEl);
     }
   }
+  longPress();
 }
 
 // ======================================================================
@@ -309,8 +341,14 @@ function showAddList(){
   $task.css({display:"none"});
   $taskTab.css({display:"none"});
   $study.css({display:"none"});
+  $menu.css({display:"none"});
+  $logo.css({display:"none"});
+  $comp.css({display:"none"});
   $addList.css({display:"block"});
+  $backBtn.css({display:"none"});
+  $cancelBtn.css({display:"block"});
   $headerTitle.text("タスクの新規作成");
+  $header.css({background:"#fff"});
   // 最初からフォーカスを当ててくれる
   $addListInput.focus();
 }
@@ -346,20 +384,25 @@ function addListEl(){
 // ======================================================================
 
 function showEdit(aTarget){
-    var listArray = getLocalStorage("todo",listArray);
-    num = aTarget.index(); //liのthis番目取得
-    console.log(num);
+  var listArray = getLocalStorage("todo",listArray);
+  num = aTarget.index(); //liのthis番目取得
+  console.log(num);
 
-    $task.css({display:"none"});
-    $menu.css({display:"none"});
-    $taskTab.css({display:"none"});
-    $study.css({display:"none"});
-    $edit.css({display:"block"});
-    $headerTitle.text("編集");
+  $task.css({display:"none"});
+  $menu.css({display:"none"});
+  $taskTab.css({display:"none"});
+  $study.css({display:"none"});
+  $logo.css({display:"none"});
+  $comp.css({display:"none"});
+  $edit.css({display:"block"});
+  $backBtn.css({display:"block"});
+  $cancelBtn.css({display:"none"});
+  $header.css({background:"#fff"});
+  $headerTitle.text("編集");
 
-    // liのテキストを最初から表示させる
-    var $inputText = aTarget.find(".m-list-txt").text();
-    $editInputText.val($inputText);
+  // liのテキストを最初から表示させる
+  var $inputText = aTarget.find(".m-list-txt").text();
+  $editInputText.val($inputText);
 }
 
 // 編集ボタンを押したら
@@ -433,8 +476,12 @@ function showComp(num){
   $taskTab.css({display:"none"});
   $study.css({display:"none"});
   $edit.css({display:"none"});
+  $logo.css({display:"none"});
   $comp.css({display:"block"});
-  $headerTitle.text("完了");
+  $backBtn.css({display:"block"});
+  $cancelBtn.css({display:"none"});
+  $header.css({display:"none"});
+  $headerTitle.text("");
 
   // 完了ボタン押したら
   $compBtn.on("click",function(evt){
@@ -550,7 +597,12 @@ function showCompEdit(aTarget){
     $task.css({display:"none"});
     $menu.css({display:"none"});
     $study.css({display:"none"});
+    $logo.css({display:"none"});
+    $comp.css({display:"none"});
     $compEdit.css({display:"block"});
+    $backBtn.css({display:"block"});
+    $cancelBtn.css({display:"none"});
+    $header.css({background:"#fff"});
     $headerTitle.text("完了したタスク");
 
     // liのテキストを最初から表示させる
@@ -581,8 +633,12 @@ function showStudy(){
   $edit.css({display:"none"});
   $task.css({display:"none"});
   $taskTab.css({display:"none"});
+  $logo.css({display:"none"});
+  $backBtn.css({display:"none"});
+  $cancelBtn.css({display:"none"});
   $menu.css({display:"block"});
   $study.css({display:"block"});
+  $header.css({background:"#fff"});
   $headerTitle.text("勉強時間");
 }
 

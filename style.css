@@ -53,8 +53,16 @@ a {
   background-color: #fff;
   height: 64px;
   position: relative;
+  background: url(img/bg-01.jpg) 0 no-repeat;
+  background-size: 110%;
+  background-position-y: -140px;
 }
-
+.m-logo {
+  height: 20px;
+  margin: 0 auto;
+  position: relative;
+  top: 33%;
+}
 .m-header-title {
   width: 100%;
   text-align: center;
@@ -66,34 +74,94 @@ a {
 /*==========================　メニュー ============================*/
 .l-menu {
   color: #fff;
-  background-color: rgba(0,0,0,0.7);
+  background-color: #fff;
   position: fixed;
   bottom: 0;
   width: 100%;
   height: 50px;
   z-index: 1;
+  border-top: 1px solid rgba(0,0,0,0.1);
 }
 .l-menu-list {
   width: 100%;
   height: 50px;
   display: table;
 }
-.l-menu-list li{
-  color: #fff;
-  width: 33%;
-  font-size: 13px;
+.l-menu-list li {
+  color: #aaa;
+  width: 32%;
+  font-size: 10px;
   display: table-cell;
-  vertical-align: middle;
   text-align: center;
-
+  position: relative;
+  top: 34px;
 }
-.l-menu-list li.is-active{
-  background-color:rgba(77,208,225 ,0.6);
+.l-menu-list > li.is-active{
+  color: #00CCC6;
+}
+.l-menu-list-study.is-active:before {
+  content: "";
+  width: 16px;
+  height: 16px;
+  background: url(img/ic_chart_active.png) center no-repeat;
+  background-size: 100%;
+  position: absolute;
+  top: -23px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.l-menu-list-study:before {
+  content: "";
+  width: 16px;
+  height: 16px;
+  background: url(img/ic_chart.png) center no-repeat;
+  background-size: 100%;
+  position: absolute;
+  top: -23px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.l-menu-list-task:before {
+  content: "";
+  width: 22px;
+  height: 22px;
+  background: url(img/ic_list.png) center no-repeat;
+  background-size: 100%;
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.l-menu-list-task.is-active:before {
+  content: "";
+  width: 22px;
+  height: 22px;
+  background: url(img/ic_list_active.png) center no-repeat;
+  background-size: 100%;
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.l-menu-list-add:before {
+  content: "";
+  width: 60px;
+  height: 60px;
+  background: url(img/ic_add.png) center no-repeat;
+  background-size: 100%;
+  position: absolute;
+  top: -61px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+li.l-menu-list-add {
+  width: 10%;
 }
 
 /*==========================　メイン画面 ============================*/
 .l-task {
-  height: 100vh;
+  height: 100%;
   display: block;
   overflow: hidden;
 }
@@ -154,26 +222,7 @@ a {
   color: rgba(189,189,189 ,1);
   text-decoration: line-through;
 }
-.m-comp-btn {
-  width: 22px;
-  height: 22px;
-  background: #FFF;
-  border: 1px solid #999;
-  border-radius: 70px;
-  transition: background-color 0.08s ease-in;
-  box-sizing: border-box;
-  display: inline-block;
-}
-.m-comp-btn:hover {
-  border: 1px solid #999;
-  background: url(img/ic_done.png) no-repeat;
-  background-size: 100%;
-}
-.m-comp-btn.is-active {
-  border: 1px solid #999;
-  background: url(img/ic_done.png) no-repeat;
-  background-size: 100%;
-}
+
 /*======================== 背景画像の切り替え ============================*/
 
 .l-bgselect-wrapper {
@@ -249,7 +298,7 @@ a {
 .l-add-list,
 .l-edit,
 .l-comp-edit {
-  height: 100vh;
+  height: 90vh;
   background-color: #fff;
   overflow: hidden;
   text-align: center;
@@ -283,9 +332,24 @@ a {
   display: block;
   padding: 8px 16px;
   font-size: 17px;
-  margin: 8px 30%;
-  border: 1px solid rgba(189,189,189 ,0.1);
-  margin: 8px auto;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  height: 60px;
+  background-color: #4A90E2;
+  border: none;
+}
+.m-add-list-btn:before,
+.m-edit-btn:before {
+  content: "";
+  height: 26px;
+  width: 26px;
+  background: url(img/ic_done_white.png) 0 no-repeat;
+  background-size: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
 }
 
 /*======================== 編集画面 ============================*/
@@ -315,6 +379,7 @@ a {
   background-color: #fff;
   border: 1px solid rgba(189,189,189 ,0.1);
   box-sizing: border-box;
+  padding: 16px 0;
 }
 
 .m-output-area {
@@ -322,17 +387,26 @@ a {
 }
 
 .l-task-tab-list {
-  height: 64px;
-  text-align: center;
-  position: relative;
-  display: table;
   margin: 0 auto;
+  display: table;
+  border: 1px solid #00CCC6;
+  border-radius: 4px;
+  font-size: 12px;
 }
-
 .l-task-tab-list > li {
-  padding: 16px;
-  display: table-cell;
-  vertical-align: middle;
+  color: #00CCC6;
+  padding: 6px 16px;
+  text-align: center;
+  display: inline-block;
+  border-left: 1px solid #00CCC6;
+  width: 104px;
+}
+.l-task-tab-list > li.is-active{
+  background-color: #00CCC6;
+  color: #fff;
+}
+.l-task-tab-list > li:first-child {
+  border-left: none;
 }
 
 /*======================== ヘッダー ============================*/
@@ -341,7 +415,34 @@ a {
 .m-edit-title {
   display: none;
 }
-
+.m-header-back:before {
+  content: "";
+  height: 24px;
+  width: 12px;
+  background: url(img/ic_back.png) 0 no-repeat;
+  background-size: 100%;
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  transform: translateY(-50%);
+}
+.m-header-cancel:before {
+  content: "";
+  height: 18px;
+  width: 18px;
+  background: url(img/ic_cancel.png) 0 no-repeat;
+  background-size: 100%;
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+}
+.m-header-back,
+.m-header-cancel {
+  display: none;
+}
 /*======================== 勉強時間 ============================*/
 
 .l-study {
@@ -359,10 +460,20 @@ a {
 /*======================== 勉強時間 ============================*/
 
 .l-comp {
-  width: 100%;
-  height: 100vh;
+  width: 80%;
+  height: 300px;
   background-color: #fff;
   display: none;
+  margin: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,50%);
+}
+
+.l-comp p {
+  text-align: center;
+  padding: 16px;
 }
 
 

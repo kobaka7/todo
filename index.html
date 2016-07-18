@@ -18,14 +18,17 @@ maximum-scale=1.0, user-scalable=no" />
 <!-- ===== ヘッダー ===== -->
 
   <div class="l-header">
+    <img class="m-logo" src="img/logo.png" alt="logo">
     <p class="m-header-title"></p>
+    <span class="m-header-back"></span>
+    <span class="m-header-cancel"></span>
   </div>
 
 <!-- ===== タスク画面タブ ===== -->
 
   <div class="l-task-tab">
     <ul class="l-task-tab-list">
-      <li class="m-task-tab-all">全て</li>
+      <li class="m-task-tab-all is-active">全て</li>
       <li class="m-task-tab-fav">重要</li>
       <li class="m-task-tab-comp">完了済み</li>
     </ul>
@@ -35,8 +38,8 @@ maximum-scale=1.0, user-scalable=no" />
 
   <div class="l-menu">
     <ul class="l-menu-list">
-      <li class="l-menu-list-task">タスク</li>
-      <li class="l-menu-list-add">追加</li>
+      <li class="l-menu-list-task is-active">タスク</li>
+      <li class="l-menu-list-add"></li>
       <li class="l-menu-list-study">勉強時間</li>
     </ul>
   </div>
@@ -46,6 +49,18 @@ maximum-scale=1.0, user-scalable=no" />
   <div class="l-task">
     <ul class="m-output-area"></ul>
   </div>
+
+  <!-- タスク完了 -->
+<!--   <a class="modal-trigger" href="#modal1">タスク完了</a>
+
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+      <p>タスクを完了しました</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">完了</a>
+    </div>
+  </div> -->
 
 <!-- ===== 新規作成画面 ===== -->
 
@@ -70,8 +85,7 @@ maximum-scale=1.0, user-scalable=no" />
       <label>教科を選ぶ</label>
     </div>
 
-    <button class="m-add-list-btn">追加</button>
-    <button class="m-add-list-cancel-btn">キャンセル</button>
+    <button class="m-add-list-btn"></button>
   </div>
 
 <!-- ===== 編集画面 ===== -->
@@ -101,8 +115,7 @@ maximum-scale=1.0, user-scalable=no" />
       <label>教科を選ぶ</label>
     </div>
 
-    <button class="m-edit-btn">編集</button>
-    <button class="m-edit-cancel-btn">キャンセル</button>
+    <button class="m-edit-btn"></button>
   </div>
 
 
@@ -125,7 +138,6 @@ maximum-scale=1.0, user-scalable=no" />
     </form>
 
     <div class="m-fav-btn"></div>
-    <button class="m-comp-edit-cancel-btn">キャンセル</button>
     <button class="m-comp-edit-delate-btn">削除</button>
   </div>
 
