@@ -121,7 +121,7 @@ function showTask(){
   $task.css({display:"block"});
   $taskTab.css({display:"block"});
   $menu.css({display:"block"});
-  $(".m-logo").css({display:"block"});
+  $logo.css({display:"block"});
   $header.css({display:"block"});
   $backBtn.css({display:"none"});
   $cancelBtn.css({display:"none"});
@@ -193,12 +193,29 @@ function setBtn(){
     menuListClick($(this));
     showStudy();
   });
+  // 完了ボタン押したら
+  $compBtn.on("click",function(evt){
+    $outputArea.find("li").eq(num).remove();
+    var listArray = getLocalStorage("todo",listArray);
+    var compListArray = getLocalStorage("compTodo",compListArray);
+    console.log(num);
+    listArray[num].comp = true;
+    compListArray.unshift(listArray[num]);
+    // num番目から1つ配列を消す
+    listArray.splice(num,1);
+
+    setLocalStorage("todo",listArray);
+    setLocalStorage("compTodo",compListArray);
+
+    // 画面切り替え
+    showTask();
+  });
 }
 
-function longPress(){
+function longPress(aTarget){
   var touched = false;
   var touch_time = 0;
-  $outputArea.find("li").bind({
+  aTarget.on({
     'touchstart mousedown': function(e) {
       num = $(this).index();
       touched = true;
@@ -294,6 +311,7 @@ function subjectColor(aTarget){
 // liの各機能をいっぺんに実装
 function addListFunction(){
   favBtn($listEl);
+  longPress($listEl);
 }
 
 // ======================================================================
@@ -330,7 +348,9 @@ function reload(){
       $outputArea.append($listEl);
     }
   }
-  longPress();
+
+
+  console.log($outputArea.find("li"));
 }
 
 // ======================================================================
@@ -359,7 +379,7 @@ function addListEl(){
   var listArray = getLocalStorage("todo",listArray);
   // インプット要素を取得してulにliを追加する
   var $inputText = $addListInput.val();
-  var $inputSbject = $("select").val();
+  var $inputSbject = $("select.m-add-subject").val();
 
   var newList = {
     task:$inputText,
@@ -369,7 +389,7 @@ function addListEl(){
     time:null
   };
   createListEl(newList);
-  addListFunction();
+  addListFunction($listEl);
   $listEl.prependTo($outputArea);
 
   // 配列にオブジェクト追加
@@ -407,20 +427,25 @@ function showEdit(aTarget){
 
 // 編集ボタンを押したら
 function doneEdit(){
+  $("select.m-edit-subject").prop("selected",false);
+  // listArray[num].subjectで切り替え
+  // 選んだやつをeqで指定してselectedをtrueにする
+  // 科目のvalueを数字にしてあげると楽かも
+  $('select').material_select();
   var listArray = getLocalStorage("todo",listArray);
   var $inputTxt = $editInputText.val();
-  var $inputSbject = $(".m-edit-subject").val();
+  var $inputSbject = $("select.m-edit-subject").val();
+  console.log($inputSbject);
 
   // 編集した内容を新しいオブジェクトとして生成し、元あった場所と置き換える
   function createNewTodo(num,arrayNum,isFav){
     var newTodo = {task:$inputTxt , comp:false, fav:isFav, time:null, subject:$inputSbject};
     createListEl(newTodo);
+    console.log($inputSbject);
     // 元々あったliと新しいliを置き換える
     $outputArea.find("li").eq(num).replaceWith($listEl);
     addListFunction($listEl);
     listArray[num].fav = isFav;
-  // 科目ごとの色分け
-  subjectColor(listArray[num].subject);
   }
 
   // 全てのタスク一覧だったら
@@ -435,6 +460,7 @@ function doneEdit(){
     }
     // ローカルストレージの編集
     listArray[num].task = $inputTxt;
+    listArray[num].subject = $inputSbject;
     setLocalStorage("todo",listArray);
   }
   // もし重要なタスク一覧だったら
@@ -457,6 +483,7 @@ function doneEdit(){
       }
       // ローカルストレージの編集
       listArray[cnt].task = $inputTxt;
+      listArray[cnt].subject = $inputSbject;
       setLocalStorage("todo",listArray);
     }
   // 画面切り替え
@@ -482,26 +509,7 @@ function showComp(num){
   $cancelBtn.css({display:"none"});
   $header.css({display:"none"});
   $headerTitle.text("");
-
-  // 完了ボタン押したら
-  $compBtn.on("click",function(evt){
-    $outputArea.find("li").eq(num).remove();
-    var listArray = getLocalStorage("todo",listArray);
-    var compListArray = getLocalStorage("compTodo",compListArray);
-
-    listArray[num].comp = true;
-    compListArray.unshift(listArray[num]);
-    // num番目から1つ配列を消す
-    listArray.splice(num,1);
-
-    setLocalStorage("todo",listArray);
-    setLocalStorage("compTodo",compListArray);
-
-    // 画面切り替え
-    showTask();
-  });
 }
-
 
 // ======================================================================
                                 //重要なタスク一覧

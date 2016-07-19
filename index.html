@@ -75,7 +75,7 @@ maximum-scale=1.0, user-scalable=no" />
     </form>
 
     <div class="input-field col s12">
-      <select class="m-add-subject">
+      <select class="m-add-subject ">
         <option value="" disabled selected></option>
         <option value="未設定">未設定</option>
         <option value="国語">国語</option>
@@ -92,8 +92,10 @@ maximum-scale=1.0, user-scalable=no" />
 
   <div class="l-edit">
     <div class="m-edit-tab">
-      <li class="m-edit-input-time">勉強時間入力</li>
-      <li class="m-edit-timer">タイマー</li>
+      <ul class="l-edit-tab-list">
+        <li class="m-edit-input-time is-active">勉強時間入力</li>
+        <li class="m-edit-timer">タイマー</li>
+      </ul>
     </div>
     <form class="col s12">
       <div class="row">
@@ -119,9 +121,30 @@ maximum-scale=1.0, user-scalable=no" />
   </div>
 
 
-  <!-- ===== 編集画面 ===== -->
+  <!-- ===== 完了画面 ===== -->
   <div class="l-comp">
     <p>タスクを完了しました</p>
+
+    <div class="input-field col s12">
+      <select class="m-comp-time-hours">
+        <option value="" disabled selected>未設定</option>
+        <option value="0">0時間</option>
+        <option value="1">1時間</option>
+        <option value="2">2時間</option>
+        <option value="3">3時間</option>
+        <option value="4">4時間</option>
+        <option value="5">5時間</option>
+        <option value="6">6時間</option>
+        <option value="7">7時間</option>
+        <option value="8">8時間</option>
+        <option value="9">9時間</option>
+        <option value="10">10時間</option>
+        <option value="11">11時間</option>
+        <option value="12">12時間</option>
+      </select>
+      <label>時間</label>
+    </div>
+
     <button class="m-comp-btn">完了</button>
   </div>
 

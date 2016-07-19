@@ -409,6 +409,36 @@ li.l-menu-list-add {
   border-left: none;
 }
 
+/*======================== 編集画面タブ ============================*/
+
+.m-edit-tab {
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid rgba(189,189,189 ,0.1);
+  box-sizing: border-box;
+  padding: 16px 0;
+}
+
+.l-edit-tab-list {
+  margin: 0 auto;
+  display: table;
+  border: 1px solid #00CCC6;
+  border-radius: 4px;
+  font-size: 12px;
+}
+.l-edit-tab-list > li {
+  color: #00CCC6;
+  padding: 6px 16px;
+  text-align: center;
+  display: inline-block;
+  border-left: 1px solid #00CCC6;
+  width: 156px;
+}
+.l-edit-tab-list > li.is-active{
+  background-color: #00CCC6;
+  color: #fff;
+}
+
 /*======================== ヘッダー ============================*/
 
 .m-add-title,
@@ -457,7 +487,7 @@ li.l-menu-list-add {
   display: inline-block;
 }
 
-/*======================== 勉強時間 ============================*/
+/*======================== 完了画面 ============================*/
 
 .l-comp {
   width: 80%;
@@ -470,12 +500,13 @@ li.l-menu-list-add {
   left: 50%;
   transform: translate(-50%,50%);
 }
-
 .l-comp p {
   text-align: center;
   padding: 16px;
 }
-
+.m-comp-time-hours {
+  width: 60px;
+}
 
 
 /*li.button{
