@@ -38,6 +38,7 @@ var $study = null;
 var $listEl = null;
 var $timeText = null;
 var num = 0;
+var studyTimes = 0;
 var menuStatus = false;
 
 setObj();
@@ -198,7 +199,22 @@ function setBtn(){
     $outputArea.find("li").eq(num).remove();
     var listArray = getLocalStorage("todo",listArray);
     var compListArray = getLocalStorage("compTodo",compListArray);
-    console.log(num);
+
+    // 勉強時間入力
+    var studyHours = $("select.m-comp-time-hours").val();
+    var studyMinutes = $("select.m-comp-time-minutes").val();
+    // 文字列を数値に変換する
+    studyHours = Number(studyHours);
+    studyMinutes = Number(studyMinutes);
+    studyTimes = studyHours + studyMinutes;
+    listArray[num].study = studyTimes;
+
+    // 勉強完了日時取得
+    var compDate = new Date();
+    // 経過ミリ秒に変換
+    var getTimeCompDate = compDate.getTime();
+    listArray[num].compTime = getTimeCompDate;
+
     listArray[num].comp = true;
     compListArray.unshift(listArray[num]);
     // num番目から1つ配列を消す
@@ -216,28 +232,32 @@ function longPress(aTarget){
   var touched = false;
   var touch_time = 0;
   aTarget.on({
+    click :function(){
+      showEdit($(this));
+      clearInterval(document.interval);
+    },
     'touchstart mousedown': function(e) {
       num = $(this).index();
       touched = true;
       touch_time = 0;
       document.interval = setInterval(function(){
         touch_time += 100;
-        if (touch_time == 1000) {
+        if (touch_time == 2000) {
           showComp(num);
         }
       }, 100)
-      e.preventDefault();
+      // e.preventDefault();
     },
     'touchend mouseup mouseout': function(e) { // マウスが領域外に出たかどうかも拾うと、より自然
       if (touched) {
-        if (touch_time < 1000 ) {
-          showEdit($(this));
+        if (touch_time < 2000 ) {
+          // showEdit($(this));
           console.log($(this));
         }
       }
       touched = false;
       clearInterval(document.interval);
-      e.preventDefault();
+      // e.preventDefault();
     }
   });
 }
@@ -386,7 +406,8 @@ function addListEl(){
     comp:false,
     fav:false,
     subject:$inputSbject,
-    time:null
+    study:null,
+    compTime:null,
   };
   createListEl(newList);
   addListFunction($listEl);
@@ -439,7 +460,15 @@ function doneEdit(){
 
   // 編集した内容を新しいオブジェクトとして生成し、元あった場所と置き換える
   function createNewTodo(num,arrayNum,isFav){
-    var newTodo = {task:$inputTxt , comp:false, fav:isFav, time:null, subject:$inputSbject};
+    var newTodo = {
+      task:$inputTxt,
+      comp:false,
+      fav:isFav,
+      time:null,
+      subject:$inputSbject,
+      study:null,
+      compTime:null,
+    };
     createListEl(newTodo);
     console.log($inputSbject);
     // 元々あったliと新しいliを置き換える
@@ -535,7 +564,9 @@ function ShowFavList(){
 // お気に入りボタン
 
 function favBtn(aTarget) {
+  // touchstart mousedownをclickにするとイベントが伝播する。
   aTarget.find(".m-fav-btn").on("click",function(evt){
+    evt.stopPropagation(); //liへのイベント伝播禁止
     num = $(this).parent().parent().index(); //liのthis番目
     $(this).toggleClass("is-active"); //isactiveなければつける
     var listArray = getLocalStorage("todo",listArray);
@@ -570,7 +601,6 @@ function favBtn(aTarget) {
       $(this).removeClass("is-active");
     }
     setLocalStorage("todo",listArray);
-    evt.stopPropagation(); //liへのイベント伝播禁止
   }); //クリック
 }
 
@@ -648,6 +678,67 @@ function showStudy(){
   $study.css({display:"block"});
   $header.css({background:"#fff"});
   $headerTitle.text("勉強時間");
+
+  var compListArray = getLocalStorage("compTodo",compListArray);
+  var studyAllTimes = 0;
+  var studyJapaneseTime = 0;
+  var studyAllJapaneseTimes = 0;
+  var studyMathTime = 0;
+  var studyAllMathTimes = 0;
+  var studyEnglishTime = 0;
+  var studyAllEnglishTimes = 0;
+  var studyTodayTime = 0;
+  var studyTodayAllTimes = 0;
+
+  // 全ての勉強時間（分）（数値）
+  for(var cnt=0; cnt<compListArray.length; cnt++){
+    studyTime = Number(compListArray[cnt].study);
+    studyAllTimes += studyTime;
+  }
+  console.log(studyAllTimes);
+
+  // 国語の勉強時間（分）（数値）
+  for(var cnt=0; cnt<compListArray.length; cnt++){
+    if(compListArray[cnt].subject === "国語"){
+      studyJapaneseTime = Number(compListArray[cnt].study);
+      studyAllJapaneseTimes += studyJapaneseTime;
+    }
+  }
+  console.log(studyAllJapaneseTimes);
+
+  // 数学の勉強時間（分）（数値）
+  for(var cnt=0; cnt<compListArray.length; cnt++){
+    if(compListArray[cnt].subject === "数学"){
+      studyMathTime = Number(compListArray[cnt].study);
+      studyAllMathTimes += studyMathTime;
+    }
+  }
+  console.log(studyAllMathTimes);
+
+  // 英語の勉強時間（分）（数値）
+  for(var cnt=0; cnt<compListArray.length; cnt++){
+    if(compListArray[cnt].subject === "英語"){
+      studyEnglishTime = Number(compListArray[cnt].study);
+      studyAllEnglishTimes += studyEnglishTime;
+    }
+  }
+  console.log(studyAllEnglishTimes);
+
+  // 本日の勉強時間（分）（数値）
+  var now = new Date();
+  var getTimeNow = now.getTime();
+  for(var cnt=0; cnt<compListArray.length; cnt++){
+    // もし完了してから24時間以内だったら（現在時刻 - 完了時刻 < 24時間）
+    if(getTimeNow - compListArray[cnt].compDate < 86400000){
+      // 全ての勉強時間（分）（数値）
+      for(var cnt=0; cnt<compListArray.length; cnt++){
+        studyTodayTime = Number(compListArray[cnt].study);
+        studyTodayAllTimes += studyTodayTime;
+      }
+      console.log(studyTodayAllTimes);
+      alert();
+    }
+  }
 }
 
 }); //html実行後

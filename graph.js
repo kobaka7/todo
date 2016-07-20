@@ -1,7 +1,12 @@
 $(function () {
     $('#container').highcharts({
         chart: {
-            type: 'column'
+            type: 'column',
+            events: {
+                afterPrint : function(evt) {
+                    alert();
+                }
+            }
         },
         title: {
             text: 'Stacked column chart'
@@ -23,7 +28,8 @@ $(function () {
                 }
             }
         },
-        legend: { //ジャンルの場所
+        legend: {
+            //ジャンルの場所
             // align: 'right',
             // x: -30,
             // verticalAlign: 'top',
@@ -41,6 +47,7 @@ $(function () {
         plotOptions: {
             column: {
                 stacking: 'normal',
+                pointWidth: 10,
                 // dataLabels: {
                 //     enabled: true,
                 //     color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
@@ -61,14 +68,7 @@ $(function () {
             name: '理科',
             data: [3, 4, 4, 2, 5, 1, 5]
         },
-         {
-            name: '社会',
-            data: [3, 4, 4, 2, 5, 1, 7]
-        },
-         {
-            name: '英語',
-            data: [3, 4, 4, 2, 5, 1, 9]
-        }]
+        ]
     });
     $(".highcharts-axis").remove();
     $(".highcharts-tracker rect").css({strokeWidth:"0"});
@@ -76,6 +76,7 @@ $(function () {
     $(".highcharts-series-0 rect").css({fill:"#f00"});
     $(".highcharts-legend-item rect").eq(0).css({fill:"#f00"});
     $(".highcharts-container").css({position:"relative"});
-    $(".highcharts-container").css({left:"-2%"});
-    $(".highcharts-tracker rect").css({width:"5%"});
+    $(".highcharts-container").css({left:"-5%"});
+    $(".highcharts-grid > path").css({stroke:"#ddd"}).css({opacity:0.4})
+
 });
