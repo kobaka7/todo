@@ -30,6 +30,7 @@ var $compEditRevivalBtn = null;
 var $addBtn = null;
 var $favBtn = null;
 var $addCancelBtn = null;
+var $compDoneBtn = null;
 var $compBtn = null;
 var $editCompInput = null;
 var $removeBtn = null;
@@ -40,6 +41,8 @@ var $timeText = null;
 var num = 0;
 var studyTimes = 0;
 var menuStatus = false;
+var weekGraphScroll = false;
+var circleGraphFrag = false;
 
 setObj();
 setBtn();
@@ -76,6 +79,7 @@ function setObj(){
   // 完了画面
   $comp = $(".l-comp")
   $compBtn = $(".m-comp-btn");
+  $compDoneBtn = $(".m-comp-done-btn");
   $removeBtn = $(".m-remove-btn");
   $compEditCancelBtn = $(".m-comp-edit-cancel-btn");
   $compEditDelateBtn = $(".m-comp-edit-delate-btn");
@@ -131,6 +135,13 @@ function showTask(){
   .css({background:"url(img/bg-01.jpg) 0 no-repeat"})
   .css({backgroundSize:"110%"})
   .css({backgroundPositionY:"-140px"});
+
+  $("#container").css({visibility:"hidden"});
+  weekGraphScroll = false;
+
+  $("#doughnutChart").find("svg").remove();
+  $(".doughnutSummary").find("p").remove();
+  circleGraphFrag = false;
 }
 
 function setBtn(){
@@ -140,7 +151,8 @@ function setBtn(){
   });
   // 新規作成画面で追加ボタンを押したら
   $doneAddBtn.on("click",function(){
-    if ($addListInput.val() !== ""){ //空白禁止
+    //空白禁止
+    if ($addListInput.val() !== ""){
       addListEl();
       // 元いた場所が完了画面、星画面でも全てのタスクに飛ばす
       reload();
@@ -153,7 +165,6 @@ function setBtn(){
   });
   $menuTask.on("click",function(evt){
     showTask();
-    tabListClick($(this));
     menuListClick($(this));
   });
   $taskTabAll.on("click",function(evt){
@@ -190,12 +201,9 @@ function setBtn(){
   $compEditDelateBtn.on("click",function(evt){
     doneRemove(num);
   });
-  $menuStudy.on("click",function(evt){
-    menuListClick($(this));
-    showStudy();
-  });
+
   // 完了ボタン押したら
-  $compBtn.on("click",function(evt){
+  $compDoneBtn.on("click",function(evt){
     $outputArea.find("li").eq(num).remove();
     var listArray = getLocalStorage("todo",listArray);
     var compListArray = getLocalStorage("compTodo",compListArray);
@@ -228,42 +236,24 @@ function setBtn(){
   });
 }
 
-function longPress(aTarget){
-  var touched = false;
-  var touch_time = 0;
-  aTarget.on({
-    click :function(){
-      showEdit($(this));
-      clearInterval(document.interval);
-    },
-    'touchstart mousedown': function(e) {
-      num = $(this).index();
-      touched = true;
-      touch_time = 0;
-      document.interval = setInterval(function(){
-        touch_time += 100;
-        if (touch_time == 2000) {
-          showComp(num);
-        }
-      }, 100)
-      // e.preventDefault();
-    },
-    'touchend mouseup mouseout': function(e) { // マウスが領域外に出たかどうかも拾うと、より自然
-      if (touched) {
-        if (touch_time < 2000 ) {
-          // showEdit($(this));
-          console.log($(this));
-        }
-      }
-      touched = false;
-      clearInterval(document.interval);
-      // e.preventDefault();
+// 円グラフをスクロールしてから表示
+function graphScroll(){
+  // スクロール毎にイベントが発火
+  $(window).scroll(function(){
+    var scr_count = $(document).scrollTop();
+    if(scr_count > 200 && weekGraphScroll === false){
+      showWeekTime();
+      weekGraph();
+      $("#container").css({visibility:"visible"});
+      //　フラグで制御
+      weekGraphScroll = true;
     }
-  });
+  })
 }
 
 function setEvent(){
   reload();
+  graphScroll();
 }
 
 // ローカルストレージから配列を取得する
@@ -295,7 +285,7 @@ function clickMenu(aTruthValue){
 function createListEl(aTask){
   // もし未完了なら
   if(aTask.comp !== null){
-    $listEl = $("<li><div class='list-item'><p class='m-list-txt'>"
+    $listEl = $("<li><span class=m-comp-btn>完了</span><div class='list-item'><p class='m-list-txt'>"
               + aTask.task
               + "</p><span class='m-fav-btn'></span></div></li>");
     // 星済みだったら
@@ -331,7 +321,8 @@ function subjectColor(aTarget){
 // liの各機能をいっぺんに実装
 function addListFunction(){
   favBtn($listEl);
-  longPress($listEl);
+  showEdit($listEl);
+  showComp($listEl);
 }
 
 // ======================================================================
@@ -425,25 +416,28 @@ function addListEl(){
 // ======================================================================
 
 function showEdit(aTarget){
-  var listArray = getLocalStorage("todo",listArray);
-  num = aTarget.index(); //liのthis番目取得
-  console.log(num);
+  aTarget.on("click",function(){
+    $(".input-field col s12 > label").addClass("active");
+    var listArray = getLocalStorage("todo",listArray);
+    num = aTarget.index(); //liのthis番目取得
+    console.log(num);
 
-  $task.css({display:"none"});
-  $menu.css({display:"none"});
-  $taskTab.css({display:"none"});
-  $study.css({display:"none"});
-  $logo.css({display:"none"});
-  $comp.css({display:"none"});
-  $edit.css({display:"block"});
-  $backBtn.css({display:"block"});
-  $cancelBtn.css({display:"none"});
-  $header.css({background:"#fff"});
-  $headerTitle.text("編集");
+    $task.css({display:"none"});
+    $menu.css({display:"none"});
+    $taskTab.css({display:"none"});
+    $study.css({display:"none"});
+    $logo.css({display:"none"});
+    $comp.css({display:"none"});
+    $edit.css({display:"block"});
+    $backBtn.css({display:"block"});
+    $cancelBtn.css({display:"none"});
+    $header.css({background:"#fff"});
+    $headerTitle.text("編集");
 
-  // liのテキストを最初から表示させる
-  var $inputText = aTarget.find(".m-list-txt").text();
-  $editInputText.val($inputText);
+    // liのテキストを最初から表示させる
+    var $inputText = aTarget.find(".m-list-txt").text();
+    $editInputText.val($inputText);
+  });
 }
 
 // 編集ボタンを押したら
@@ -523,21 +517,22 @@ function doneEdit(){
                             // 完了画面
 // ======================================================================
 
-function showComp(num){
-  var listArray = getLocalStorage("todo",listArray);
-  console.log(num);
-
-  $task.css({display:"none"});
-  $menu.css({display:"none"});
-  $taskTab.css({display:"none"});
-  $study.css({display:"none"});
-  $edit.css({display:"none"});
-  $logo.css({display:"none"});
-  $comp.css({display:"block"});
-  $backBtn.css({display:"block"});
-  $cancelBtn.css({display:"none"});
-  $header.css({display:"none"});
-  $headerTitle.text("");
+function showComp(aTarget){
+  aTarget.find(".m-comp-btn").on("click",function(evt){
+    evt.stopPropagation(); //liへのイベント伝播禁止
+    var listArray = getLocalStorage("todo",listArray);
+    $task.css({display:"none"});
+    $menu.css({display:"none"});
+    $taskTab.css({display:"none"});
+    $study.css({display:"none"});
+    $edit.css({display:"none"});
+    $logo.css({display:"none"});
+    $comp.css({display:"block"});
+    $backBtn.css({display:"block"});
+    $cancelBtn.css({display:"none"});
+    $header.css({display:"none"});
+    $headerTitle.text("");
+  });
 }
 
 // ======================================================================
@@ -561,10 +556,11 @@ function ShowFavList(){
   }
 }
 
-// お気に入りボタン
+// ======================================================================
+                            // お気に入りボタン
+// ======================================================================
 
 function favBtn(aTarget) {
-  // touchstart mousedownをclickにするとイベントが伝播する。
   aTarget.find(".m-fav-btn").on("click",function(evt){
     evt.stopPropagation(); //liへのイベント伝播禁止
     num = $(this).parent().parent().index(); //liのthis番目
@@ -604,7 +600,6 @@ function favBtn(aTarget) {
   }); //クリック
 }
 
-
 // ======================================================================
                            // 完了したタスク一覧
 // ======================================================================
@@ -631,7 +626,6 @@ function ShowCompList(){
 function showCompEdit(aTarget){
   aTarget.on("click",function(evt){
     num = $(this).index(); //liのthis番目取得
-
     $task.css({display:"none"});
     $menu.css({display:"none"});
     $study.css({display:"none"});
@@ -695,7 +689,7 @@ function showStudy(){
     studyTime = Number(compListArray[cnt].study);
     studyAllTimes += studyTime;
   }
-  console.log(studyAllTimes);
+  console.log("全ての勉強時間は " + studyAllTimes);
 
   // 国語の勉強時間（分）（数値）
   for(var cnt=0; cnt<compListArray.length; cnt++){
@@ -704,7 +698,7 @@ function showStudy(){
       studyAllJapaneseTimes += studyJapaneseTime;
     }
   }
-  console.log(studyAllJapaneseTimes);
+  console.log("全ての国語の勉強時間は " + studyAllJapaneseTimes);
 
   // 数学の勉強時間（分）（数値）
   for(var cnt=0; cnt<compListArray.length; cnt++){
@@ -713,7 +707,7 @@ function showStudy(){
       studyAllMathTimes += studyMathTime;
     }
   }
-  console.log(studyAllMathTimes);
+  console.log("全ての数学の勉強時間は " + studyAllMathTimes);
 
   // 英語の勉強時間（分）（数値）
   for(var cnt=0; cnt<compListArray.length; cnt++){
@@ -722,23 +716,321 @@ function showStudy(){
       studyAllEnglishTimes += studyEnglishTime;
     }
   }
-  console.log(studyAllEnglishTimes);
+  console.log("全ての英語の勉強時間は " + studyAllEnglishTimes);
+}
 
-  // 本日の勉強時間（分）（数値）
-  var now = new Date();
-  var getTimeNow = now.getTime();
-  for(var cnt=0; cnt<compListArray.length; cnt++){
-    // もし完了してから24時間以内だったら（現在時刻 - 完了時刻 < 24時間）
-    if(getTimeNow - compListArray[cnt].compDate < 86400000){
-      // 全ての勉強時間（分）（数値）
-      for(var cnt=0; cnt<compListArray.length; cnt++){
-        studyTodayTime = Number(compListArray[cnt].study);
-        studyTodayAllTimes += studyTodayTime;
+// ======================================================================
+                            // 本日の勉強時間
+// ======================================================================
+
+var totalTime = 0;
+var totalJapaneseTime = 0;
+var totalMathTime = 0;
+var totalEnglishTime = 0;
+var totalUnsetTime = 0;
+var studyClickTime = 0;
+var today = null;
+var year = null;
+var month = null;
+var date = null;
+var week = null;
+var startDay = null;
+var endDay = null;
+var startTime = null;
+var endTime = null;
+clickMenuStudy();
+
+function clickMenuStudy(){
+  $menuStudy.on("click",function(evt){
+    today = new Date();
+    year = today.getFullYear();
+    month = today.getMonth();
+    date = today.getDate();
+    week = today.getDay();
+    startDay = new Date(year, month, date, 0, 0, 0);
+    endDay = new Date(year, month, date, 23, 59, 59);
+    startTime = startDay.getTime();
+    endTime = endDay.getTime();
+
+    menuListClick($(this));
+    showStudy();
+    showTodayTime();
+    showWeekTime();
+    weekGraph();
+    doughnutChart();
+  });
+}
+
+function showTodayTime(){
+  var compListArray = getLocalStorage("compTodo",compListArray);
+  for(var cnt=0;cnt<compListArray.length;cnt++){
+    // もし勉強完了した時間がその日の0:00-23:59だったら
+    if(compListArray[cnt].compTime >= startTime && compListArray[cnt].compTime <= endTime){
+      // 全ての勉強時間
+      totalTime += compListArray[cnt].study;
+
+      // 科目別勉強時間
+      if(compListArray[cnt].subject === "国語"){
+        totalJapaneseTime += compListArray[cnt].study;
+      } else if (compListArray[cnt].subject === "英語"){
+        totalEnglishTime += compListArray[cnt].study;
+      } else if (compListArray[cnt].subject === "数学"){
+        totalMathTime += compListArray[cnt].study;
+      } else {
+        totalUnsetTime += compListArray[cnt].study;
       }
-      console.log(studyTodayAllTimes);
-      alert();
+    }
+      todayTotalTime = totalTime;
+      todayJapaneseTime = totalJapaneseTime;
+      todayEnglishTime = totalEnglishTime;
+      todayMathTime = totalMathTime;
+  }
+  return totalTime;
+}
+
+// ======================================================================
+                            // 今週の勉強時間
+// ======================================================================
+
+var totalWeekTime = 0;
+var SunTotalTime = null;
+var SunJapaneseTime = null;
+var SunEnglishTime = null;
+var SunMathTime = null;
+var MonTotalTime = null;
+var MonJapaneseTime = null;
+var MonEnglishTime = null;
+var MonMathTime = null;
+var TueTotalTime = null;
+var TueJapaneseTime = null;
+var TueEnglishTime = null;
+var TueMathTime = null;
+var WedTotalTime = null;
+var WedJapaneseTime = null;
+var WedEnglishTime = null;
+var WedMathTime = null;
+var ThuTotalTime = null;
+var ThuJapaneseTime = null;
+var ThuEnglishTime = null;
+var ThuMathTime = null;
+var FriTotalTime = null;
+var FriJapaneseTime = null;
+var FriEnglishTime = null;
+var FriMathTime = null;
+var SatTotalTime = null;
+var SatJapaneseTime = null;
+var SatEnglishTime = null;
+var SatMathTime = null;
+var todayTotalTime = null;
+var todayJapaneseTime = null;
+var todayEnglishTime = null;
+var todayMathTime = null;
+
+
+// １週間
+// 曜日の数字分引いてから7足した分までの1日分の勉強時間を出してあげる＝7日分
+// 月をまたぐ場合は月-1をして日付を1ずつ引いていく
+// *1）その値が0以下だったら前の月のMAX日数を足してあげる＝その日付になる
+// 月-1をした時に0になったら12を代入してそこから*1と同じことをする
+// 関数作って月の最大日数を取得
+// うるう年も関数で判定する
+
+function showWeekTime(){
+  var compListArray = getLocalStorage("compTodo",compListArray);
+  var Day = new Date();
+  var weekStartDay = new Date(year, month, (date-week), 0, 0, 0);
+  var weekEndDay = new Date(year, month, (date-week+6), 23, 59, 59);
+  var startDay = date - week; // 0になる
+
+  for(var dayCnt=0;dayCnt<=6;dayCnt++){
+    var weekStartDay2 = new Date(year, month, startDay+dayCnt, 0, 0, 0);
+    var weekEndDay2 = new Date(year, month, startDay+dayCnt, 23, 59, 59);
+    startTime = weekStartDay2.getTime();
+    endTime = weekEndDay2.getTime();
+    totalTime = 0;
+    totalJapaneseTime = 0;
+    totalEnglishTime = 0;
+    totalMathTime = 0;
+
+    for(var cnt=0;cnt<compListArray.length;cnt++){
+      // もし勉強完了した時間がその日の0:00-23:59だったら
+      if(compListArray[cnt].compTime >= startTime && compListArray[cnt].compTime <= endTime){
+        // 全ての勉強時間
+        totalTime += compListArray[cnt].study;
+
+        // 科目別勉強時間
+        if(compListArray[cnt].subject === "国語"){
+          totalJapaneseTime += compListArray[cnt].study;
+        } else if (compListArray[cnt].subject === "英語"){
+          totalEnglishTime += compListArray[cnt].study;
+        } else if (compListArray[cnt].subject === "数学"){
+          totalMathTime += compListArray[cnt].study;
+        } else {
+          totalUnsetTime += compListArray[cnt].study;
+        }
+      }
+    }
+
+    // １週間分の勉強時間
+    if(dayCnt === 0){
+      SunTotalTime = totalTime;
+      SunJapaneseTime = totalJapaneseTime;
+      SunEnglishTime = totalEnglishTime;
+      SunMathTime = totalMathTime;
+    } else if (dayCnt === 1) {
+      MonTotalTime = totalTime;
+      MonJapaneseTime = totalJapaneseTime;
+      MonEnglishTime = totalEnglishTime;
+      MonMathTime = totalMathTime;
+    } else if (dayCnt === 2) {
+      TueTotalTime = totalTime;
+      TueJapaneseTime = totalJapaneseTime;
+      TueEnglishTime = totalEnglishTime;
+      TueMathTime = totalMathTime;
+    } else if (dayCnt === 3) {
+      WedTotalTime = totalTime;
+      WedJapaneseTime = totalJapaneseTime;
+      WedEnglishTime = totalEnglishTime;
+      WedMathTime = totalMathTime;
+    } else if (dayCnt === 4) {
+      ThuTotalTime = totalTime;
+      ThuJapaneseTime = totalJapaneseTime;
+      ThuEnglishTime = totalEnglishTime;
+      ThuMathTime = totalMathTime;
+    } else if (dayCnt === 5) {
+      FriTotalTime = totalTime;
+      FriJapaneseTime = totalJapaneseTime;
+      FriEnglishTime = totalEnglishTime;
+      FriMathTime = totalMathTime;
+    } else if (dayCnt === 6) {
+      SatTotalTime = totalTime;
+      SatJapaneseTime = totalJapaneseTime;
+      SatEnglishTime = totalEnglishTime;
+      SatMathTime = totalMathTime;
     }
   }
+}
+
+function weekGraph(){
+  $('#container').highcharts({
+      chart: {
+          type: 'column',
+          events: {
+              afterPrint : function(evt) {
+                  alert();
+              }
+          }
+      },
+      title: {
+          text: 'Stacked column chart'
+      },
+      xAxis: {
+          max: 6,
+          categories: ['日','月', '火', '水', '木', '金','土']
+      },
+      yAxis: {
+          min: 0,
+          title: {
+              text: 'Total fruit consumption'
+          },
+          stackLabels: {
+              enabled: true,
+              style: {
+                  fontWeight: 'bold',
+                  color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+              }
+          }
+      },
+      legend: {
+          //ジャンルの場所
+          // align: 'right',
+          // x: -30,
+          // verticalAlign: 'top',
+          // y: 25,
+          // floating: true,
+          // backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+          // borderColor: '#CCC',
+          // borderWidth: 1,
+          // shadow: false
+      },
+      tooltip: {
+          headerFormat: '<b>{point.x}</b><br/>',
+          pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+      },
+      plotOptions: {
+          column: {
+              stacking: 'normal',
+              pointWidth: 10,
+              // dataLabels: {
+              //     enabled: true,
+              //     color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+              //     style: {
+              //         // textShadow: '0 0 3px black'
+              //         textShadow: false
+              //     }
+              // }
+          }
+      },
+      series: [{
+          name: '国語',
+          data: [
+          SunJapaneseTime,
+          MonJapaneseTime,
+          TueJapaneseTime,
+          WedJapaneseTime,
+          ThuJapaneseTime,
+          FriJapaneseTime,
+          SatJapaneseTime,
+          ]
+      }, {
+          name: '英語',
+          data: [
+          SunEnglishTime,
+          MonEnglishTime,
+          TueEnglishTime,
+          WedEnglishTime,
+          ThuEnglishTime,
+          FriEnglishTime,
+          SatEnglishTime,
+          ]
+      }, {
+          name: '数学',
+          data: [
+          SunMathTime,
+          MonMathTime,
+          TueMathTime,
+          WedMathTime,
+          ThuMathTime,
+          FriMathTime,
+          SatMathTime,
+          ]
+      },
+      ]
+  });
+
+  $(".highcharts-axis").remove();
+  $(".highcharts-tracker rect").css({strokeWidth:"0"});
+  $(".highcharts-button").remove();
+  $(".highcharts-series-0 rect").css({fill:"#00CCC6"});
+  $(".highcharts-series-1 rect").css({fill:"#BA78FF"});
+  $(".highcharts-series-2 rect").css({fill:"#F5A623"});
+  $(".highcharts-legend-item rect").eq(0).css({fill:"#00CCC6"});
+  $(".highcharts-legend-item rect").eq(1).css({fill:"#BA78FF"});
+  $(".highcharts-legend-item rect").eq(2).css({fill:"#F5A623"});
+  $(".highcharts-container").css({position:"relative"});
+  $(".highcharts-container").css({left:"-5%"});
+  $(".highcharts-grid > path").css({stroke:"#ddd"}).css({opacity:0.4});
+}
+
+function doughnutChart(){
+  if(circleGraphFrag === false){
+    $("#doughnutChart").drawDoughnutChart([
+        { title: "国語", value : todayJapaneseTime,  color: "#00CCC6" },
+        { title: "英語", value:  todayEnglishTime,   color: "#BA78FF" },
+        { title: "数学", value:  todayMathTime,   color: "#F5A623" },
+    ]);
+  }
+  circleGraphFrag = true;
 }
 
 }); //html実行後

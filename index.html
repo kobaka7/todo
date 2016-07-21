@@ -101,7 +101,7 @@ maximum-scale=1.0, user-scalable=no" />
       <div class="row">
         <div class="input-field col s12">
           <textarea id="textarea1" class="m-edit-input materialize-textarea" length="120"></textarea>
-          <label for="textarea1">タスクの編集</label>
+          <label for="textarea1" class="active">タスクの編集</label>
         </div>
       </div>
     </form>
@@ -212,7 +212,7 @@ maximum-scale=1.0, user-scalable=no" />
       <label>分</label>
     </div>
 
-    <button class="m-comp-btn">完了</button>
+    <button class="m-comp-done-btn">完了</button>
   </div>
 
   <!-- ===== 完了編集画面 ===== -->
@@ -234,14 +234,22 @@ maximum-scale=1.0, user-scalable=no" />
 <!-- ===== 勉強時間画面 ===== -->
 
   <div class="l-study">
-  <div class="m-study-all"></div>
+  <div class="wrapper">
+    <div id="doughnutChart" class="chart"></div>
+  </div>
+    <div class="m-study-all"></div>
+    <div id="container"></div>
   </div>
 
-  <script src="https://code.jquery.com/jquery-3.0.0.min.js" integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0=" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <!--   <script src="https://code.jquery.com/jquery-3.0.0.min.js" integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0=" crossorigin="anonymous"></script> -->
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/modules/exporting.js"></script>
   <script src="https://code.jquery.com/ui/1.12.0-rc.2/jquery-ui.min.js" integrity="sha256-55Jz3pBCF8z9jBO1qQ7cIf0L+neuPTD1u7Ytzrp2dqo=" crossorigin="anonymous"></script>
   <script src="dist/js/datepicker.standalone.js" charset="utf-8"></script>
-  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
+  <script src="graph2.js"></script>
+<!--   <script src="graph.js"></script> -->
   <script src="script.js"></script>
 </body>
 </html>
