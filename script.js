@@ -282,6 +282,7 @@ function graphScroll(){
 function setEvent(){
   reload();
   graphScroll();
+  timer();
 }
 
 // ローカルストレージから配列を取得する
@@ -387,9 +388,6 @@ function reload(){
       $outputArea.append($listEl);
     }
   }
-
-
-  console.log($outputArea.find("li"));
 }
 
 // ======================================================================
@@ -1133,84 +1131,94 @@ function doughnutChart(){
                             // タイマー
 // ======================================================================
 
+function timer(){
+    // ストップウォッチ全体
+    var watch = $("#watch");
+    // 時間の表示
+    var hour = $("#hour");
+    // 分の表示
+    var minute = $("#minute");
+    // 秒の表示
+    var second = $("#second");
 
-$(function () {
-  var sec = 0;
-  var min = 0;
-  var hour = 0;
+    // スタートボタンを操作する変数
+    var btnStart = $("#start");
+  // リセットボタンを操作する変数
+    var btnReset = $("#reset");
 
-  var timer;
+    // 経過時間（最初は0）
+    var currentTime = 0;
 
-  // スタート
-  $('#start').click(function() {
-    // 00:00:00から開始
-    sec = 0;
-    min = 0;
-    hour = 0;
-    $('#clock').html('00:00:00');
-    timer = setInterval(countup, 1000);
+    // 止まるかどうか（trueとfalseの値が入る変数をboolean変数という）
+    var stop = true;
 
-    $(this).attr('disabled', 'disabled');
-    $('#stop,#reset').removeAttr('disabled');
-  });
+    // メソッド
+    var method = {
+        // ストップウォッチを動かす
+        timer : function() {
 
-  // ストップ
-  $('#stop').click(function() {
-    // 一時停止
-    clearInterval(timer);
+            // このメソッドを呼び出す間隔（単位は1/1000秒）
+            var interval = 1000;
 
-    $(this).attr('disabled', 'disabled');
-    $('#restart').removeAttr('disabled');
-  });
+            // 一定間隔ごとに以下を実行する
+            // function() { ここが実行される }, interval);
+            time = setInterval(function() {
 
-  // リスタート
-  $('#restart').click(function() {
-    // 一時停止から再開
-    timer = setInterval(countup, 1000);
+                if (!stop) { // ← stopという変数がfalseであればと云う意味
 
-    $(this).attr('disabled', 'disabled');
-    $('#stop').removeAttr('disabled');
-  });
+                    // カウントアップ
+                    currentTime += interval;
 
-  // リセット
-  $('#reset').click(function() {
-    // 初期状態
-    sec = 0;
-    min = 0;
-    hour = 0;
-    $('#clock').html('00:00:00');
-    clearInterval(timer);
+                    // 追加する時間
+                    var appendHour = currentTime / (1000 * 60 * 60) | 0; // 1/1000秒x60秒x60分
+                    var appendMinute = currentTime % (1000 * 60 * 60) / (1000 * 60) | 0; // 時間で割った余りを割る
+                    var appendSecond = currentTime  % (1000 * 60) / 1000 | 0; // 分で割った余りを割る
 
-    $('#stop,#restart,#reset').attr('disabled', 'disabled');
-    $('#start').removeAttr('disabled');
-  });
+                    // 1けただったら「0」を足す ex. 1 → 01
+                    appendHour = appendHour < 10 ? "0" + appendHour : appendHour;
+                    appendMinute = appendMinute < 10 ? "0" + appendMinute : appendMinute;
+                    appendSecond = appendSecond < 10 ? "0" + appendSecond : appendSecond;
 
- /**
-  * カウントアップ
-  */
-  function countup()
-  {
-    sec += 1;
+                    // 時間をHTMLに記述する
+                    hour.html(appendHour);
+                    minute.html(appendMinute);
+                    second.html(appendSecond);
+                    }
 
-    if (sec > 59) {
-      sec = 0;
-      min += 1;
-    }
+            }, interval); // ←これが間隔
 
-    if (min > 59) {
-      min = 0;
-      hour += 1;
-    }
+      }, // ここまで timer
 
-    // 0埋め
-    sec_number = ('0' + sec).slice(-2);
-    min_number = ('0' + min).slice(-2);
-    hour_number = ('0' + hour).slice(-2);
+        // スタート/ストップボタン
+        startAndStop : function() {
+      // ストップであればスタート、スタートであればストップ
+                stop = !stop; // ←stopがfalseであればtrueを、trueであればfalseを代入する
+        },
 
-    $('#clock').html(hour_number + ':' +  min_number + ':' + sec_number);
-  }
-});
+        // リセットするメソッド
+        reset : function() {
+            // リセット（経過時間を0に戻す）
+          currentTime = 0;
+            // 時間をHTMLに記述する
+            hour.html("00");
+            minute.html("00");
+            second.html("00");
+        },
 
+        // 初期化メソッド
+        init : function() {
+            // ストップウォッチを動かすメソッドを呼び出す
+            method.timer();
+            // スタート/リセットボタンをクリックしたらstartAndStopを呼び出す
+            btnStart.click(method.startAndStop);
+            // リセットボタンをクリックしたらresetを呼び出す
+            btnReset.click(method.reset);
+        }
+    };
+
+    // ページを読み込んだ時に初期化メソッドを呼び出す（実行する）
+  $(document).ready(method.init);
+}
 
 }); //html実行後
 })(); //即時関数

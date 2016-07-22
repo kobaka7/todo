@@ -68,7 +68,7 @@ maximum-scale=1.0, user-scalable=no" />
     <form class="col s12">
       <div class="row">
         <div class="input-field col s12">
-          <textarea id="textarea1" class="m-add-list-input materialize-textarea" length="120"></textarea>
+          <textarea id="textarea1" class="m-add-list-input materialize-textarea" maxlength="120"></textarea>
           <label for="textarea1">タスクの追加</label>
         </div>
       </div>
@@ -76,7 +76,7 @@ maximum-scale=1.0, user-scalable=no" />
 
     <div class="input-field col s12">
       <select class="m-add-subject ">
-        <option value="" disabled selected></option>
+        <option value="" disabled selected>未設定</option>
         <option value="未設定">未設定</option>
         <option value="国語">国語</option>
         <option value="数学">数学</option>
@@ -101,7 +101,7 @@ maximum-scale=1.0, user-scalable=no" />
     <form class="col s12">
       <div class="row">
         <div class="input-field col s12">
-          <textarea id="textarea1" class="m-edit-input materialize-textarea" length="120"></textarea>
+          <textarea id="textarea1" class="m-edit-input materialize-textarea" maxlength="120"></textarea>
           <label for="textarea1" class="active">タスクの編集</label>
         </div>
       </div>
@@ -125,7 +125,8 @@ maximum-scale=1.0, user-scalable=no" />
 <!--     <p class="m-edit-timer-text">00:00:00</p>
     <button class="m-edit-timer-start-btn">スタート</button>
     <button class="m-edit-timer-stop-btn">ストップ</button> -->
-    <div id="clock">00:00:00</div>
+
+<!--     <div id="clock">00:00:00</div>
     <form>
     <input type="button" id="start" value="Start">
     <input type="button" id="stop" value="Stop" disabled>
@@ -133,8 +134,21 @@ maximum-scale=1.0, user-scalable=no" />
     <input type="button" id="reset" value="Reset" disabled>
     </form>
     <button class="m-edit-btn"></button>
+    </div> -->
+
+    <p id="watch">
+        <span id="hour">00</span>
+        :
+        <span id="minute">00</span>
+        :
+        <span id="second">00</span>
+    </p>
+    <div id="btn_wrap">
+        <a id="start" class="btn">スタート/ストップ</a>
+      <a id="reset" class="btn">リセット</a>
     </div>
   </div>
+</div>
 
   <!-- ===== 完了画面 ===== -->
   <div class="l-comp">
@@ -236,7 +250,7 @@ maximum-scale=1.0, user-scalable=no" />
     <form class="col s12">
       <div class="row">
         <div class="input-field col s12">
-          <textarea id="textarea1" class="m-comp-edit-input materialize-textarea" length="120"></textarea>
+          <textarea id="textarea1" class="m-comp-edit-input materialize-textarea" maxlength="120"></textarea>
           <label for="textarea1">タスクの編集</label>
         </div>
       </div>
