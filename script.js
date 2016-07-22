@@ -783,6 +783,7 @@ function showTodayTime(){
       todayJapaneseTime = totalJapaneseTime;
       todayEnglishTime = totalEnglishTime;
       todayMathTime = totalMathTime;
+      todayUnsetTime = totalMathTime;
   }
   return totalTime;
 }
@@ -796,34 +797,50 @@ var SunTotalTime = null;
 var SunJapaneseTime = null;
 var SunEnglishTime = null;
 var SunMathTime = null;
+var SunUnsetTime = null;
+
 var MonTotalTime = null;
 var MonJapaneseTime = null;
 var MonEnglishTime = null;
 var MonMathTime = null;
+var MonUnsetTime = null;
+
 var TueTotalTime = null;
 var TueJapaneseTime = null;
 var TueEnglishTime = null;
 var TueMathTime = null;
+var TueUnsetTime = null;
+
 var WedTotalTime = null;
 var WedJapaneseTime = null;
 var WedEnglishTime = null;
 var WedMathTime = null;
+var WedUnsetTime = null;
+
 var ThuTotalTime = null;
 var ThuJapaneseTime = null;
 var ThuEnglishTime = null;
 var ThuMathTime = null;
+var ThuUnsetTime = null;
+
 var FriTotalTime = null;
 var FriJapaneseTime = null;
 var FriEnglishTime = null;
 var FriMathTime = null;
+var FriUnsetTime = null;
+
 var SatTotalTime = null;
 var SatJapaneseTime = null;
 var SatEnglishTime = null;
 var SatMathTime = null;
+var SatUnsetTime = null;
+
 var todayTotalTime = null;
 var todayJapaneseTime = null;
 var todayEnglishTime = null;
 var todayMathTime = null;
+var toDayUnsetTime = null;
+
 
 // var FevDate =...;
 // 月ごとのマックスの日数
@@ -872,6 +889,7 @@ function getWeekStudyTime(){
       totalJapaneseTime = 0;
       totalEnglishTime = 0;
       totalMathTime = 0;
+      totalUnsetTime = 0;
       console.log(new Date(startTime));
       console.log(new Date(endTime));
 
@@ -900,36 +918,43 @@ function getWeekStudyTime(){
         SunJapaneseTime = totalJapaneseTime;
         SunEnglishTime = totalEnglishTime;
         SunMathTime = totalMathTime;
+        SunUnsetTime = totalUnsetTime;
       } else if (dayCnt === 1) {
         MonTotalTime = totalTime;
         MonJapaneseTime = totalJapaneseTime;
         MonEnglishTime = totalEnglishTime;
         MonMathTime = totalMathTime;
+        MOnUnsetTime = totalUnsetTime;
       } else if (dayCnt === 2) {
         TueTotalTime = totalTime;
         TueJapaneseTime = totalJapaneseTime;
         TueEnglishTime = totalEnglishTime;
         TueMathTime = totalMathTime;
+        TueUnsetTime = totalUnsetTime;
       } else if (dayCnt === 3) {
         WedTotalTime = totalTime;
         WedJapaneseTime = totalJapaneseTime;
         WedEnglishTime = totalEnglishTime;
         WedMathTime = totalMathTime;
+        WedUnsetTime = totalUnsetTime;
       } else if (dayCnt === 4) {
         ThuTotalTime = totalTime;
         ThuJapaneseTime = totalJapaneseTime;
         ThuEnglishTime = totalEnglishTime;
         ThuMathTime = totalMathTime;
+        ThuUnsetTime = totalUnsetTime;
       } else if (dayCnt === 5) {
         FriTotalTime = totalTime;
         FriJapaneseTime = totalJapaneseTime;
         FriEnglishTime = totalEnglishTime;
         FriMathTime = totalMathTime;
+        FriUnsetTime = totalUnsetTime;
       } else if (dayCnt === 6) {
         SatTotalTime = totalTime;
         SatJapaneseTime = totalJapaneseTime;
         SatEnglishTime = totalEnglishTime;
         SatMathTime = totalMathTime;
+        SatUnsetTime = totalUnsetTime;
       }
     }
 }
@@ -1027,6 +1052,17 @@ function weekGraph(){
           FriMathTime,
           SatMathTime,
           ]
+      },{
+          name: '未設定',
+          data: [
+          SunUnsetTime,
+          MonUnsetTime,
+          TueUnsetTime,
+          WedUnsetTime,
+          ThuUnsetTime,
+          FriUnsetTime,
+          SatUnsetTime,
+          ]
       },
       ]
   });
@@ -1037,9 +1073,11 @@ function weekGraph(){
   $(".highcharts-series-0 rect").css({fill:"#00CCC6"});
   $(".highcharts-series-1 rect").css({fill:"#BA78FF"});
   $(".highcharts-series-2 rect").css({fill:"#F5A623"});
+  $(".highcharts-series-3 rect").css({fill:"#ccc"});
   $(".highcharts-legend-item rect").eq(0).css({fill:"#00CCC6"});
   $(".highcharts-legend-item rect").eq(1).css({fill:"#BA78FF"});
   $(".highcharts-legend-item rect").eq(2).css({fill:"#F5A623"});
+  $(".highcharts-legend-item rect").eq(3).css({fill:"#ccc"});
   $(".highcharts-container").css({position:"relative"});
   $(".highcharts-container").css({left:"-5%"});
   $(".highcharts-grid > path").css({stroke:"#ddd"}).css({opacity:0.4});
@@ -1057,6 +1095,7 @@ function doughnutChart(){
           { title: "国語", value : todayJapaneseTime,  color: "#00CCC6" },
           { title: "英語", value:  todayEnglishTime,   color: "#BA78FF" },
           { title: "数学", value:  todayMathTime,   color: "#F5A623" },
+          { title: "数学", value:  todayUnsetTime,   color: "#ccc" },
       ]);
     }
   }
