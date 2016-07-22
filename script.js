@@ -85,7 +85,7 @@ function setObj(){
   $compEditDelateBtn = $(".m-comp-edit-delate-btn");
   $compEditRevivalBtn = $(".m-comp-edit-revival-btn");
   $editCompInput = $(".m-comp-edit-input");
-  $compEdit = $(".l-comp-edit")
+  $compEdit = $(".l-comp-edit");
 
   // メニューバー
   $menu = $(".l-menu");
@@ -105,12 +105,20 @@ function setObj(){
 
   // 編集画面
   $edit = $(".l-edit");
+  $editmode = $(".m-edit-edit")
   $editInputText = $(".m-edit-input");
   $editBtn = $(".m-edit-btn");
   $editCompBtn = $(".m-edit-comp-btn");
   $editCancelBtn = $(".m-edit-cancel-btn");
   $favBtn = $(".m-fav-btn");
   $timeText = $(".m-time-text");
+  $tabTimer = $(".m-edit-tab-timer");
+  $tabEdit = $(".m-edit-tab-edit");
+
+  // タイマー画面
+  $timermode = $(".m-edit-timer");
+  $timerStratBtn = $(".m-edit-timer-start-btn");
+  $timerStopBtn = $(".m-edit-timer-stop-btn");
 
   // 勉強時間画面
   $study = $(".l-study");
@@ -200,6 +208,26 @@ function setBtn(){
   });
   $compEditDelateBtn.on("click",function(evt){
     doneRemove(num);
+  });
+  $tabTimer.on("click",function(evt){
+    $(".l-edit-tab-list > li").removeClass("is-active");
+    $(this).addClass("is-active");
+    $editmode.css({display:"none"});
+    $timermode.css({display:"block"});
+  });
+  $tabEdit.on("click",function(evt){
+    $(".l-edit-tab-list > li").removeClass("is-active");
+    $(this).addClass("is-active");
+    $timermode.css({display:"none"});
+    $editmode.css({display:"block"});
+  });
+  $timerStratBtn.on("click",function(evt){
+    $(this).css({display:"none"});
+    $timerStopBtn.css({display:"block"});
+  });
+  $timerStopBtn.on("click",function(evt){
+    $(this).css({display:"none"});
+    $timerStratBtn.css({display:"block"});
   });
 
   // 完了ボタン押したら
@@ -783,7 +811,7 @@ function showTodayTime(){
       todayJapaneseTime = totalJapaneseTime;
       todayEnglishTime = totalEnglishTime;
       todayMathTime = totalMathTime;
-      todayUnsetTime = totalMathTime;
+      todayUnsetTime = totalUnsetTime;
   }
   return totalTime;
 }
@@ -868,19 +896,19 @@ function showWeekTime(){
       startYaer = year - 1;
       startMonth = 12;
     }
-
     // 開始日は先月の最大日数からstartDayの絶対値を引いた数（startDayは負の値）
     startDay = maxDate[startMonth] + startDay;
   }
   getWeekStudyTime();
-  console.log("週の始まりは  " + weekStartDay);
-  console.log("週の終わりは  " + weekEndDay);
 }
 
 function getWeekStudyTime(){
   var compListArray = getLocalStorage("compTodo",compListArray);
   StartDay = new Date(startYaer, startMonth, startDay, 0, 0, 0);
   startTime = StartDay.getTime();
+  console.log("週の始まりは  " + new Date(startTime));
+  console.log("週の終わりは  " + new Date(startTime + 86400000*6));
+
 // 開始日から7日分取得する
     for(var dayCnt=0;dayCnt<=6;dayCnt++){
       startTime = startTime + 86400000;
@@ -892,7 +920,6 @@ function getWeekStudyTime(){
       totalUnsetTime = 0;
       console.log(new Date(startTime));
       console.log(new Date(endTime));
-
       for(var cnt=0;cnt<compListArray.length;cnt++){
         // もし勉強完了した時間がその日の0:00-23:59だったら
         if(compListArray[cnt].compTime >= startTime && compListArray[cnt].compTime < endTime){
@@ -1095,12 +1122,95 @@ function doughnutChart(){
           { title: "国語", value : todayJapaneseTime,  color: "#00CCC6" },
           { title: "英語", value:  todayEnglishTime,   color: "#BA78FF" },
           { title: "数学", value:  todayMathTime,   color: "#F5A623" },
-          { title: "数学", value:  todayUnsetTime,   color: "#ccc" },
+          { title: "未設定", value:  todayUnsetTime,   color: "#ccc" },
       ]);
     }
   }
   circleGraphFrag = true;
 }
+
+// ======================================================================
+                            // タイマー
+// ======================================================================
+
+
+$(function () {
+  var sec = 0;
+  var min = 0;
+  var hour = 0;
+
+  var timer;
+
+  // スタート
+  $('#start').click(function() {
+    // 00:00:00から開始
+    sec = 0;
+    min = 0;
+    hour = 0;
+    $('#clock').html('00:00:00');
+    timer = setInterval(countup, 1000);
+
+    $(this).attr('disabled', 'disabled');
+    $('#stop,#reset').removeAttr('disabled');
+  });
+
+  // ストップ
+  $('#stop').click(function() {
+    // 一時停止
+    clearInterval(timer);
+
+    $(this).attr('disabled', 'disabled');
+    $('#restart').removeAttr('disabled');
+  });
+
+  // リスタート
+  $('#restart').click(function() {
+    // 一時停止から再開
+    timer = setInterval(countup, 1000);
+
+    $(this).attr('disabled', 'disabled');
+    $('#stop').removeAttr('disabled');
+  });
+
+  // リセット
+  $('#reset').click(function() {
+    // 初期状態
+    sec = 0;
+    min = 0;
+    hour = 0;
+    $('#clock').html('00:00:00');
+    clearInterval(timer);
+
+    $('#stop,#restart,#reset').attr('disabled', 'disabled');
+    $('#start').removeAttr('disabled');
+  });
+
+ /**
+  * カウントアップ
+  */
+  function countup()
+  {
+    sec += 1;
+
+    if (sec > 59) {
+      sec = 0;
+      min += 1;
+    }
+
+    if (min > 59) {
+      min = 0;
+      hour += 1;
+    }
+
+    // 0埋め
+    sec_number = ('0' + sec).slice(-2);
+    min_number = ('0' + min).slice(-2);
+    hour_number = ('0' + hour).slice(-2);
+
+    $('#clock').html(hour_number + ':' +  min_number + ':' + sec_number);
+  }
+});
+
 
 }); //html実行後
 })(); //即時関数

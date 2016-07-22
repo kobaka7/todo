@@ -396,12 +396,23 @@ li.l-menu-list-add {
   padding: 6px 16px;
   text-align: center;
   display: inline-block;
-  border-left: 1px solid #00CCC6;
   width: 156px;
 }
 .l-edit-tab-list > li.is-active{
   background-color: #00CCC6;
   color: #fff;
+}
+.m-edit-timer {
+  display: none;
+}
+.m-edit-timer > button{
+  margin: 0 auto;
+}
+.m-edit-timer-stop-btn {
+  display: block;
+}
+.m-edit-timer-stop-btn {
+  display: none;
 }
 
 /*======================== ヘッダー ============================*/
@@ -584,5 +595,4 @@ path:hover { opacity: .65; }
 
 #doughnutChart > p {
   font-size: 20px;
-
 }

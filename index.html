@@ -93,10 +93,11 @@ maximum-scale=1.0, user-scalable=no" />
   <div class="l-edit">
     <div class="m-edit-tab">
       <ul class="l-edit-tab-list">
-        <li class="m-edit-input-time is-active">勉強時間入力</li>
-        <li class="m-edit-timer">タイマー</li>
+        <li class="m-edit-tab-edit is-active">編集</li>
+        <li class="m-edit-tab-timer">タイマー</li>
       </ul>
     </div>
+    <div class="m-edit-edit">
     <form class="col s12">
       <div class="row">
         <div class="input-field col s12">
@@ -118,8 +119,22 @@ maximum-scale=1.0, user-scalable=no" />
     </div>
 
     <button class="m-edit-btn"></button>
-  </div>
+    </div>
 
+    <div class="m-edit-timer">
+<!--     <p class="m-edit-timer-text">00:00:00</p>
+    <button class="m-edit-timer-start-btn">スタート</button>
+    <button class="m-edit-timer-stop-btn">ストップ</button> -->
+    <div id="clock">00:00:00</div>
+    <form>
+    <input type="button" id="start" value="Start">
+    <input type="button" id="stop" value="Stop" disabled>
+    <input type="button" id="restart" value="Restart" disabled>
+    <input type="button" id="reset" value="Reset" disabled>
+    </form>
+    <button class="m-edit-btn"></button>
+    </div>
+  </div>
 
   <!-- ===== 完了画面 ===== -->
   <div class="l-comp">
