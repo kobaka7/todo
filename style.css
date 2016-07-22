@@ -7,6 +7,10 @@ body {
 a {
   text-decoration: none;
 }
+
+button {
+ border: none;
+}
 /*========================== ヘッダー ============================*/
 
 .l-header {
@@ -162,7 +166,7 @@ li.l-menu-list-add {
   color: #000;
 }
 .m-output-area > li {
-  padding: 21px;
+  padding: 19px 12px;
   background-color: #fff;
   list-style: none;
   position: relative;
@@ -172,7 +176,13 @@ li.l-menu-list-add {
 .l-list-item {
   display: table;
 }
+
+.list-item {
+  display: inline-block;
+  width: 86%;
+}
 .m-list-txt {
+    display: inline-block;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -226,19 +236,41 @@ li.l-menu-list-add {
   transition: background 0.5s steps(55);
 }
 
-/*======================== 日付 ============================*/
+/*======================== タイマー関連 ============================*/
 
-.m-time-text {
-    font-size: 13px;
-    color: #999;
-    background-size: 100%;
+.m-timer-btn {
+    width: 24px;
+    height: 24px;
+    background: url(img/ic_timer.png) no-repeat;
+    background-size: 80%;
+    position: absolute;
+    top: 22px;
+    right: 45px;
+    opacity: 0.2;
 }
-.m-output-time {
-  position: absolute;
-  top: 18px;
-  right: 56px;
-  color: #fff;
-  letter-spacing: 0.01em;
+
+.l-timer {
+  display: none;
+  padding: 100px 0 0 0;
+}
+
+/*======================== 完了アイコン ============================*/
+
+.m-comp-btn {
+  width: 20px;
+  height: 20px;
+  background: #FFF;
+  border: 1px solid #999;
+  border-radius: 70px;
+  transition: background-color 0.08s ease-in;
+  box-sizing: border-box;
+  display: inline-block;
+  margin: 0 8px 0 0;
+}
+.m-comp-btn:hover {
+  border: 1px solid #999;
+  background: url(img/ic_done.png) no-repeat;
+  background-size: 100%;
 }
 
 /*======================== 追加 ============================*/
@@ -328,9 +360,6 @@ li.l-menu-list-add {
 .m-edit-input-time {
   display: inline-block;
 }
-.m-edit-timer {
-  display: inline-block;
-}
 
 .input-field {
   padding: 16px;
@@ -402,19 +431,6 @@ li.l-menu-list-add {
   background-color: #00CCC6;
   color: #fff;
 }
-.m-edit-timer {
-  display: none;
-}
-.m-edit-timer > button{
-  margin: 0 auto;
-}
-.m-edit-timer-stop-btn {
-  display: block;
-}
-.m-edit-timer-stop-btn {
-  display: none;
-}
-
 /*======================== ヘッダー ============================*/
 
 .m-add-title,

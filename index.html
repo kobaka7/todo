@@ -50,18 +50,6 @@ maximum-scale=1.0, user-scalable=no" />
     <ul class="m-output-area"></ul>
   </div>
 
-  <!-- タスク完了 -->
-<!--   <a class="modal-trigger" href="#modal1">タスク完了</a>
-
-  <div id="modal1" class="modal">
-    <div class="modal-content">
-      <p>タスクを完了しました</p>
-    </div>
-    <div class="modal-footer">
-      <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">完了</a>
-    </div>
-  </div> -->
-
 <!-- ===== 新規作成画面 ===== -->
 
   <div class="l-add-list">
@@ -91,12 +79,6 @@ maximum-scale=1.0, user-scalable=no" />
 <!-- ===== 編集画面 ===== -->
 
   <div class="l-edit">
-    <div class="m-edit-tab">
-      <ul class="l-edit-tab-list">
-        <li class="m-edit-tab-edit is-active">編集</li>
-        <li class="m-edit-tab-timer">タイマー</li>
-      </ul>
-    </div>
     <div class="m-edit-edit">
     <form class="col s12">
       <div class="row">
@@ -118,37 +100,30 @@ maximum-scale=1.0, user-scalable=no" />
       <label>教科を選ぶ</label>
     </div>
 
-    <button class="m-edit-btn"></button>
+    <div class="m-edit-studytime">
+    <span class="m-edit-hour">00</span>
+    :
+    <span class="m-edit-minute">00</span>
+    :
+    <span class="m-edit-second">00</span>
     </div>
-
-    <div class="m-edit-timer">
-<!--     <p class="m-edit-timer-text">00:00:00</p>
-    <button class="m-edit-timer-start-btn">スタート</button>
-    <button class="m-edit-timer-stop-btn">ストップ</button> -->
-
-<!--     <div id="clock">00:00:00</div>
-    <form>
-    <input type="button" id="start" value="Start">
-    <input type="button" id="stop" value="Stop" disabled>
-    <input type="button" id="restart" value="Restart" disabled>
-    <input type="button" id="reset" value="Reset" disabled>
-    </form>
     <button class="m-edit-btn"></button>
-    </div> -->
-
-    <p id="watch">
-        <span id="hour">00</span>
-        :
-        <span id="minute">00</span>
-        :
-        <span id="second">00</span>
-    </p>
-    <div id="btn_wrap">
-        <a id="start" class="btn">スタート/ストップ</a>
-      <a id="reset" class="btn">リセット</a>
     </div>
   </div>
+
+  <div class="l-timer">
+<p id="watch">
+    <span id="hour">00</span>
+    :
+    <span id="minute">00</span>
+    :
+    <span id="second">00</span>
+</p>
+<div id="btn_wrap">
+    <a id="start" class="btn">スタート</a>
+  <a id="reset" class="btn">リセット</a>
 </div>
+  </div>
 
   <!-- ===== 完了画面 ===== -->
   <div class="l-comp">
@@ -263,9 +238,9 @@ maximum-scale=1.0, user-scalable=no" />
 <!-- ===== 勉強時間画面 ===== -->
 
   <div class="l-study">
-  <div class="wrapper">
-    <div id="doughnutChart" class="chart"><p></p></div>
-  </div>
+    <div class="wrapper">
+      <div id="doughnutChart" class="chart"><p></p></div>
+    </div>
     <div class="m-study-all"></div>
     <div id="container"></div>
   </div>
