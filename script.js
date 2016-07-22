@@ -747,11 +747,6 @@ function clickMenuStudy(){
     month = today.getMonth();
     date = today.getDate();
     week = today.getDay();
-    startDay = new Date(year, month, date, 0, 0, 0);
-    endDay = new Date(year, month, date, 23, 59, 59);
-    startTime = startDay.getTime();
-    endTime = endDay.getTime();
-
     menuListClick($(this));
     showStudy();
     showTodayTime();
@@ -763,6 +758,10 @@ function clickMenuStudy(){
 
 function showTodayTime(){
   var compListArray = getLocalStorage("compTodo",compListArray);
+  startDay = new Date(year, month, date, 0, 0, 0);
+  endDay = new Date(year, month, date, 23, 59, 59);
+  startTime = startDay.getTime();
+  endTime = endDay.getTime();
   for(var cnt=0;cnt<compListArray.length;cnt++){
     // もし勉強完了した時間がその日の0:00-23:59だったら
     if(compListArray[cnt].compTime >= startTime && compListArray[cnt].compTime <= endTime){
@@ -826,120 +825,59 @@ var todayJapaneseTime = null;
 var todayEnglishTime = null;
 var todayMathTime = null;
 
-
 // var FevDate =...;
 // 月ごとのマックスの日数
-// var maxdate = [31,FevDate,31,30,31,30,31,31,30,31,30,31];
-var maxdate = [31,28,31,30,31,30,31,31,30,31,30,31];
+var maxDate = [31,28,31,30,31,30,31,31,30,31,30,31];
+var weekStartDay = null;
+var weekEndDay = null;
+var startDay = null;
+var startMonth = null;
+var startYaer = null;
+
 
 function showWeekTime(){
   // 曜日の数字分引いてから7足した分までの1日分の勉強時間を出してあげる＝7日分
-  var compListArray = getLocalStorage("compTodo",compListArray);
-  var Day = new Date();
 
-  var startDay = date - week;
   // startDayは通常0になる
+  startDay = date - week;
+  startMonth = month;
+  startYaer = year;
+  weekStartDay = new Date(startYaer, startMonth, startDay, 0, 0, 0);
+  // startDayがマイナスになるとき＝もし月をまたぐ場合
+  if(startDay <= 0){
+    // maxDate[現在の月-1]が0以上かどうか（1月かどうか）→1月なら年もまたぐ
+    if(maxDate[startMonth]<=0){
+      // もし年をまたぐ場合は年-1して12月からカウントを始める
+      startYaer = year - 1;
+      startMonth = 12;
+    }
 
-  // // 月をまたぐ場合は月-1をして日付を1ずつ引いていく
-  // if(startDay <= 0){
+    // 開始日は先月の最大日数からstartDayの絶対値を引いた数（startDayは負の値）
+    startDay = maxDate[startMonth] + startDay;
+  }
+  getWeekStudyTime();
+  console.log("週の始まりは  " + weekStartDay);
+  console.log("週の終わりは  " + weekEndDay);
+}
 
-  //   // 日付をまたぐ場合
-  //   // maxDate[現在の月-1]が0以上かどうか→年もまたぐのかどうか
-
-  //   // 現在の月-1が0未満だったら
-  //   // year-1して
-
-  //   // maxDate[現在の月-1] + startDay =開始日
-  //   // 開始日から7日分取得する
-
-  //   // 追加中にまた月をまたぐ = dayが30になったとき
-  //   // month+1してdayを1にする
-
-  //   var weekStartDay = new Date(year, month-1, startDay, 0, 0, 0);
-  //   var weekEndDay = new Date(year, month-1, (startDay + 6), 23, 59, 59);
-
-  //   for(var dayCnt=0;dayCnt<=6;dayCnt++){
-  //     startTime = weekStartDay.getTime();
-  //     endTime = weekEndDay.getTime();
-  //     totalTime = 0;
-  //     totalJapaneseTime = 0;
-  //     totalEnglishTime = 0;
-  //     totalMathTime = 0;
-
-  //     for(var cnt=0;cnt<compListArray.length;cnt++){
-  //       // もし勉強完了した時間がその日の0:00-23:59だったら
-  //       if(compListArray[cnt].compTime >= startTime && compListArray[cnt].compTime <= endTime){
-  //         // 全ての勉強時間
-  //         totalTime += compListArray[cnt].study;
-
-  //         // 科目別勉強時間
-  //         if(compListArray[cnt].subject === "国語"){
-  //           totalJapaneseTime += compListArray[cnt].study;
-  //         } else if (compListArray[cnt].subject === "英語"){
-  //           totalEnglishTime += compListArray[cnt].study;
-  //         } else if (compListArray[cnt].subject === "数学"){
-  //           totalMathTime += compListArray[cnt].study;
-  //         } else {
-  //           totalUnsetTime += compListArray[cnt].study;
-  //         }
-  //       }
-  //     }
-
-  //     // １週間分の勉強時間
-  //     if(dayCnt === 0){
-  //       SunTotalTime = totalTime;
-  //       SunJapaneseTime = totalJapaneseTime;
-  //       SunEnglishTime = totalEnglishTime;
-  //       SunMathTime = totalMathTime;
-  //     } else if (dayCnt === 1) {
-  //       MonTotalTime = totalTime;
-  //       MonJapaneseTime = totalJapaneseTime;
-  //       MonEnglishTime = totalEnglishTime;
-  //       MonMathTime = totalMathTime;
-  //     } else if (dayCnt === 2) {
-  //       TueTotalTime = totalTime;
-  //       TueJapaneseTime = totalJapaneseTime;
-  //       TueEnglishTime = totalEnglishTime;
-  //       TueMathTime = totalMathTime;
-  //     } else if (dayCnt === 3) {
-  //       WedTotalTime = totalTime;
-  //       WedJapaneseTime = totalJapaneseTime;
-  //       WedEnglishTime = totalEnglishTime;
-  //       WedMathTime = totalMathTime;
-  //     } else if (dayCnt === 4) {
-  //       ThuTotalTime = totalTime;
-  //       ThuJapaneseTime = totalJapaneseTime;
-  //       ThuEnglishTime = totalEnglishTime;
-  //       ThuMathTime = totalMathTime;
-  //     } else if (dayCnt === 5) {
-  //       FriTotalTime = totalTime;
-  //       FriJapaneseTime = totalJapaneseTime;
-  //       FriEnglishTime = totalEnglishTime;
-  //       FriMathTime = totalMathTime;
-  //     } else if (dayCnt === 6) {
-  //       SatTotalTime = totalTime;
-  //       SatJapaneseTime = totalJapaneseTime;
-  //       SatEnglishTime = totalEnglishTime;
-  //       SatMathTime = totalMathTime;
-  //     }
-  //   }
-  // } else {
-    var weekStartDay = new Date(year, month, startDay, 0, 0, 0);
-    var weekEndDay = new Date(year, month, (startDay + 6), 23, 59, 59);
-
+function getWeekStudyTime(){
+  var compListArray = getLocalStorage("compTodo",compListArray);
+  StartDay = new Date(startYaer, startMonth, startDay, 0, 0, 0);
+  startTime = StartDay.getTime();
+// 開始日から7日分取得する
     for(var dayCnt=0;dayCnt<=6;dayCnt++){
-      var weekStartDay2 = new Date(year, month, startDay+dayCnt, 0, 0, 0);
-      var weekEndDay2 = new Date(year, month, startDay+dayCnt, 23, 59, 59);
-      startTime = weekStartDay2.getTime();
-      endTime = weekEndDay2.getTime();
+      startTime = startTime + 86400000;
+      endTime = startTime + 86400000; //24時間
       totalTime = 0;
       totalJapaneseTime = 0;
       totalEnglishTime = 0;
       totalMathTime = 0;
+      console.log(new Date(startTime));
+      console.log(new Date(endTime));
 
       for(var cnt=0;cnt<compListArray.length;cnt++){
         // もし勉強完了した時間がその日の0:00-23:59だったら
-        if(compListArray[cnt].compTime >= startTime && compListArray[cnt].compTime <= endTime){
+        if(compListArray[cnt].compTime >= startTime && compListArray[cnt].compTime < endTime){
           // 全ての勉強時間
           totalTime += compListArray[cnt].study;
 
@@ -994,7 +932,6 @@ function showWeekTime(){
         SatMathTime = totalMathTime;
       }
     }
-
 }
 
 function weekGraph(){
@@ -1110,11 +1047,18 @@ function weekGraph(){
 
 function doughnutChart(){
   if(circleGraphFrag === false){
-    $("#doughnutChart").drawDoughnutChart([
-        { title: "国語", value : todayJapaneseTime,  color: "#00CCC6" },
-        { title: "英語", value:  todayEnglishTime,   color: "#BA78FF" },
-        { title: "数学", value:  todayMathTime,   color: "#F5A623" },
-    ]);
+    var compListArray = getLocalStorage("compTodo",compListArray);
+
+    if(compListArray[0] === undefined){
+      $("#doughnutChart").find("p").text("今日はまだ勉強してません");
+    } else {
+      $("#doughnutChart").find("p").text("");
+      $("#doughnutChart").drawDoughnutChart([
+          { title: "国語", value : todayJapaneseTime,  color: "#00CCC6" },
+          { title: "英語", value:  todayEnglishTime,   color: "#BA78FF" },
+          { title: "数学", value:  todayMathTime,   color: "#F5A623" },
+      ]);
+    }
   }
   circleGraphFrag = true;
 }

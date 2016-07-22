@@ -581,3 +581,8 @@ path:hover { opacity: .65; }
 .l-study .wrapper {
     transform: scale(0.7);
 }
+
+#doughnutChart > p {
+  font-size: 20px;
+
+}
