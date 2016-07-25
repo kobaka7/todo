@@ -15,18 +15,15 @@ button {
 
 .l-header {
   width: 100%;
-  background-color: #fff;
+  background-color: #007AFF;
   height: 64px;
   position: absolute;
-  background: url(img/bg-01.jpg) 0 no-repeat;
-  background-size: 110%;
-  background-position-y: -140px;
 }
 .m-logo {
-  height: 20px;
+  height: 32px;
   margin: 0 auto;
   position: relative;
-  top: 33%;
+  top: 22%;
 }
 .m-header-title {
   width: 100%;
@@ -62,7 +59,7 @@ button {
   top: 34px;
 }
 .l-menu-list > li.is-active{
-  color: #00CCC6;
+  color: #007AFF;
 }
 .l-menu-list-study.is-active:before {
   content: "";
@@ -171,7 +168,7 @@ li.l-menu-list-add {
   list-style: none;
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(189,189,189 ,0.1);
+  border-bottom: 1px solid rgba(189,189,189 ,0.1);
 }
 .l-list-item {
   display: table;
@@ -182,13 +179,15 @@ li.l-menu-list-add {
   width: 86%;
 }
 .m-list-txt {
-    display: inline-block;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    width: 86%;
-    height: 20px;
-    font-size: 17px;
+  display: inline-block;
+  vertical-align: middle;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 80%;
+  height: 20px;
+  font-size: 17px;
+  line-height: 20px;
 }
 .m-list-txt.is-active {
   color: rgba(189,189,189 ,1);
@@ -227,8 +226,8 @@ li.l-menu-list-add {
   background: url(img/fav.jpg) no-repeat;
   background-position: -4px 0;
   position: absolute;
-  top: 7px;
-  right: -4px;
+  top: 3px;
+  right: -9px;
   transform: scale(0.7);
 }
 .m-fav-btn.is-active {
@@ -239,14 +238,15 @@ li.l-menu-list-add {
 /*======================== タイマー関連 ============================*/
 
 .m-timer-btn {
-    width: 24px;
-    height: 24px;
-    background: url(img/ic_timer.png) no-repeat;
-    background-size: 80%;
-    position: absolute;
-    top: 22px;
-    right: 45px;
-    opacity: 0.2;
+  width: 28px;
+  height: 28px;
+  background: url(img/ic_timer.png) center no-repeat;
+  background-size: 80%;
+  position: absolute;
+  top: 49%;
+  right: 40px;
+  opacity: 0.12;
+  transform: translateY(-50%);
 }
 
 .l-timer {
@@ -262,10 +262,9 @@ li.l-menu-list-add {
   background: #FFF;
   border: 1px solid #999;
   border-radius: 70px;
-  transition: background-color 0.08s ease-in;
-  box-sizing: border-box;
   display: inline-block;
-  margin: 0 8px 0 0;
+  vertical-align: middle;
+  margin: 0 12px 0 0;
 }
 .m-comp-btn:hover {
   border: 1px solid #999;
@@ -331,7 +330,7 @@ li.l-menu-list-add {
   width: 100%;
   bottom: 0;
   height: 60px;
-  background-color: #4A90E2;
+  background-color: #007AFF;
   border: none;
 }
 .m-add-list-btn:before,
@@ -380,23 +379,24 @@ li.l-menu-list-add {
 }
 
 .l-task-tab-list {
-  width: 95%;
-  margin: 16px auto;
+  width: 93%;
+  margin: 8px auto;
   display: table;
-  border: 1px solid #00CCC6;
+  border: 1px solid #007AFF;
   border-radius: 4px;
   font-size: 12px;
 }
 .l-task-tab-list > li {
-  color: #00CCC6;
-  padding: 6px 16px;
+  color: #007AFF;
+  padding: 7px 16px;
   text-align: center;
   display: table-cell;
-  border-left: 1px solid #00CCC6;
+  border-left: 1px solid #007AFF;
   width: 33%;
+  font-size: 13px;
 }
 .l-task-tab-list > li.is-active{
-  background-color: #00CCC6;
+  background-color: #007AFF;
   color: #fff;
 }
 .l-task-tab-list > li:first-child {
@@ -416,19 +416,19 @@ li.l-menu-list-add {
 .l-edit-tab-list {
   margin: 0 auto;
   display: table;
-  border: 1px solid #00CCC6;
+  border: 1px solid #007AFF;
   border-radius: 4px;
   font-size: 12px;
 }
 .l-edit-tab-list > li {
-  color: #00CCC6;
+  color: #007AFF;
   padding: 6px 16px;
   text-align: center;
   display: inline-block;
   width: 156px;
 }
 .l-edit-tab-list > li.is-active{
-  background-color: #00CCC6;
+  background-color: #007AFF;
   color: #fff;
 }
 /*======================== ヘッダー ============================*/

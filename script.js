@@ -167,10 +167,7 @@ function showTask(){
   $backBtn.css({display:"none"});
   $cancelBtn.css({display:"none"});
   $headerTitle.text("");
-  $header
-  .css({background:"url(img/bg-01.jpg) 0 no-repeat"})
-  .css({backgroundSize:"110%"})
-  .css({backgroundPositionY:"-140px"});
+  $header.css({backgroundColor:"#007AFF"})
 
   $("#container").css({visibility:"hidden"});
   weekGraphScroll = false;
@@ -335,7 +332,7 @@ function clickMenu(aTruthValue){
 function createListEl(aTask){
   // もし未完了なら
   if(aTask.comp !== null){
-    $listEl = $("<li><span class=m-comp-btn></span><div class='list-item'><p class='m-list-txt'>"
+    $listEl = $("<li><div class='list-item'><span class=m-comp-btn></span><p class='m-list-txt'>"
               + aTask.task
               + "</p><span class='m-timer-btn'></span><span class='m-fav-btn'></span></div></li>");
     // 星済みだったら
