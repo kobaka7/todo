@@ -40,6 +40,7 @@ var $listEl = null;
 var $timeText = null;
 var num = 0;
 var studyTimes = 0;
+var time = 0; //タイマーの中
 var menuStatus = false;
 var weekGraphScroll = false;
 var circleGraphFrag = false;
@@ -175,7 +176,6 @@ function showTask(){
   $("#doughnutChart").find("svg").remove();
   $(".doughnutSummary").find("p").remove();
   circleGraphFrag = false;
-
 }
 
 function setBtn(){
@@ -223,6 +223,7 @@ function setBtn(){
     showTask();
   });
   $cancelBtn.on("click",function(evt){
+    clearInterval(time);
     showTask();
   });
   // 編集画面の編集ボタン押したら
@@ -330,6 +331,7 @@ function clickMenu(aTruthValue){
 
 // li生成
 function createListEl(aTask){
+  console.log(timerStartTime);
   // もし未完了なら
   if(aTask.comp !== null){
     $listEl = $("<li><div class='list-item'><span class=m-comp-btn></span><p class='m-list-txt'>"
@@ -371,6 +373,7 @@ function addListFunction(){
   showEdit($listEl);
   showComp($listEl);
   showTimer($listEl);
+  // timerBtn($listEl);
 }
 
 // ======================================================================
@@ -463,6 +466,7 @@ function addListEl(){
 // ======================================================================
 
 function showEdit(aTarget){
+
   aTarget.on("click",function(){
     $(".input-field col s12 > label").addClass("active");
     var listArray = getLocalStorage("todo",listArray);
@@ -1174,6 +1178,14 @@ function doughnutChart(){
                             // タイマー
 // ======================================================================
 
+// スタートを押してないときは0
+// 押したらスタート時刻をgettime（=timerStartTime）して
+// タイマーが市っぱなしのときは再度表示したときに現在時刻-スタート時刻する
+// そこからカウントアップ
+// startTimeはストップボタンを押すたびにリセットされて
+// studyTimeに時間が反映される。
+// 再度スタートするときはstudyTimeを表示を繰り返す
+
 function showTimer(aTarget){
   aTarget.find(".m-timer-btn").on("click",function(evt){
     evt.stopPropagation(); //liへのイベント伝播禁止
@@ -1189,31 +1201,11 @@ function showTimer(aTarget){
     $header.css({background:"#fff"});
     $headerTitle.text("タイマー");
     setTimer();
-
   });
 }
 
-  function setTimer(){
-    var listArray = getLocalStorage("todo",listArray);
-    currentTime = listArray[num].timerStudyTime;
+// showTimerで何度もクリックイベントを呼んでしまっている＝2回目以降にスタートストップボタンがバグる
 
-    // 追加する時間
-    var appendHour = currentTime / (1000 * 60 * 60) | 0; // 1/1000秒x60秒x60分
-    var appendMinute = currentTime % (1000 * 60 * 60) / (1000 * 60) | 0; // 時間で割った余りを割る
-    var appendSecond = currentTime  % (1000 * 60) / 1000 | 0; // 分で割った余りを割る
-
-    // 1けただったら「0」を足す ex. 1 → 01
-    appendHour = appendHour < 10 ? "0" + appendHour : appendHour;
-    appendMinute = appendMinute < 10 ? "0" + appendMinute : appendMinute;
-    appendSecond = appendSecond < 10 ? "0" + appendSecond : appendSecond;
-
-    // 時間をHTMLに記述する
-    hour.html(appendHour);
-    minute.html(appendMinute);
-    second.html(appendSecond);
-
-
-    // メソッド
     var method = {
         // ストップウォッチを動かす
         timer : function() {
@@ -1224,7 +1216,7 @@ function showTimer(aTarget){
             // 一定間隔ごとに以下を実行する
             time = setInterval(function() {
 
-              if (stop === false) { // ← stopという変数がfalseであればと云う意味
+              if (timerStartTime !== 0) { // ← stopという変数がfalseであればと云う意味
                 // カウントアップ
 
                 // 前回までのタイマー時間に1秒ずつ足していく
@@ -1251,19 +1243,12 @@ function showTimer(aTarget){
 
       }, // ここまで timer
 
-      // スタートを押してないときは0
-      // 押したらスタート時刻をgettime（=timerStartTime）して
-      // タイマーが市っぱなしのときは再度表示したときに現在時刻-スタート時刻する
-      // そこからカウントアップ
-      // startTimeはストップボタンを押すたびにリセットされて
-      // studyTimeに時間が反映される。
-      // 再度スタートするときはstudyTimeを表示を繰り返す
-
         // スタート/ストップボタン
         startAndStop : function() {
         // ストップであればスタート、スタートであればストップ
-          stop = !stop; // ←stopがfalseであればtrueを、trueであればfalseを代入する
-          if(stop === false){
+          if(timerStartTime === 0){
+
+            // スタートするときにtimeを発火
             var listArray = getLocalStorage("todo",listArray);
             // タイマー開始時間
             timerStartTime = (new Date()).getTime();
@@ -1272,7 +1257,9 @@ function showTimer(aTarget){
             // 配列のthis番目のタイマー開始時間に代入
             listArray[num].timerStartTime = timerStartTime;
             setLocalStorage("todo",listArray);
+            $outputArea.find("li").eq(num).find(".m-timer-btn").css({'opacity':1});
             $("#start").text("ストップ");
+            console.log('hoge');
           } else {
             nowTime = (new Date()).getTime();
             // 勉強時間 = 現在時刻 - タイマー開始時刻
@@ -1286,8 +1273,11 @@ function showTimer(aTarget){
             listArray[num].timerStudyTime = timerStudyTime + listArray[num].timerStudyTime;
             listArray[num].timerStartTime = timerStartTime;
             setLocalStorage("todo",listArray);
+            console.log(num);
+            $outputArea.find("li").eq(num).find(".m-timer-btn").css({'opacity':0.1});
 
             $("#start").text("スタート");
+            console.log('fuga');
           }
         },
 
@@ -1305,8 +1295,9 @@ function showTimer(aTarget){
           setLocalStorage("todo",listArray);
         },
 
-        // 初期化メソッド
+        // 初期化メソッドはいらなくなる
         init : function() {
+
           // ストップウォッチを動かすメソッドを呼び出す
           method.timer();
           // スタート/リセットボタンをクリックしたらstartAndStopを呼び出す
@@ -1315,18 +1306,157 @@ function showTimer(aTarget){
           btnReset.click(method.reset);
         }
     };
+method.init();
+
+
+
+
+
+
+
+
+
+
+  function setTimer(){
+    var listArray = getLocalStorage("todo",listArray);
+    currentTime = listArray[num].timerStudyTime;
+    // タイマーが動いてるとき
+    if(timerStartTime !== 0){
+      nowTime = (new Date()).getTime();
+      currentTime = currentTime + (nowTime - listArray[num].timerStartTime);
+    }
+
+    // 追加する時間
+    var appendHour = currentTime / (1000 * 60 * 60) | 0; // 1/1000秒x60秒x60分
+    var appendMinute = currentTime % (1000 * 60 * 60) / (1000 * 60) | 0; // 時間で割った余りを割る
+    var appendSecond = currentTime  % (1000 * 60) / 1000 | 0; // 分で割った余りを割る
+
+    // 1けただったら「0」を足す ex. 1 → 01
+    appendHour = appendHour < 10 ? "0" + appendHour : appendHour;
+    appendMinute = appendMinute < 10 ? "0" + appendMinute : appendMinute;
+    appendSecond = appendSecond < 10 ? "0" + appendSecond : appendSecond;
+
+    // 時間をHTMLに記述する
+    hour.html(appendHour);
+    minute.html(appendMinute);
+    second.html(appendSecond);
+
+    // メソッド
+    // method = {
+    //     // ストップウォッチを動かす
+    //     timer : function() {
+
+    //         // このメソッドを呼び出す間隔（単位は1/1000秒）
+    //         var interval = 1000;
+
+    //         // 一定間隔ごとに以下を実行する
+    //         time = setInterval(function() {
+
+    //           if (timerStartTime !== 0) { // ← stopという変数がfalseであればと云う意味
+    //             // カウントアップ
+
+    //             // 前回までのタイマー時間に1秒ずつ足していく
+    //             currentTime += timerStudyTime;
+    //             currentTime += interval;
+
+    //             // 追加する時間
+    //             var appendHour = currentTime / (1000 * 60 * 60) | 0; // 1/1000秒x60秒x60分
+    //             var appendMinute = currentTime % (1000 * 60 * 60) / (1000 * 60) | 0; // 時間で割った余りを割る
+    //             var appendSecond = currentTime  % (1000 * 60) / 1000 | 0; // 分で割った余りを割る
+
+    //             // 1けただったら「0」を足す ex. 1 → 01
+    //             appendHour = appendHour < 10 ? "0" + appendHour : appendHour;
+    //             appendMinute = appendMinute < 10 ? "0" + appendMinute : appendMinute;
+    //             appendSecond = appendSecond < 10 ? "0" + appendSecond : appendSecond;
+
+    //             // 時間をHTMLに記述する
+    //             hour.html(appendHour);
+    //             minute.html(appendMinute);
+    //             second.html(appendSecond);
+    //             }
+
+    //         }, interval); // ←これが間隔
+
+    //   }, // ここまで timer
+
+    //     // スタート/ストップボタン
+    //     startAndStop : function() {
+    //     // ストップであればスタート、スタートであればストップ
+    //       if(timerStartTime === 0){
+    //         var listArray = getLocalStorage("todo",listArray);
+    //         // タイマー開始時間
+    //         timerStartTime = (new Date()).getTime();
+    //         console.log(timerStartTime);
+
+    //         // 配列のthis番目のタイマー開始時間に代入
+    //         listArray[num].timerStartTime = timerStartTime;
+    //         setLocalStorage("todo",listArray);
+    //         $outputArea.find("li").eq(num).find(".m-timer-btn").css({'opacity':1});
+    //         $("#start").text("ストップ");
+    //         console.log('hoge');
+    //       } else {
+    //         nowTime = (new Date()).getTime();
+    //         // 勉強時間 = 現在時刻 - タイマー開始時刻
+    //         timerStudyTime = nowTime - timerStartTime;
+
+    //         // タイマー開始時刻をリセットする
+    //         timerStartTime = 0;
+
+    //         var listArray = getLocalStorage("todo",listArray);
+    //         // 配列のthis番目にタイマーの勉強時間と今までのタイマー勉強時間をたす
+    //         listArray[num].timerStudyTime = timerStudyTime + listArray[num].timerStudyTime;
+    //         listArray[num].timerStartTime = timerStartTime;
+    //         setLocalStorage("todo",listArray);
+    //         console.log(num);
+    //         $outputArea.find("li").eq(num).find(".m-timer-btn").css({'opacity':0.1});
+
+    //         $("#start").text("スタート");
+    //         console.log('fuga');
+    //       }
+    //     },
+
+    //     // リセットするメソッド
+    //     reset : function() {
+    //       // リセット（経過時間を0に戻す）
+    //       currentTime = 0;
+    //       // 時間をHTMLに記述する
+    //       hour.html("00");
+    //       minute.html("00");
+    //       second.html("00");
+
+    //       listArray[num].timerStudyTime = 0;
+    //       listArray[num].timerStartTime = 0;
+    //       setLocalStorage("todo",listArray);
+    //     },
+
+    //     // 初期化メソッド
+    //     init : function() {
+
+    //       // ストップウォッチを動かすメソッドを呼び出す
+    //       method.timer();
+    //       // スタート/リセットボタンをクリックしたらstartAndStopを呼び出す
+    //       btnStart.click(method.startAndStop);
+    //       // リセットボタンをクリックしたらresetを呼び出す
+    //       btnReset.click(method.reset);
+    //     }
+    // };
 
     // ページを読み込んだ時に初期化メソッドを呼び出す（実行する）
-  $(document).ready(method.init);
   }
+
+// ======================================================================
+                            // タイマーアイコン
+// ======================================================================
+
+// function timerBtn(aTarget) {
+//   console.log(aTarget);
+//   var listArray = getLocalStorage("todo",listArray);
+//   num = aTarget.index(); //liのthis番目
+//   console.log(num);
+//   if(listArray[num].timerStartTime !== 0){
+//     aTarget.find(".m-timer-btn").css({'opacity':1});
+//   }
+// }
 
 }); //html実行後
 })(); //即時関数
-
-    // スタートを押してないときは0
-    // 押したらスタート時刻をgettime（=timerStartTime）して
-    // タイマーが市っぱなしのときは再度表示したときに現在時刻-スタート時刻する
-    // そこからカウントアップ
-    // startTimeはストップボタンを押すたびにリセットされて
-    // studyTimeに時間が反映される。
-    // 再度スタートするときはstudyTimeを表示を繰り返す
