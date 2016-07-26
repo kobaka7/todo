@@ -38,6 +38,10 @@ var $doneAddBtn = null;
 var $study = null;
 var $listEl = null;
 var $timeText = null;
+var $studyTab = null;
+var $studyTabToday = null;
+var $studyTabWeek = null;
+var $studyTabAll = null;
 var num = 0;
 var studyTimes = 0;
 var time = 0; //タイマーの中
@@ -222,6 +226,13 @@ function setObj(){
 
   // 勉強時間画面
   $study = $(".l-study");
+  $studyTab = $(".l-study-tab");
+  $studyTabToday = $(".m-study-tab-today");
+  $studyTabWeek = $(".m-study-tab-week");
+  $studyTabAll = $(".m-study-tab-all");
+  $todayMode = $(".wrapper");
+  $weekMode = $("#container");
+  $allMode = $(".m-study-all");
 }
 
 // ボタン操作まとめ
@@ -239,11 +250,9 @@ function showTask(){
   $header.css({display:"block"});
   $backBtn.css({display:"none"});
   $cancelBtn.css({display:"none"});
+  $studyTab.css({display:"none"});
   $headerTitle.text("");
-  $header.css({backgroundColor:"#007AFF"})
-
-  $("#container").css({visibility:"hidden"});
-  weekGraphScroll = false;
+  $header.css({backgroundColor:"#007AFF"});
 
   $("#doughnutChart").find("svg").remove();
   $(".doughnutSummary").find("p").remove();
@@ -308,12 +317,6 @@ function setBtn(){
   $compEditDelateBtn.on("click",function(evt){
     doneRemove(num);
   });
-  $tabEdit.on("click",function(evt){
-    $(".l-edit-tab-list > li").removeClass("is-active");
-    $(this).addClass("is-active");
-    $timermode.css({display:"none"});
-    $editmode.css({display:"block"});
-  });
   $timerStratBtn.on("click",function(evt){
     $(this).css({display:"none"});
     $timerStopBtn.css({display:"block"});
@@ -322,6 +325,30 @@ function setBtn(){
     $(this).css({display:"none"});
     $timerStratBtn.css({display:"block"});
   });
+  $studyTabToday.on("click",function(evt){
+    $(".l-study-tab-list > li").removeClass("is-active");
+    $(this).addClass("is-active");
+    $todayMode.css({display:"block"});
+    $weekMode.css({display:"none"});
+    $allMode.css({display:"none"});
+  });
+  $studyTabWeek.on("click",function(evt){
+    $(".l-study-tab-list > li").removeClass("is-active");
+    $(this).addClass("is-active");
+    $todayMode.css({display:"none"});
+    $weekMode.css({display:"block"});
+    $allMode.css({display:"none"});
+    showWeekTime();
+    weekGraph();
+  });
+  $studyTabAll.on("click",function(evt){
+    $(".l-study-tab-list > li").removeClass("is-active");
+    $(this).addClass("is-active");
+    $todayMode.css({display:"none"});
+    $weekMode.css({display:"none"});
+    $allMode.css({display:"block"});
+  });
+
   // 完了ボタン押したら
   $compDoneBtn.on("click",function(evt){
     $outputArea.find("li").eq(num).remove();
@@ -356,24 +383,8 @@ function setBtn(){
   });
 }
 
-// 円グラフをスクロールしてから表示
-function graphScroll(){
-  // スクロール毎にイベントが発火
-  $(window).scroll(function(){
-    var scr_count = $(document).scrollTop();
-    if(scr_count > 200 && weekGraphScroll === false){
-      showWeekTime();
-      weekGraph();
-      $("#container").css({visibility:"visible"});
-      //　フラグで制御
-      weekGraphScroll = true;
-    }
-  })
-}
-
 function setEvent(){
   reload();
-  graphScroll();
   clickMenuStudy();
 }
 
@@ -879,9 +890,8 @@ function clickMenuStudy(){
     menuListClick($(this));
     showStudy();
     showTodayTime();
-    showWeekTime();
-    weekGraph();
     doughnutChart();
+    $studyTab.css({display:"block"});
   });
 }
 
@@ -1163,8 +1173,16 @@ function weekGraph(){
 function doughnutChart(){
   if(circleGraphFrag === false){
     var compListArray = getLocalStorage("compTodo",compListArray);
+    var studyAllTimes = 0;
 
-    if(compListArray[0] === undefined){
+    // 全ての勉強時間（分）（数値）
+    for(var cnt=0; cnt<compListArray.length; cnt++){
+      studyTime = Number(compListArray[cnt].study);
+      studyAllTimes += studyTime;
+    }
+
+    // もしまだひとつもタスクを完了していないか、勉強時間が0だったら
+    if(compListArray[0] === undefined || studyAllTimes === 0){
       $("#doughnutChart").find("p").text("今日はまだ勉強してません");
     } else {
       $("#doughnutChart").find("p").text("");
@@ -1206,7 +1224,7 @@ function showTimer(aTarget){
     $header.css({background:"#fff"});
     $headerTitle.text("タイマー");
     setTimer();
-
+  });
 }
 
 // タイマー画面に行ったときの初期表示
