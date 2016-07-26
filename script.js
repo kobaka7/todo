@@ -733,17 +733,10 @@ function showComp(aTarget){
     console.log(appendHour);
     console.log(appendMinute);
 
-    // $("select.m-comp-time-hours[@value=" + appendHour + "]").prop("selected",true);
-    // $("select.m-comp-time-hours[@value=" + appendMinute + "]").prop("selected",true);
-    console.log($("select.m-comp-time-hours").find("option").eq(appendMinute + 1));
-    $("select.m-comp-time-hours").find("option").eq(appendMinute + 1).attr("selected",true);
-    $("select.m-comp-time-hours").find("option").eq(appendMinute + 1).attr("selected",true);
-    // $("select.m-comp-time-hours option:selected").prop("selected", false);
-    // $("select.m-comp-time-hours").val("0");
-    // console.log($("select.m-comp-time-hours").val());
-    // $("select.m-comp-time-hours").prop("selectedIndex", appendHour + 1);
-    // $("select.m-comp-time-hours").find("option").eq(appendMinute + 1).prop("selected",true);
-    // $("select.m-comp-time-minutes").val(appendMinute);
+    $("select.m-comp-time-hours").find("option").eq(appendHour + 1).prop("selected",true);
+    $('select.m-comp-time-hours').material_select();
+    $("select.m-comp-time-minutes").find("option").eq(appendMinute + 1).prop("selected",true);
+    $('select.m-comp-time-minutes').material_select();
   });
 }
 
