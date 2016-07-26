@@ -176,7 +176,7 @@ function setObj(){
   $taskTabComp = $(".m-task-tab-comp");
 
   // 完了画面
-  $comp = $(".l-comp")
+  $comp = $(".l-comp");
   $compBtn = $(".m-comp-btn");
   $compDoneBtn = $(".m-comp-done-btn");
   $removeBtn = $(".m-remove-btn");
@@ -195,7 +195,7 @@ function setObj(){
   // タスク画面
   $task = $(".l-task");
   $outputArea = $(".m-output-area");
-  $timerBtn = $(".m-timer-btn")
+  $timerBtn = $(".m-timer-btn");
 
   // 新規作成画面
   $addList = $(".l-add-list");
@@ -205,7 +205,7 @@ function setObj(){
 
   // 編集画面
   $edit = $(".l-edit");
-  $editmode = $(".m-edit-edit")
+  $editmode = $(".m-edit-edit");
   $editInputText = $(".m-edit-input");
   $editBtn = $(".m-edit-btn");
   $editCompBtn = $(".m-edit-comp-btn");
@@ -347,6 +347,7 @@ function setBtn(){
     $todayMode.css({display:"none"});
     $weekMode.css({display:"none"});
     $allMode.css({display:"block"});
+    showAllTime();
   });
 
   // 完了ボタン押したら
@@ -417,9 +418,7 @@ function clickMenu(aTruthValue){
 function createListEl(aTask){
   // もし未完了なら
   if(aTask.comp !== null){
-    $listEl = $("<li><div class='list-item'><span class=m-comp-btn></span><p class='m-list-txt'>"
-              + aTask.task
-              + "</p><span class='m-timer-btn'></span><span class='m-fav-btn'></span></div></li>");
+    $listEl = $("<li><div class='list-item'><span class=m-comp-btn></span><p class='m-list-txt'>" + aTask.task + "</p><span class='m-timer-btn'></span><span class='m-fav-btn'></span></div></li>");
     // 星済みだったら
     if(aTask.fav === true){
       $listEl.find(".m-fav-btn").addClass("is-active");
@@ -450,7 +449,7 @@ function subjectColor(aTarget){
           listColor = "gray";
           break;
   }
-  $listEl.css({borderLeft:"3px solid " + listColor})
+  $listEl.css({borderLeft:"3px solid " + listColor});
 }
 
 // liの各機能をいっぺんに実装
@@ -739,7 +738,7 @@ function favBtn(aTarget) {
     else {
       aTarget.slideUp(120, "linear",function(){
         aTarget.remove();
-      })
+      });
       var favCounter = 0;
       for(var cnt=0; cnt<listArray.length; cnt++){
         console.log(listArray[cnt].fav);
@@ -829,7 +828,13 @@ function showStudy(){
   $study.css({display:"block"});
   $header.css({background:"#fff"});
   $headerTitle.text("勉強時間");
+}
 
+// ======================================================================
+                            // 全ての勉強時間
+// ======================================================================
+
+function showAllTime(){
   var compListArray = getLocalStorage("compTodo",compListArray);
   var studyAllTimes = 0;
   var studyJapaneseTime = 0;
@@ -841,7 +846,6 @@ function showStudy(){
   var studyTodayTime = 0;
   var studyTodayAllTimes = 0;
 
-  // 全ての勉強時間（分）（数値）
   for(var cnt=0; cnt<compListArray.length; cnt++){
     studyTime = Number(compListArray[cnt].study);
     studyAllTimes += studyTime;
@@ -875,7 +879,6 @@ function showStudy(){
   }
   console.log("全ての英語の勉強時間は " + studyAllEnglishTimes);
 }
-
 // ======================================================================
                             // 本日の勉強時間
 // ======================================================================
@@ -957,92 +960,88 @@ function getWeekStudyTime(){
   var compListArray = getLocalStorage("compTodo",compListArray);
   StartDay = new Date(startYaer, startMonth, startDay, 0, 0, 0);
   startTime = StartDay.getTime();
+  console.log("今週初めは  " + StartDay);
   console.log("週の始まりは  " + new Date(startTime));
   console.log("週の終わりは  " + new Date(startTime + 86400000*6));
 
-// 開始日から7日分取得する
-    for(var dayCnt=0;dayCnt<=6;dayCnt++){
-      startTime = startTime + 86400000;
-      endTime = startTime + 86400000; //24時間
-      totalTime = 0;
-      totalJapaneseTime = 0;
-      totalEnglishTime = 0;
-      totalMathTime = 0;
-      totalUnsetTime = 0;
-      console.log(new Date(startTime));
-      console.log(new Date(endTime));
-      for(var cnt=0;cnt<compListArray.length;cnt++){
-        // もし勉強完了した時間がその日の0:00-23:59だったら
-        if(compListArray[cnt].compTime >= startTime && compListArray[cnt].compTime < endTime){
-          // 全ての勉強時間
-          totalTime += compListArray[cnt].study;
+  // 開始日から7日分取得する
+  for(var dayCnt=0;dayCnt<=6;dayCnt++){
+    console.log("なのか分のはじめ  " + new Date(startTime));
+    endTime = startTime + 86400000; //24時間
+    totalTime = 0;
+    totalJapaneseTime = 0;
+    totalEnglishTime = 0;
+    totalMathTime = 0;
+    totalUnsetTime = 0;
+    console.log(new Date(startTime));
+    console.log(new Date(endTime));
+    for(var cnt=0;cnt<compListArray.length;cnt++){
+      // もし勉強完了した時間がその日の0:00-23:59だったら
+      if(compListArray[cnt].compTime >= startTime && compListArray[cnt].compTime < endTime){
+        // 全ての勉強時間
+        totalTime += compListArray[cnt].study;
 
-          // 科目別勉強時間
-          if(compListArray[cnt].subject === "国語"){
-            totalJapaneseTime += compListArray[cnt].study;
-          } else if (compListArray[cnt].subject === "英語"){
-            totalEnglishTime += compListArray[cnt].study;
-          } else if (compListArray[cnt].subject === "数学"){
-            totalMathTime += compListArray[cnt].study;
-          } else {
-            totalUnsetTime += compListArray[cnt].study;
-          }
+        // 科目別勉強時間
+        if(compListArray[cnt].subject === "国語"){
+          totalJapaneseTime += compListArray[cnt].study;
+        } else if (compListArray[cnt].subject === "英語"){
+          totalEnglishTime += compListArray[cnt].study;
+        } else if (compListArray[cnt].subject === "数学"){
+          totalMathTime += compListArray[cnt].study;
+        } else {
+          totalUnsetTime += compListArray[cnt].study;
         }
       }
-
-      // １週間分の勉強時間
-      if(dayCnt === 0){
-        SunTotalTime = totalTime;
-        SunJapaneseTime = totalJapaneseTime;
-        SunEnglishTime = totalEnglishTime;
-        SunMathTime = totalMathTime;
-        SunUnsetTime = totalUnsetTime;
-      } else if (dayCnt === 1) {
-        MonTotalTime = totalTime;
-        MonJapaneseTime = totalJapaneseTime;
-        MonEnglishTime = totalEnglishTime;
-        MonMathTime = totalMathTime;
-        MOnUnsetTime = totalUnsetTime;
-      } else if (dayCnt === 2) {
-        TueTotalTime = totalTime;
-        TueJapaneseTime = totalJapaneseTime;
-        TueEnglishTime = totalEnglishTime;
-        TueMathTime = totalMathTime;
-        TueUnsetTime = totalUnsetTime;
-      } else if (dayCnt === 3) {
-        WedTotalTime = totalTime;
-        WedJapaneseTime = totalJapaneseTime;
-        WedEnglishTime = totalEnglishTime;
-        WedMathTime = totalMathTime;
-        WedUnsetTime = totalUnsetTime;
-      } else if (dayCnt === 4) {
-        ThuTotalTime = totalTime;
-        ThuJapaneseTime = totalJapaneseTime;
-        ThuEnglishTime = totalEnglishTime;
-        ThuMathTime = totalMathTime;
-        ThuUnsetTime = totalUnsetTime;
-      } else if (dayCnt === 5) {
-        FriTotalTime = totalTime;
-        FriJapaneseTime = totalJapaneseTime;
-        FriEnglishTime = totalEnglishTime;
-        FriMathTime = totalMathTime;
-        FriUnsetTime = totalUnsetTime;
-      } else if (dayCnt === 6) {
-        SatTotalTime = totalTime;
-        SatJapaneseTime = totalJapaneseTime;
-        SatEnglishTime = totalEnglishTime;
-        SatMathTime = totalMathTime;
-        SatUnsetTime = totalUnsetTime;
-      }
     }
+    startTime = startTime + 86400000;
+    // １週間分の勉強時間
+    if(dayCnt === 0){
+      SunTotalTime = totalTime;
+      SunJapaneseTime = totalJapaneseTime;
+      SunEnglishTime = totalEnglishTime;
+      SunMathTime = totalMathTime;
+      SunUnsetTime = totalUnsetTime;
+    } else if (dayCnt === 1) {
+      MonTotalTime = totalTime;
+      MonJapaneseTime = totalJapaneseTime;
+      MonEnglishTime = totalEnglishTime;
+      MonMathTime = totalMathTime;
+      MonUnsetTime = totalUnsetTime;
+    } else if (dayCnt === 2) {
+      TueTotalTime = totalTime;
+      TueJapaneseTime = totalJapaneseTime;
+      TueEnglishTime = totalEnglishTime;
+      TueMathTime = totalMathTime;
+      TueUnsetTime = totalUnsetTime;
+    } else if (dayCnt === 3) {
+      WedTotalTime = totalTime;
+      WedJapaneseTime = totalJapaneseTime;
+      WedEnglishTime = totalEnglishTime;
+      WedMathTime = totalMathTime;
+      WedUnsetTime = totalUnsetTime;
+    } else if (dayCnt === 4) {
+      ThuTotalTime = totalTime;
+      ThuJapaneseTime = totalJapaneseTime;
+      ThuEnglishTime = totalEnglishTime;
+      ThuMathTime = totalMathTime;
+      ThuUnsetTime = totalUnsetTime;
+    } else if (dayCnt === 5) {
+      FriTotalTime = totalTime;
+      FriJapaneseTime = totalJapaneseTime;
+      FriEnglishTime = totalEnglishTime;
+      FriMathTime = totalMathTime;
+      FriUnsetTime = totalUnsetTime;
+    } else if (dayCnt === 6) {
+      SatTotalTime = totalTime;
+      SatJapaneseTime = totalJapaneseTime;
+      SatEnglishTime = totalEnglishTime;
+      SatMathTime = totalMathTime;
+      SatUnsetTime = totalUnsetTime;
+    }
+  }
 }
 
 function weekGraph(){
-  // var maxVal = null;
-  // var hoge = 0;
-  // if (hoge === 0){
-  //   maxVal =10;
-  // }
   $('#container').highcharts({
       chart: {
           type: 'column',
@@ -1285,9 +1284,6 @@ function timer() {
     }, interval); // ←これが間隔
 
 } // ここまで timer
-
-// スタートしてる状態でリロードしてストップボタンを押すとばぐる
-
 
 // スタート/ストップボタン
   $("#start").on("click",function (){
