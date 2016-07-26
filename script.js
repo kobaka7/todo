@@ -230,9 +230,9 @@ function setObj(){
   $studyTabToday = $(".m-study-tab-today");
   $studyTabWeek = $(".m-study-tab-week");
   $studyTabAll = $(".m-study-tab-all");
-  $todayMode = $(".wrapper");
+  $todayMode = $(".l-study-today");
   $weekMode = $("#container");
-  $allMode = $(".m-study-all");
+  $allMode = $(".l-study-all");
 }
 
 // ボタン操作まとめ
@@ -1042,6 +1042,7 @@ function getWeekStudyTime(){
 }
 
 function weekGraph(){
+  console.log(MonUnsetTime);
   $('#container').highcharts({
       chart: {
           type: 'column',

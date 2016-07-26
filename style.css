@@ -524,7 +524,7 @@ body {
   background: #f9f9f9;
   font-family: "Oswald", "Helvetica Newe", Helvetica, sans-serif;
 }
-.wrapper {
+.l-study-today {
   position: absolute;
   left: 0;
   width: 100%;
@@ -599,7 +599,7 @@ body {
   font-size: 56px;
 }
 path:hover { opacity: .65; }
-.l-study .wrapper {
+.l-study .l-study-today {
     transform: scale(0.7);
 }
 #doughnutChart > p {
