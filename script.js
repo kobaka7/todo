@@ -22,6 +22,7 @@ var $editBtn  = null;
 var $editCompBtn = null;
 var $editCancelBtn = null;
 var $comp = null;
+var $compCancelBtn = null;
 var $compEditCancelBtn = null;
 var $compEditBtn = null;
 var $compEditCancelBtn = null;
@@ -48,6 +49,8 @@ var time = 0; //タイマーの中
 var menuStatus = false;
 var weekGraphScroll = false;
 var circleGraphFrag = false;
+var allCircleGraphFrag = false;
+var allCircleGraphTabFrag = false;
 
 var totalWeekTime = 0;
 var SunTotalTime = null;
@@ -143,6 +146,18 @@ var stop = true;
 var timerStudyTime = 0;
 var nowTime = 0;
 
+
+var studyAllTimes = 0;
+var studyJapaneseTime = 0;
+var studyAllJapaneseTimes = 0;
+var studyMathTime = 0;
+var studyAllMathTimes = 0;
+var studyEnglishTime = 0;
+var studyAllEnglishTimes = 0;
+var studyUnsetTime = 0;
+var studyAllUnsetTimes = 0;
+
+
 setObj();
 setBtn();
 setEvent();
@@ -179,6 +194,7 @@ function setObj(){
   $comp = $(".l-comp");
   $compBtn = $(".m-comp-btn");
   $compDoneBtn = $(".m-comp-done-btn");
+  $compCancelBtn =$(".m-comp-cancel-btn");
   $removeBtn = $(".m-remove-btn");
   $compEditCancelBtn = $(".m-comp-edit-cancel-btn");
   $compEditDelateBtn = $(".m-comp-edit-delate-btn");
@@ -254,9 +270,12 @@ function showTask(){
   $headerTitle.text("");
   $header.css({backgroundColor:"#007AFF"});
 
+  // 非表示にする
   $("#doughnutChart").find("svg").remove();
+  $("#allDoughnutChart").find("svg").remove();
   $(".doughnutSummary").find("p").remove();
   circleGraphFrag = false;
+  allCircleGraphFrag = false;
 }
 
 function setBtn(){
@@ -317,6 +336,9 @@ function setBtn(){
   $compEditDelateBtn.on("click",function(evt){
     doneRemove(num);
   });
+  $compCancelBtn.on("click",function(evt){
+    showTask();
+  });
   $timerStratBtn.on("click",function(evt){
     $(this).css({display:"none"});
     $timerStopBtn.css({display:"block"});
@@ -331,6 +353,7 @@ function setBtn(){
     $todayMode.css({display:"block"});
     $weekMode.css({display:"none"});
     $allMode.css({display:"none"});
+    allCircleGraphTabFrag = false;
   });
   $studyTabWeek.on("click",function(evt){
     $(".l-study-tab-list > li").removeClass("is-active");
@@ -340,6 +363,7 @@ function setBtn(){
     $allMode.css({display:"none"});
     showWeekTime();
     weekGraph();
+    allCircleGraphTabFrag = false;
   });
   $studyTabAll.on("click",function(evt){
     $(".l-study-tab-list > li").removeClass("is-active");
@@ -348,6 +372,8 @@ function setBtn(){
     $weekMode.css({display:"none"});
     $allMode.css({display:"block"});
     showAllTime();
+    allDoughnutChart();
+    allCircleGraphTabFrag = true;
   });
 
   // 完了ボタン押したら
@@ -672,6 +698,16 @@ function doneEdit(){
 // ======================================================================
                             // 完了画面
 // ======================================================================
+// ======================================================================
+                            // 完了画面
+// ======================================================================
+// ======================================================================
+                            // 完了画面
+// ======================================================================
+// ======================================================================
+                            // 完了画面
+// ======================================================================
+
 
 function showComp(aTarget){
   aTarget.find(".m-comp-btn").on("click",function(evt){
@@ -688,6 +724,26 @@ function showComp(aTarget){
     $cancelBtn.css({display:"none"});
     $header.css({display:"none"});
     $headerTitle.text("");
+
+    var studytime = listArray[num].timerStudyTime;
+    console.log(studytime);
+    // 追加する時間
+    var appendHour = studytime / (1000 * 60 * 60) | 0; // 1/1000秒x60秒x60分
+    var appendMinute = studytime % (1000 * 60 * 60) / (1000 * 60) | 0; // 時間で割った余りを割る
+    console.log(appendHour);
+    console.log(appendMinute);
+
+    // $("select.m-comp-time-hours[@value=" + appendHour + "]").prop("selected",true);
+    // $("select.m-comp-time-hours[@value=" + appendMinute + "]").prop("selected",true);
+    console.log($("select.m-comp-time-hours").find("option").eq(appendMinute + 1));
+    $("select.m-comp-time-hours").find("option").eq(appendMinute + 1).attr("selected",true);
+    $("select.m-comp-time-hours").find("option").eq(appendMinute + 1).attr("selected",true);
+    // $("select.m-comp-time-hours option:selected").prop("selected", false);
+    // $("select.m-comp-time-hours").val("0");
+    // console.log($("select.m-comp-time-hours").val());
+    // $("select.m-comp-time-hours").prop("selectedIndex", appendHour + 1);
+    // $("select.m-comp-time-hours").find("option").eq(appendMinute + 1).prop("selected",true);
+    // $("select.m-comp-time-minutes").val(appendMinute);
   });
 }
 
@@ -816,6 +872,27 @@ function doneRemove(num){
                             // 勉強時間
 // ======================================================================
 
+function clickMenuStudy(){
+  $menuStudy.on("click",function(evt){
+    today = new Date();
+    year = today.getFullYear();
+    month = today.getMonth();
+    date = today.getDate();
+    week = today.getDay();
+    menuListClick($(this));
+    showStudy();
+    showTodayTime();
+    doughnutChart();
+    $studyTab.css({display:"block"});
+
+    // 戻ってきたときにもし「合計」が表示されていたら最初から合計表示
+    if(allCircleGraphTabFrag === true){
+      showAllTime();
+      allDoughnutChart();
+    }
+  });
+}
+
 function showStudy(){
   $addList.css({display:"none"});
   $edit.css({display:"none"});
@@ -836,19 +913,23 @@ function showStudy(){
 
 function showAllTime(){
   var compListArray = getLocalStorage("compTodo",compListArray);
-  var studyAllTimes = 0;
-  var studyJapaneseTime = 0;
-  var studyAllJapaneseTimes = 0;
-  var studyMathTime = 0;
-  var studyAllMathTimes = 0;
-  var studyEnglishTime = 0;
-  var studyAllEnglishTimes = 0;
-  var studyTodayTime = 0;
-  var studyTodayAllTimes = 0;
+
+  // 二回目のクリック以降にダブらないようリセット
+  studyTime = 0;
+  studyJapaneseTime = 0;
+  studyEnglishTime = 0;
+  studyMathTime = 0;
+  studyUnsetTime = 0;
+  studyAllTimes = 0;
+  studyAllJapaneseTimes = 0;
+  studyAllEnglishTimes = 0;
+  studyAllMathTimes = 0;
+  studyAllUnsetTimes = 0;
 
   for(var cnt=0; cnt<compListArray.length; cnt++){
     studyTime = Number(compListArray[cnt].study);
     studyAllTimes += studyTime;
+    console.log(compListArray[cnt].study);
   }
   console.log("全ての勉強時間は " + studyAllTimes);
 
@@ -878,25 +959,47 @@ function showAllTime(){
     }
   }
   console.log("全ての英語の勉強時間は " + studyAllEnglishTimes);
+
+    // 英語の勉強時間（分）（数値）
+  for(var cnt=0; cnt<compListArray.length; cnt++){
+    if(compListArray[cnt].subject === "未設定" || compListArray[cnt].subject === null){
+      studyUnsetTime = Number(compListArray[cnt].study);
+      studyAllUnsetTimes += studyUnsetTime;
+    }
+  }
 }
+
+function allDoughnutChart(){
+  if(allCircleGraphFrag === false){
+    var compListArray = getLocalStorage("compTodo",compListArray);
+    var studyAllTimes = 0;
+
+    // 全ての勉強時間（分）（数値）
+    for(var cnt=0; cnt<compListArray.length; cnt++){
+      studyTime = Number(compListArray[cnt].study);
+      studyAllTimes += studyTime;
+    }
+
+    // もしまだひとつもタスクを完了していないか、勉強時間が0だったら
+    if(compListArray[0] === undefined || studyAllTimes === 0){
+      $("#allDoughnutChart").find("p").text("今日はまだ勉強してません");
+    } else {
+      $("#allDoughnutChart").find("p").text("");
+      console.log("合計の国語の勉強時間は" + studyJapaneseTime);
+      $("#allDoughnutChart").drawDoughnutChart([
+          { title: "国語", value : studyAllJapaneseTimes,  color: "#00CCC6" },
+          { title: "英語", value: studyAllEnglishTimes,   color: "#BA78FF" },
+          { title: "数学", value: studyAllMathTimes,   color: "#F5A623" },
+          { title: "未設定", value: studyAllUnsetTimes,   color: "#ccc" },
+      ]);
+    }
+  }
+  allCircleGraphFrag = true;
+}
+
 // ======================================================================
                             // 本日の勉強時間
 // ======================================================================
-
-function clickMenuStudy(){
-  $menuStudy.on("click",function(evt){
-    today = new Date();
-    year = today.getFullYear();
-    month = today.getMonth();
-    date = today.getDate();
-    week = today.getDay();
-    menuListClick($(this));
-    showStudy();
-    showTodayTime();
-    doughnutChart();
-    $studyTab.css({display:"block"});
-  });
-}
 
 function showTodayTime(){
   var compListArray = getLocalStorage("compTodo",compListArray);
@@ -904,6 +1007,18 @@ function showTodayTime(){
   endDay = new Date(year, month, date, 23, 59, 59);
   startTime = startDay.getTime();
   endTime = endDay.getTime();
+
+  totalTime = 0;
+  todayTotalTime = 0;
+  todayJapaneseTime = 0;
+  todayEnglishTime = 0;
+  todayMathTime = 0;
+  todayUnsetTime = 0;
+  totalJapaneseTime = 0;
+  totalMathTime = 0;
+  totalEnglishTime = 0;
+  totalUnsetTime = 0;
+
   for(var cnt=0;cnt<compListArray.length;cnt++){
     // もし勉強完了した時間がその日の0:00-23:59だったら
     if(compListArray[cnt].compTime >= startTime && compListArray[cnt].compTime <= endTime){
@@ -921,15 +1036,40 @@ function showTodayTime(){
         totalUnsetTime += compListArray[cnt].study;
       }
     }
-      todayTotalTime = totalTime;
-      todayJapaneseTime = totalJapaneseTime;
-      todayEnglishTime = totalEnglishTime;
-      todayMathTime = totalMathTime;
-      todayUnsetTime = totalUnsetTime;
+    todayTotalTime = totalTime;
+    todayJapaneseTime = totalJapaneseTime;
+    todayEnglishTime = totalEnglishTime;
+    todayMathTime = totalMathTime;
+    todayUnsetTime = totalUnsetTime;
   }
-  return totalTime;
 }
 
+function doughnutChart(){
+  if(circleGraphFrag === false){
+    var compListArray = getLocalStorage("compTodo",compListArray);
+    var studyAllTimes = 0;
+
+    // 全ての勉強時間（分）（数値）
+    for(var cnt=0; cnt<compListArray.length; cnt++){
+      studyTime = Number(compListArray[cnt].study);
+      studyAllTimes += studyTime;
+    }
+
+    // もしまだひとつもタスクを完了していないか、勉強時間が0だったら
+    if(compListArray[0] === undefined || studyAllTimes === 0){
+      $("#doughnutChart").find("p").text("今日はまだ勉強してません");
+    } else {
+      $("#doughnutChart").find("p").text("");
+      $("#doughnutChart").drawDoughnutChart([
+          { title: "国語", value : todayJapaneseTime,  color: "#00CCC6" },
+          { title: "英語", value:  todayEnglishTime,   color: "#BA78FF" },
+          { title: "数学", value:  todayMathTime,   color: "#F5A623" },
+          { title: "未設定", value:  todayUnsetTime,   color: "#ccc" },
+      ]);
+    }
+  }
+  circleGraphFrag = true;
+}
 // ======================================================================
                             // 今週の勉強時間
 // ======================================================================
@@ -1168,33 +1308,6 @@ function weekGraph(){
   $(".highcharts-container").css({position:"relative"});
   $(".highcharts-container").css({left:"-5%"});
   $(".highcharts-grid > path").css({stroke:"#ddd"}).css({opacity:0.4});
-}
-
-function doughnutChart(){
-  if(circleGraphFrag === false){
-    var compListArray = getLocalStorage("compTodo",compListArray);
-    var studyAllTimes = 0;
-
-    // 全ての勉強時間（分）（数値）
-    for(var cnt=0; cnt<compListArray.length; cnt++){
-      studyTime = Number(compListArray[cnt].study);
-      studyAllTimes += studyTime;
-    }
-
-    // もしまだひとつもタスクを完了していないか、勉強時間が0だったら
-    if(compListArray[0] === undefined || studyAllTimes === 0){
-      $("#doughnutChart").find("p").text("今日はまだ勉強してません");
-    } else {
-      $("#doughnutChart").find("p").text("");
-      $("#doughnutChart").drawDoughnutChart([
-          { title: "国語", value : todayJapaneseTime,  color: "#00CCC6" },
-          { title: "英語", value:  todayEnglishTime,   color: "#BA78FF" },
-          { title: "数学", value:  todayMathTime,   color: "#F5A623" },
-          { title: "未設定", value:  todayUnsetTime,   color: "#ccc" },
-      ]);
-    }
-  }
-  circleGraphFrag = true;
 }
 
 // ======================================================================

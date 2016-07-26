@@ -321,7 +321,6 @@ li.l-menu-list-add {
 .m-comp-edit-btn,
 .m-comp-edit-delate-btn,
 .m-comp-edit-revival-btn,
-.m-comp-cancel-btn,
 .m-comp-done-btn {
   display: block;
   padding: 8px 16px;
@@ -345,7 +344,10 @@ li.l-menu-list-add {
   left: 50%;
   transform: translate(-50%,-50%);
 }
-
+.m-comp-cancel-btn {
+  display: block;
+  margin: 24px auto;
+}
 /*======================== 編集画面 ============================*/
 
 .m-edit-tab {
@@ -524,7 +526,8 @@ body {
   background: #f9f9f9;
   font-family: "Oswald", "Helvetica Newe", Helvetica, sans-serif;
 }
-.l-study-today {
+.l-study-today,
+.l-study-all {
   position: absolute;
   left: 0;
   width: 100%;
@@ -598,9 +601,14 @@ body {
   margin-top: -11%;
   font-size: 56px;
 }
-path:hover { opacity: .65; }
+path:hover {
+  opacity: .65;
+}
 .l-study .l-study-today {
-    transform: scale(0.7);
+  transform: scale(0.7);
+}
+.l-study .l-study-all {
+  transform: scale(0.7);
 }
 #doughnutChart > p {
   font-size: 20px;
