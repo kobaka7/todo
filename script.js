@@ -1440,14 +1440,18 @@ function timer() {
   });
 
 
+
+
 function showDate(){
   // カレンダー取得
   const picker = new MaterialDatePicker({})
     .on('submit', function(d){
       dateObj = (d._d); // カレンダーで取得した日付オブジェクト
       var json = JSON.stringify(dateObj);
-      createDate(dateObj);
+      // createDate(dateObj);
       dateGetTime = (dateObj.getTime());
+      console.log(dateGetTime);
+      $(".m-comp-output-area").text(dateGetTime);
     });
 
   // クリックしたらモーダル開く
@@ -1456,6 +1460,7 @@ function showDate(){
     picker.open();
   });
 }
+
 
 }); //html実行後
 })(); //即時関数

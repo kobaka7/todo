@@ -622,3 +622,7 @@ path:hover {
 #container {
   display: none;
 }
+.m-comp-output-area {
+  padding: 20%;
+  color: #000;
+}
