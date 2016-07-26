@@ -157,7 +157,8 @@ var studyAllEnglishTimes = 0;
 var studyUnsetTime = 0;
 var studyAllUnsetTimes = 0;
 
-
+showDate();
+var createDate = null;
 setObj();
 setBtn();
 setEvent();
@@ -708,7 +709,6 @@ function doneEdit(){
                             // 完了画面
 // ======================================================================
 
-
 function showComp(aTarget){
   aTarget.find(".m-comp-btn").on("click",function(evt){
     evt.stopPropagation(); //liへのイベント伝播禁止
@@ -733,6 +733,7 @@ function showComp(aTarget){
     console.log(appendHour);
     console.log(appendMinute);
 
+    // 初期表示
     $("select.m-comp-time-hours").find("option").eq(appendHour + 1).prop("selected",true);
     $('select.m-comp-time-hours').material_select();
     $("select.m-comp-time-minutes").find("option").eq(appendMinute + 1).prop("selected",true);
@@ -1437,6 +1438,24 @@ function timer() {
     listArray[num].timerStartTime = 0;
     setLocalStorage("todo",listArray);
   });
+
+
+function showDate(){
+  // カレンダー取得
+  const picker = new MaterialDatePicker({})
+    .on('submit', function(d){
+      dateObj = (d._d); // カレンダーで取得した日付オブジェクト
+      var json = JSON.stringify(dateObj);
+      createDate(dateObj);
+      dateGetTime = (dateObj.getTime());
+    });
+
+  // クリックしたらモーダル開く
+  $('.c-datepicker-btn').on('click', function(){
+    // カレンダーを開く処理
+    picker.open();
+  });
+}
 
 }); //html実行後
 })(); //即時関数

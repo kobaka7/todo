@@ -11,6 +11,7 @@ maximum-scale=1.0, user-scalable=no" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
+  <link rel="stylesheet" href="datepicker.css">
   <title>ToDo List</title>
 </head>
 <body>
@@ -130,7 +131,12 @@ maximum-scale=1.0, user-scalable=no" />
     <p>タスクを完了しました</p>
     <button class="m-comp-cancel-btn">完了をキャンセルする</button>
 
-    <div class="input-field col s12 m-comp-time">
+    <a class="c-btn c-datepicker-btn">
+      日付選択
+    </a>
+
+
+    <div class="input-field col s12">
       <select class="m-comp-time-hours">
         <option value="" disabled selected>未設定</option>
         <option value="0">0時間</option>
@@ -150,7 +156,7 @@ maximum-scale=1.0, user-scalable=no" />
       <label>時間</label>
     </div>
 
-    <div class="input-field col s12 m-comp-time">
+    <div class="input-field col s12">
       <select class="m-comp-time-minutes">
         <option value="" disabled selected>未設定</option>
         <option value="0">0分</option>
