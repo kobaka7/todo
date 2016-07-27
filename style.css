@@ -4,6 +4,16 @@ body {
   font-size: 14px;
 /*  position: relative;*/
 }
+/*body::before {
+  content: "";
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background: url(img/background.png) no-repeat;
+  background-size: 100%;
+  z-index: -1;
+  opacity: 0.1;
+}*/
 a {
   text-decoration: none;
 }
@@ -173,7 +183,6 @@ li.l-menu-list-add {
 .l-list-item {
   display: table;
 }
-
 .list-item {
   display: inline-block;
   width: 86%;
@@ -375,35 +384,34 @@ li.l-menu-list-add {
   box-sizing: border-box;
   padding: 64px 0 0 0;
 }
-
+.l-task-tab-list li.is-active span,
+.l-study-tab-list li.is-active span {
+  background-color: #007AFF;
+  padding: 8px 24px;
+  display: inline-block;
+  color: #fff;
+  border-radius: 30px;
+}
 .m-output-area {
   width: 100%;
   padding: 0 0 50px 0;
 }
-
 .l-task-tab-list,
 .l-study-tab-list {
   width: 93%;
-  margin: 8px auto;
+  margin: 0 auto;
   display: table;
-  border: 1px solid #007AFF;
   border-radius: 4px;
   font-size: 12px;
 }
 .l-task-tab-list > li,
 .l-study-tab-list > li {
   color: #007AFF;
-  padding: 7px 16px;
+  padding: 12px 8px;
   text-align: center;
   display: table-cell;
-  border-left: 1px solid #007AFF;
   width: 33%;
   font-size: 13px;
-}
-.l-task-tab-list > li.is-active,
-.l-study-tab-list > li.is-active{
-  background-color: #007AFF;
-  color: #fff;
 }
 .l-task-tab-list > li:first-child,
 .l-study-tab-list > li:first-child {

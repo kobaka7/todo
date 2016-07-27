@@ -51,56 +51,47 @@ var weekGraphScroll = false;
 var circleGraphFrag = false;
 var allCircleGraphFrag = false;
 var allCircleGraphTabFrag = false;
-
 var totalWeekTime = 0;
 var SunTotalTime = null;
 var SunJapaneseTime = null;
 var SunEnglishTime = null;
 var SunMathTime = null;
 var SunUnsetTime = null;
-
 var MonTotalTime = null;
 var MonJapaneseTime = null;
 var MonEnglishTime = null;
 var MonMathTime = null;
 var MonUnsetTime = null;
-
 var TueTotalTime = null;
 var TueJapaneseTime = null;
 var TueEnglishTime = null;
 var TueMathTime = null;
 var TueUnsetTime = null;
-
 var WedTotalTime = null;
 var WedJapaneseTime = null;
 var WedEnglishTime = null;
 var WedMathTime = null;
 var WedUnsetTime = null;
-
 var ThuTotalTime = null;
 var ThuJapaneseTime = null;
 var ThuEnglishTime = null;
 var ThuMathTime = null;
 var ThuUnsetTime = null;
-
 var FriTotalTime = null;
 var FriJapaneseTime = null;
 var FriEnglishTime = null;
 var FriMathTime = null;
 var FriUnsetTime = null;
-
 var SatTotalTime = null;
 var SatJapaneseTime = null;
 var SatEnglishTime = null;
 var SatMathTime = null;
 var SatUnsetTime = null;
-
 var todayTotalTime = null;
 var todayJapaneseTime = null;
 var todayEnglishTime = null;
 var todayMathTime = null;
 var toDayUnsetTime = null;
-
 var totalTime = 0;
 var totalJapaneseTime = 0;
 var totalMathTime = 0;
@@ -116,7 +107,6 @@ var startDay = null;
 var endDay = null;
 var startTime = null;
 var endTime = null;
-
 // var FevDate =...;
 // 月ごとのマックスの日数
 var maxDate = [31,28,31,30,31,30,31,31,30,31,30,31];
@@ -145,8 +135,6 @@ var stop = true;
 // タイマーで表示されている勉強時間
 var timerStudyTime = 0;
 var nowTime = 0;
-
-
 var studyAllTimes = 0;
 var studyJapaneseTime = 0;
 var studyAllJapaneseTimes = 0;
@@ -156,7 +144,6 @@ var studyEnglishTime = 0;
 var studyAllEnglishTimes = 0;
 var studyUnsetTime = 0;
 var studyAllUnsetTimes = 0;
-
 
 setObj();
 setBtn();
@@ -698,16 +685,6 @@ function doneEdit(){
 // ======================================================================
                             // 完了画面
 // ======================================================================
-// ======================================================================
-                            // 完了画面
-// ======================================================================
-// ======================================================================
-                            // 完了画面
-// ======================================================================
-// ======================================================================
-                            // 完了画面
-// ======================================================================
-
 
 function showComp(aTarget){
   aTarget.find(".m-comp-btn").on("click",function(evt){
@@ -733,17 +710,9 @@ function showComp(aTarget){
     console.log(appendHour);
     console.log(appendMinute);
 
-    // $("select.m-comp-time-hours[@value=" + appendHour + "]").prop("selected",true);
-    // $("select.m-comp-time-hours[@value=" + appendMinute + "]").prop("selected",true);
-    console.log($("select.m-comp-time-hours").find("option").eq(appendMinute + 1));
+    // 最初からタイマーの時間を表示させる
     $("select.m-comp-time-hours").find("option").eq(appendMinute + 1).attr("selected",true);
     $("select.m-comp-time-hours").find("option").eq(appendMinute + 1).attr("selected",true);
-    // $("select.m-comp-time-hours option:selected").prop("selected", false);
-    // $("select.m-comp-time-hours").val("0");
-    // console.log($("select.m-comp-time-hours").val());
-    // $("select.m-comp-time-hours").prop("selectedIndex", appendHour + 1);
-    // $("select.m-comp-time-hours").find("option").eq(appendMinute + 1).prop("selected",true);
-    // $("select.m-comp-time-minutes").val(appendMinute);
   });
 }
 
@@ -982,7 +951,7 @@ function allDoughnutChart(){
 
     // もしまだひとつもタスクを完了していないか、勉強時間が0だったら
     if(compListArray[0] === undefined || studyAllTimes === 0){
-      $("#allDoughnutChart").find("p").text("今週はまだ勉強してません");
+      $("#allDoughnutChart").find("p").text("完了したタスクがまだないよ");
     } else {
       $("#allDoughnutChart").find("p").text("");
       console.log("合計の国語の勉強時間は" + studyJapaneseTime);
@@ -1060,7 +1029,7 @@ function doughnutChart(){
     console.log(studyAllTimes);
     // もしまだひとつもタスクを完了していないか、勉強時間が0だったら
     if(compListArray[0] === undefined || todayTotalTime === 0){
-      $("#doughnutChart").find("p").text("今日はまだ勉強してません");
+      $("#doughnutChart").find("p").text("今日完了したタスクはまだないよ");
     } else {
       $("#doughnutChart").find("p").text("");
       $("#doughnutChart").drawDoughnutChart([
@@ -1219,18 +1188,6 @@ function weekGraph(){
               }
           }
       },
-      legend: {
-          //ジャンルの場所
-          // align: 'right',
-          // x: -30,
-          // verticalAlign: 'top',
-          // y: 25,
-          // floating: true,
-          // backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
-          // borderColor: '#CCC',
-          // borderWidth: 1,
-          // shadow: false
-      },
       tooltip: {
           headerFormat: '<b>{point.x}</b><br/>',
           pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
@@ -1239,14 +1196,6 @@ function weekGraph(){
           column: {
               stacking: 'normal',
               pointWidth: 10,
-              // dataLabels: {
-              //     enabled: true,
-              //     color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
-              //     style: {
-              //         // textShadow: '0 0 3px black'
-              //         textShadow: false
-              //     }
-              // }
           }
       },
       series: [{
