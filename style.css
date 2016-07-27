@@ -712,6 +712,15 @@ path:hover {
   display: block;
   margin: 16px auto 0;
 }
+.m-study-all-num {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  top: 400px;
+}
+.m-study-all-num p{
+  font-size: 24px;
+}
 /*======================== input ============================*/
 input,textarea {
     width: 100%;
