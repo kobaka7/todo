@@ -135,8 +135,6 @@ var btnStart = $("#start");
 var btnReset = $("#reset");
 // 経過時間（最初は0）
 var currentTime = 0;
-// 止まるかどうか
-var stop = true;
 // タイマーで表示されている勉強時間
 var timerStudyTime = 0;
 var nowTime = 0;
@@ -589,7 +587,6 @@ function addListEl(){
 // ======================================================================
 
 function showEdit(aTarget){
-
   aTarget.on("click",function(){
     $(".input-field col s12 > label").addClass("active");
     var listArray = getLocalStorage("todo",listArray);
@@ -612,6 +609,25 @@ function showEdit(aTarget){
     var $inputText = aTarget.find(".m-list-txt").text();
     $editInputText.val($inputText);
 
+    // 科目の初期値を取得する
+    var subjectNum = 0;
+    switch(listArray[num].subject){
+      case "国語":
+          subjectNum = 1;
+          break;
+      case "英語":
+          subjectNum = 2;
+          break;
+      case "数学":
+          subjectNum = 3;
+          break;
+      default:
+          subjectNum = 0;
+          break;
+    }
+    $("select.m-edit-subject").find("option").eq(subjectNum).prop("selected",true);
+
+    // 勉強時間を表示する
     currentTime = listArray[num].timerStudyTime;
 
     // 追加する時間
@@ -635,9 +651,6 @@ function showEdit(aTarget){
 // 編集ボタンを押したら
 function doneEdit(){
   $("select.m-edit-subject").prop("selected",false);
-  // listArray[num].subjectで切り替え
-  // 選んだやつをeqで指定してselectedをtrueにする
-  // 科目のvalueを数字にしてあげると楽かも
   var listArray = getLocalStorage("todo",listArray);
   var $inputTxt = $editInputText.val();
   var $inputSbject = $("select.m-edit-subject").val();
@@ -1338,6 +1351,8 @@ function setTimer(){
     nowTime = (new Date()).getTime();
     currentTime = currentTime + (nowTime - listArray[num].timerStartTime);
     timer();
+    // $("#start").addClass("is-active");
+    // $("#start").text("ストップ");
   }
 
   // 追加する時間
