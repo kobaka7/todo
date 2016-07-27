@@ -157,8 +157,7 @@ var studyAllEnglishTimes = 0;
 var studyUnsetTime = 0;
 var studyAllUnsetTimes = 0;
 
-showDate();
-var createDate = null;
+
 setObj();
 setBtn();
 setEvent();
@@ -709,6 +708,7 @@ function doneEdit(){
                             // 完了画面
 // ======================================================================
 
+
 function showComp(aTarget){
   aTarget.find(".m-comp-btn").on("click",function(evt){
     evt.stopPropagation(); //liへのイベント伝播禁止
@@ -733,11 +733,17 @@ function showComp(aTarget){
     console.log(appendHour);
     console.log(appendMinute);
 
-    // 初期表示
-    $("select.m-comp-time-hours").find("option").eq(appendHour + 1).prop("selected",true);
-    $('select.m-comp-time-hours').material_select();
-    $("select.m-comp-time-minutes").find("option").eq(appendMinute + 1).prop("selected",true);
-    $('select.m-comp-time-minutes').material_select();
+    // $("select.m-comp-time-hours[@value=" + appendHour + "]").prop("selected",true);
+    // $("select.m-comp-time-hours[@value=" + appendMinute + "]").prop("selected",true);
+    console.log($("select.m-comp-time-hours").find("option").eq(appendMinute + 1));
+    $("select.m-comp-time-hours").find("option").eq(appendMinute + 1).attr("selected",true);
+    $("select.m-comp-time-hours").find("option").eq(appendMinute + 1).attr("selected",true);
+    // $("select.m-comp-time-hours option:selected").prop("selected", false);
+    // $("select.m-comp-time-hours").val("0");
+    // console.log($("select.m-comp-time-hours").val());
+    // $("select.m-comp-time-hours").prop("selectedIndex", appendHour + 1);
+    // $("select.m-comp-time-hours").find("option").eq(appendMinute + 1).prop("selected",true);
+    // $("select.m-comp-time-minutes").val(appendMinute);
   });
 }
 
@@ -976,7 +982,7 @@ function allDoughnutChart(){
 
     // もしまだひとつもタスクを完了していないか、勉強時間が0だったら
     if(compListArray[0] === undefined || studyAllTimes === 0){
-      $("#allDoughnutChart").find("p").text("今日はまだ勉強してません");
+      $("#allDoughnutChart").find("p").text("今週はまだ勉強してません");
     } else {
       $("#allDoughnutChart").find("p").text("");
       console.log("合計の国語の勉強時間は" + studyJapaneseTime);
@@ -1043,14 +1049,17 @@ function doughnutChart(){
     var compListArray = getLocalStorage("compTodo",compListArray);
     var studyAllTimes = 0;
 
-    // 全ての勉強時間（分）（数値）
-    for(var cnt=0; cnt<compListArray.length; cnt++){
-      studyTime = Number(compListArray[cnt].study);
-      studyAllTimes += studyTime;
+  // 本日の合計勉強時間
+  for(var cnt=0;cnt<compListArray.length;cnt++){
+    if(compListArray[cnt].compTime >= startTime && compListArray[cnt].compTime <= endTime){
+      totalTime += compListArray[cnt].study;
     }
+    todayTotalTime = totalTime;
+  }
 
+    console.log(studyAllTimes);
     // もしまだひとつもタスクを完了していないか、勉強時間が0だったら
-    if(compListArray[0] === undefined || studyAllTimes === 0){
+    if(compListArray[0] === undefined || todayTotalTime === 0){
       $("#doughnutChart").find("p").text("今日はまだ勉強してません");
     } else {
       $("#doughnutChart").find("p").text("");
@@ -1438,29 +1447,6 @@ function timer() {
     listArray[num].timerStartTime = 0;
     setLocalStorage("todo",listArray);
   });
-
-
-
-
-function showDate(){
-  // カレンダー取得
-  const picker = new MaterialDatePicker({})
-    .on('submit', function(d){
-      dateObj = (d._d); // カレンダーで取得した日付オブジェクト
-      var json = JSON.stringify(dateObj);
-      // createDate(dateObj);
-      dateGetTime = (dateObj.getTime());
-      console.log(dateGetTime);
-      $(".m-comp-output-area").text(dateGetTime);
-    });
-
-  // クリックしたらモーダル開く
-  $('.c-datepicker-btn').on('click', function(){
-    // カレンダーを開く処理
-    picker.open();
-  });
-}
-
 
 }); //html実行後
 })(); //即時関数

@@ -4,14 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0,
 maximum-scale=1.0, user-scalable=no" />
-  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0-rc.2/themes/smoothness/jquery-ui.css">
   <link rel="stylesheet" type="text/css" href=reset.css>
   <link rel="stylesheet" type="text/css" href=style.css>
   <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
-  <link rel="stylesheet" href="datepicker.css">
   <title>ToDo List</title>
 </head>
 <body>
@@ -131,12 +129,7 @@ maximum-scale=1.0, user-scalable=no" />
     <p>タスクを完了しました</p>
     <button class="m-comp-cancel-btn">完了をキャンセルする</button>
 
-    <a class="c-btn c-datepicker-btn">
-      日付選択
-    </a>
-    <div class="m-comp-output-area"></div>
-
-    <div class="input-field col s12">
+    <div class="input-field col s12 m-comp-time">
       <select class="m-comp-time-hours">
         <option value="" disabled selected>未設定</option>
         <option value="0">0時間</option>
@@ -156,7 +149,7 @@ maximum-scale=1.0, user-scalable=no" />
       <label>時間</label>
     </div>
 
-    <div class="input-field col s12">
+    <div class="input-field col s12 m-comp-time">
       <select class="m-comp-time-minutes">
         <option value="" disabled selected>未設定</option>
         <option value="0">0分</option>
@@ -267,14 +260,11 @@ maximum-scale=1.0, user-scalable=no" />
   </div>
 
   <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <!--   <script src="https://code.jquery.com/jquery-3.0.0.min.js" integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0=" crossorigin="anonymous"></script> -->
   <script src="https://code.highcharts.com/highcharts.js"></script>
   <script src="https://code.highcharts.com/modules/exporting.js"></script>
   <script src="https://code.jquery.com/ui/1.12.0-rc.2/jquery-ui.min.js" integrity="sha256-55Jz3pBCF8z9jBO1qQ7cIf0L+neuPTD1u7Ytzrp2dqo=" crossorigin="anonymous"></script>
-  <script src="dist/js/datepicker.standalone.js" charset="utf-8"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
   <script src="graph2.js"></script>
-<!--   <script src="graph.js"></script> -->
   <script src="script.js"></script>
 </body>
 </html>
