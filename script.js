@@ -609,7 +609,6 @@ function doneEdit(){
   // listArray[num].subjectで切り替え
   // 選んだやつをeqで指定してselectedをtrueにする
   // 科目のvalueを数字にしてあげると楽かも
-  $('select').material_select();
   var listArray = getLocalStorage("todo",listArray);
   var $inputTxt = $editInputText.val();
   var $inputSbject = $("select.m-edit-subject").val();
@@ -697,8 +696,8 @@ function showComp(aTarget){
     console.log(appendMinute);
 
     // 最初からタイマーの時間を表示させる
-    $("select.m-comp-time-hours").find("option").eq(appendMinute + 1).attr("selected",true);
-    $("select.m-comp-time-hours").find("option").eq(appendMinute + 1).attr("selected",true);
+    $("select.m-comp-time-hours").find("option").eq(appendHour + 1).attr("selected",true);
+    $("select.m-comp-time-minutes").find("option").eq(appendMinute + 1).attr("selected",true);
   });
 }
 
