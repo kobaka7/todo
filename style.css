@@ -20,6 +20,8 @@ a {
 
 button {
  border: none;
+ padding: 0;
+ margin: 0;
 }
 /*========================== ヘッダー ============================*/
 
@@ -253,7 +255,7 @@ li.l-menu-list-add {
   background-size: 80%;
   position: absolute;
   top: 49%;
-  right: 40px;
+  right: 44px;
   opacity: 0.12;
   transform: translateY(-50%);
 }
@@ -273,7 +275,7 @@ li.l-menu-list-add {
   border-radius: 70px;
   display: inline-block;
   vertical-align: middle;
-  margin: 0 12px 0 0;
+  margin: 0 16px 0 0;
 }
 .m-comp-btn:hover {
   border: 1px solid #999;
@@ -387,10 +389,13 @@ li.l-menu-list-add {
 .l-task-tab-list li.is-active span,
 .l-study-tab-list li.is-active span {
   background-color: #007AFF;
-  padding: 8px 24px;
-  display: inline-block;
   color: #fff;
   border-radius: 30px;
+}
+.l-task-tab-list li span,
+.l-study-tab-list li span {
+  padding: 8px 15px;
+  display: inline-block;
 }
 .m-output-area {
   width: 100%;
@@ -399,7 +404,7 @@ li.l-menu-list-add {
 .l-task-tab-list,
 .l-study-tab-list {
   width: 93%;
-  margin: 0 auto;
+  margin: 15px auto;
   display: table;
   border-radius: 4px;
   font-size: 12px;
@@ -407,7 +412,7 @@ li.l-menu-list-add {
 .l-task-tab-list > li,
 .l-study-tab-list > li {
   color: #007AFF;
-  padding: 12px 8px;
+  padding: 0 8px;
   text-align: center;
   display: table-cell;
   width: 33%;
@@ -523,7 +528,6 @@ li.l-menu-list-add {
 .m-comp-time {
   display: inline-block;
 }
-
 /*======================== グラフ ============================*/
 @import "compass/reset/";
 @import "compass/css3/";
@@ -629,4 +633,11 @@ path:hover {
 }
 #container {
   display: none;
+}
+/*========================  モーダル　============================*/
+.modal-footer .btn-large {
+  background-color: #007AFF;
+}
+.waves-effect .btn-large:hover{
+  background-color: #4AA9FF;
 }
