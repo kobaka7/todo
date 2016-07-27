@@ -986,6 +986,10 @@ function showAllTime(){
       studyAllUnsetTimes += studyUnsetTime;
     }
   }
+  studyAllJapaneseTimes = Math.floor(studyAllJapaneseTimes/60*10)/10;
+  studyAllEnglishTimes = Math.floor(studyAllEnglishTimes/60*10)/10;
+  studyAllMathTimes = Math.floor(studyAllMathTimes/60*10)/10;
+  studyAllUnsetTimes = Math.floor(studyAllUnsetTimes/60*10)/10;
 }
 
 function allDoughnutChart(){
@@ -1014,7 +1018,7 @@ function allDoughnutChart(){
           { title: "数学", value: studyAllMathTimes, color: "#F5A623" },
           { title: "未設定", value: studyAllUnsetTimes, color: "#ccc" },
       ]);
-
+      // テキスト表示
       $(".m-study-all-jp").text("国語" + studyAllJapaneseTimes);
       $(".m-study-all-english").text("英語" + studyAllEnglishTimes);
       $(".m-study-all-math").text("数学" + studyAllMathTimes);
@@ -1024,12 +1028,6 @@ function allDoughnutChart(){
   allCircleGraphFrag = true;
 }
 
-      // <div class="m-study-today-num">
-      //   <p class="m-study-today-jp"></p>
-      //   <p class="m-study-today-english"></p>
-      //   <p class="m-study-today-math"></p>
-      //   <p class="m-study-today-unset"></p>
-      // </div>
 // ======================================================================
                             // 本日の勉強時間
 // ======================================================================
@@ -1069,11 +1067,11 @@ function showTodayTime(){
         totalUnsetTime += compListArray[cnt].study;
       }
     }
-    todayTotalTime = totalTime;
-    todayJapaneseTime = totalJapaneseTime;
-    todayEnglishTime = totalEnglishTime;
-    todayMathTime = totalMathTime;
-    todayUnsetTime = totalUnsetTime;
+    todayTotalTime = Math.floor(totalTime/60*10)/10;
+    todayJapaneseTime = Math.floor(totalJapaneseTime/60*10)/10;
+    todayEnglishTime = Math.floor(totalEnglishTime/60*10)/10;
+    todayMathTime = Math.floor(totalMathTime/60*10)/10;
+    todayUnsetTime = Math.floor(totalUnsetTime/60*10)/10;
   }
 }
 
@@ -1105,6 +1103,11 @@ function doughnutChart(){
           { title: "未設定", value:  todayUnsetTime,   color: "#ccc" },
       ]);
     }
+    // テキスト表示
+    $(".m-study-today-jp").text("国語" + todayJapaneseTime);
+    $(".m-study-today-english").text("英語" + todayEnglishTime);
+    $(".m-study-today-math").text("数学" + todayMathTime);
+    $(".m-study-today-unset").text("未設定" + todayUnsetTime);
   }
   circleGraphFrag = true;
 }
