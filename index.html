@@ -2,8 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0,
-maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <link rel="stylesheet" type="text/css" href=reset.css>
   <link rel="stylesheet" type="text/css" href=style.css>
   <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
@@ -73,15 +72,15 @@ maximum-scale=1.0, user-scalable=no" />
   <div class="l-edit">
   <input class="m-edit-input" maxlength="120"></input>
 
-      <select class="m-edit-subject">
-        <option value="" disabled selected>未設定</option>
-        <option value="国語">国語</option>
-        <option value="数学">数学</option>
-        <option value="英語">英語</option>
-      </select>
-      <label>教科を選ぶ</label>
+  <select class="m-edit-subject">
+    <option value="" disabled selected>未設定</option>
+    <option value="国語">国語</option>
+    <option value="数学">数学</option>
+    <option value="英語">英語</option>
+  </select>
+  <label>教科を選ぶ</label>
 
-    <div class="m-edit-studytime">
+  <div class="m-edit-studytime">
     <span class="m-edit-hour">00</span>
     :
     <span class="m-edit-minute">00</span>
@@ -89,126 +88,118 @@ maximum-scale=1.0, user-scalable=no" />
     <span class="m-edit-second">00</span>
     </div>
     <button class="m-edit-btn"></button>
-  </div>
+  </div><!-- l-edit -->
+
+<!-- ===== タイマー画面 ===== -->
 
   <div class="l-timer">
-<p id="watch">
-    <span id="hour">00</span>
-    :
-    <span id="minute">00</span>
-    :
-    <span id="second">00</span>
-</p>
-<div id="btn_wrap">
+    <p id="watch">
+        <span id="hour">00</span>
+        :
+        <span id="minute">00</span>
+        :
+        <span id="second">00</span>
+    </p>
     <a id="start" class="btn">スタート</a>
-  <a id="reset" class="btn">リセット</a>
-</div>
+    <a id="reset" class="btn">リセット</a>
   </div>
 
   <!-- ===== 完了画面 ===== -->
-<div data-remodal-id="modal2" role="dialog" aria-labelledby="modal2Title" aria-describedby="modal2Desc">
+  <div data-remodal-id="modal2" role="dialog" aria-labelledby="modal2Title" aria-describedby="modal2Desc">
 
     <p>タスクを完了しました</p>
-    <button class="m-comp-cancel-btn">完了をキャンセルする</button>
+    <img class="m-comp-img" src="img/comp.png" alt="完了イラスト">
+    <button data-remodal-action="confirm" class="m-comp-cancel-btn">完了をキャンセルする</button>
 
-      <select class="m-comp-time-hours">
-        <option value="" disabled selected>未設定</option>
-        <option value="0">0時間</option>
-        <option value="60">1時間</option>
-        <option value="120">2時間</option>
-        <option value="180">3時間</option>
-        <option value="240">4時間</option>
-        <option value="300">5時間</option>
-        <option value="360">6時間</option>
-        <option value="420">7時間</option>
-        <option value="480">8時間</option>
-        <option value="540">9時間</option>
-        <option value="600">10時間</option>
-        <option value="660">11時間</option>
-        <option value="720">12時間</option>
-      </select>
-      <label>時間</label>
+    <select class="m-comp-time-hours">
+      <option value="" disabled selected>未設定</option>
+      <option value="0">0時間</option>
+      <option value="60">1時間</option>
+      <option value="120">2時間</option>
+      <option value="180">3時間</option>
+      <option value="240">4時間</option>
+      <option value="300">5時間</option>
+      <option value="360">6時間</option>
+      <option value="420">7時間</option>
+      <option value="480">8時間</option>
+      <option value="540">9時間</option>
+      <option value="600">10時間</option>
+      <option value="660">11時間</option>
+      <option value="720">12時間</option>
+    </select>
+    <label>時間</label>
 
-      <select class="m-comp-time-minutes">
-        <option value="" disabled selected>未設定</option>
-        <option value="0">0分</option>
-        <option value="1">1分</option>
-        <option value="2">2分</option>
-        <option value="3">3分</option>
-        <option value="4">4分</option>
-        <option value="5">5分</option>
-        <option value="6">6分</option>
-        <option value="7">7分</option>
-        <option value="8">8分</option>
-        <option value="9">9分</option>
-        <option value="10">10分</option>
-        <option value="11">11分</option>
-        <option value="12">12分</option>
-        <option value="13">13分</option>
-        <option value="14">14分</option>
-        <option value="15">15分</option>
-        <option value="16">16分</option>
-        <option value="17">17分</option>
-        <option value="18">18分</option>
-        <option value="19">19分</option>
-        <option value="20">20分</option>
-        <option value="21">21分</option>
-        <option value="22">22分</option>
-        <option value="23">23分</option>
-        <option value="24">24分</option>
-        <option value="25">25分</option>
-        <option value="26">26分</option>
-        <option value="27">27分</option>
-        <option value="28">28分</option>
-        <option value="29">29分</option>
-        <option value="30">30分</option>
-        <option value="31">31分</option>
-        <option value="32">32分</option>
-        <option value="33">33分</option>
-        <option value="34">34分</option>
-        <option value="35">35分</option>
-        <option value="36">36分</option>
-        <option value="37">37分</option>
-        <option value="38">38分</option>
-        <option value="39">39分</option>
-        <option value="40">40分</option>
-        <option value="41">41分</option>
-        <option value="42">42分</option>
-        <option value="43">43分</option>
-        <option value="44">44分</option>
-        <option value="45">45分</option>
-        <option value="46">46分</option>
-        <option value="47">47分</option>
-        <option value="48">48分</option>
-        <option value="49">49分</option>
-        <option value="50">50分</option>
-        <option value="51">51分</option>
-        <option value="52">52分</option>
-        <option value="53">53分</option>
-        <option value="54">54分</option>
-        <option value="55">55分</option>
-        <option value="56">56分</option>
-        <option value="57">57分</option>
-        <option value="58">58分</option>
-        <option value="59">59分</option>
-      </select>
+    <select class="m-comp-time-minutes">
+      <option value="" disabled selected>未設定</option>
+      <option value="0">0分</option>
+      <option value="1">1分</option>
+      <option value="2">2分</option>
+      <option value="3">3分</option>
+      <option value="4">4分</option>
+      <option value="5">5分</option>
+      <option value="6">6分</option>
+      <option value="7">7分</option>
+      <option value="8">8分</option>
+      <option value="9">9分</option>
+      <option value="10">10分</option>
+      <option value="11">11分</option>
+      <option value="12">12分</option>
+      <option value="13">13分</option>
+      <option value="14">14分</option>
+      <option value="15">15分</option>
+      <option value="16">16分</option>
+      <option value="17">17分</option>
+      <option value="18">18分</option>
+      <option value="19">19分</option>
+      <option value="20">20分</option>
+      <option value="21">21分</option>
+      <option value="22">22分</option>
+      <option value="23">23分</option>
+      <option value="24">24分</option>
+      <option value="25">25分</option>
+      <option value="26">26分</option>
+      <option value="27">27分</option>
+      <option value="28">28分</option>
+      <option value="29">29分</option>
+      <option value="30">30分</option>
+      <option value="31">31分</option>
+      <option value="32">32分</option>
+      <option value="33">33分</option>
+      <option value="34">34分</option>
+      <option value="35">35分</option>
+      <option value="36">36分</option>
+      <option value="37">37分</option>
+      <option value="38">38分</option>
+      <option value="39">39分</option>
+      <option value="40">40分</option>
+      <option value="41">41分</option>
+      <option value="42">42分</option>
+      <option value="43">43分</option>
+      <option value="44">44分</option>
+      <option value="45">45分</option>
+      <option value="46">46分</option>
+      <option value="47">47分</option>
+      <option value="48">48分</option>
+      <option value="49">49分</option>
+      <option value="50">50分</option>
+      <option value="51">51分</option>
+      <option value="52">52分</option>
+      <option value="53">53分</option>
+      <option value="54">54分</option>
+      <option value="55">55分</option>
+      <option value="56">56分</option>
+      <option value="57">57分</option>
+      <option value="58">58分</option>
+      <option value="59">59分</option>
+    </select>
 
-      <button data-remodal-action="confirm" class="m-comp-done-btn remodal-confirm">完了</button>
-</div>
+    <button data-remodal-action="confirm" class="m-comp-done-btn remodal-confirm">完了</button>
+  </div>
 
   <!-- ===== 完了編集画面 ===== -->
 
   <div class="l-comp-edit">
-    <form class="col s12">
-      <div class="row">
-        <div class="input-field col s12">
-          <textarea id="textarea1" class="m-comp-edit-input materialize-textarea" maxlength="120"></textarea>
-          <label for="textarea1">タスクの編集</label>
-        </div>
-      </div>
-    </form>
-
-    <div class="m-fav-btn"></div>
+    <div class="m-comp-edit-input"></div>
     <button class="m-comp-edit-delate-btn">削除</button>
   </div>
 

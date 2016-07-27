@@ -781,6 +781,11 @@ function ShowCompList(){
 
       $listEl.find(".m-list-txt").addClass("is-active");
       showCompEdit($listEl);
+
+    // ボタン非表示
+    $(".m-fav-btn").css({display:"none"});
+    $(".m-timer-btn").css({display:"none"});
+
     }
   }
 }
@@ -791,8 +796,11 @@ function ShowCompList(){
 
 function showCompEdit(aTarget){
   aTarget.on("click",function(evt){
+  $task.css({display:"none"});
+
     num = $(this).index(); //liのthis番目取得
     $task.css({display:"none"});
+    $taskTab.css({display:"none"});
     $menu.css({display:"none"});
     $study.css({display:"none"});
     $logo.css({display:"none"});
@@ -805,7 +813,8 @@ function showCompEdit(aTarget){
 
     // liのテキストを最初から表示させる
     var $inputText = $(this).find(".m-list-txt").text();
-    $editCompInput.val($inputText);
+    $editCompInput.text($inputText);
+
   });
 }
 

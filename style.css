@@ -355,8 +355,14 @@ li.l-menu-list-add {
   transform: translate(-50%,-50%);
 }
 .m-comp-cancel-btn {
+  background-color: #fff;
   display: block;
   margin: 24px auto;
+  text-decoration: underline;
+}
+.m-comp-img {
+  width: 70%;
+  height: 70%;
 }
 /*======================== 編集画面 ============================*/
 
