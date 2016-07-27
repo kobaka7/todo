@@ -1,6 +1,6 @@
 /*======================== 背景画像 ============================*/
 body {
-  background-color: #f4f4f4;
+  background-color: #ddd;
   font-size: 14px;
 /*  position: relative;*/
 }
@@ -44,6 +44,8 @@ button {
   top: 37%;
   bottom: 50%;
   font-size: 16px;
+  color: #fff;
+  font-weight: 500;
 }
 /*==========================　メニュー ============================*/
 .l-menu {
@@ -180,7 +182,7 @@ li.l-menu-list-add {
   list-style: none;
   position: relative;
   overflow: hidden;
-  border-bottom: 1px solid rgba(189,189,189 ,0.1);
+  border-bottom: 1px solid rgba(189,189,189,0.3);
 }
 .l-list-item {
   display: table;
@@ -203,30 +205,6 @@ li.l-menu-list-add {
 .m-list-txt.is-active {
   color: rgba(189,189,189 ,1);
   text-decoration: line-through;
-}
-
-/*======================== 背景画像の切り替え ============================*/
-
-.l-bgselect-wrapper {
-  width: 100%;
-  padding: 0 16px 16px;
-  height: 100%;
-  min-height: 100vh;
-  display: none;
-}
-.m-bg-list {
-  font-size: 0;
-  text-align: center;
-}
-.m-bg-list li {
-  display: inline-block;
-  padding: 16px 0 0 16px;
-}
-.m-bg-list li img {
-  width: 300px;
-  height: 200px;
-  border: 1px solid rgba(255,255,255 ,0.1);
-  display: none;
 }
 
 /*======================== お気に入りボタン ============================*/
@@ -265,6 +243,64 @@ li.l-menu-list-add {
   padding: 100px 0 0 0;
 }
 
+
+/*アニメーション*/
+.button {
+  display: inline-block;
+  width: 200px;
+  height: 54px;
+  text-align: center;
+  text-decoration: none;
+  line-height: 54px;
+  outline: none;
+}
+.button::before,
+.button::after {
+  position: absolute;
+  z-index: -1;
+  display: block;
+  content: '';
+}
+.button,
+.button::before,
+.button::after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-transition: all .3s;
+  transition: all .3s;
+}
+.button {
+  position: relative;
+  z-index: 2;
+  background-color: #007AFF;
+  border: 2px solid #007AFF;
+  color: #fff;
+  line-height: 50px;
+}
+.button.is-active {
+  background-color: #fff;
+  border-color: #007AFF;
+  color: #007AFF;
+}
+.button::before,
+.button::after {
+  top: 0;
+  width: 50%;
+  height: 100%;
+  background-color: #007AFF;
+}
+.button::before {
+  right: 0;
+}
+.button::after {
+  left: 0;
+}
+.button.is-active::before,
+.button.is-active::after {
+  width: 0;
+  background-color: #007AFF;
+}
 /*======================== 完了アイコン ============================*/
 
 .m-comp-btn {
@@ -277,12 +313,17 @@ li.l-menu-list-add {
   vertical-align: middle;
   margin: 0 16px 0 0;
 }
-.m-comp-btn:hover {
+.m-comp-btn:hover{
   border: 1px solid #999;
   background: url(img/ic_done.png) no-repeat;
   background-size: 100%;
 }
-
+.m-comp-btn.is-active {
+  border: 1px solid #000;
+  background: url(img/ic_done.png) no-repeat;
+  background-size: 100%;
+  opacity: 0.2;
+}
 /*======================== 追加 ============================*/
 .m-add-btn img {
     width: 64px;
@@ -387,7 +428,7 @@ li.l-menu-list-add {
 .l-study-tab {
   width: 100%;
   background-color: #fff;
-  border: 1px solid rgba(189,189,189 ,0.1);
+  border-bottom: 1px solid rgba(189,189,189 ,0.4);
   box-sizing: border-box;
   padding: 64px 0 0 0;
 }
@@ -405,6 +446,14 @@ li.l-menu-list-add {
 .m-output-area {
   width: 100%;
   padding: 0 0 50px 0;
+}
+.m-task-none {
+  display: none;
+}
+.m-task-none img{
+  width: 90%;
+  display: block;
+  margin: 16px auto 0;
 }
 .l-task-tab-list,
 .l-study-tab-list {
@@ -548,7 +597,7 @@ body {
   position: absolute;
   left: 0;
   width: 100%;
-  height: 75%;
+  height: 300px;
 }
 .chart {
   position: absolute;

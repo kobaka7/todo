@@ -43,6 +43,7 @@ var $studyTab = null;
 var $studyTabToday = null;
 var $studyTabWeek = null;
 var $studyTabAll = null;
+var $taskNoneImg = null;
 var num = 0;
 var studyTimes = 0;
 var time = 0; //タイマーの中
@@ -98,6 +99,7 @@ var totalMathTime = 0;
 var totalEnglishTime = 0;
 var totalUnsetTime = 0;
 var studyClickTime = 0;
+var btnFlug = 0;
 var today = null;
 var year = null;
 var month = null;
@@ -195,6 +197,7 @@ function setObj(){
   $task = $(".l-task");
   $outputArea = $(".m-output-area");
   $timerBtn = $(".m-timer-btn");
+  $taskNoneImg = $(".m-task-none");
 
   // 新規作成画面
   $addList = $(".l-add-list");
@@ -236,6 +239,7 @@ function setObj(){
 
 // ボタン操作まとめ
 function showTask(){
+  var listArray = getLocalStorage("todo",listArray);
   $addList.css({display:"none"});
   $edit.css({display:"none"});
   $study.css({display:"none"});
@@ -259,8 +263,12 @@ function showTask(){
   $(".doughnutSummary").find("p").remove();
   circleGraphFrag = false;
   allCircleGraphFrag = false;
-}
 
+  // 表示するものがない場合
+  if(listArray.length === 0){
+    $taskNoneImg.css({display:"block"});
+  }
+}
 function setBtn(){
   // 新規作成ボタンを押したら
   $addBtn.on("click",function(){
@@ -358,7 +366,6 @@ function setBtn(){
     allDoughnutChart();
     allCircleGraphTabFrag = true;
   });
-
   // 完了ボタン押したら
   $compDoneBtn.on("click",function(evt){
     $outputArea.find("li").eq(num).remove();
@@ -390,6 +397,16 @@ function setBtn(){
 
     // 画面切り替え
     showTask();
+  });
+  $('.button').click(function(){
+    if (btnFlug === 0){
+        btnFlug = 1;
+        $(this).addClass("is-active");
+    }else if (btnFlug === 1){
+       btnFlug = 0;
+       $(this).removeClass("is-active");
+    }
+    console.log(btnFlug);
   });
 }
 
@@ -708,6 +725,7 @@ function showComp(aTarget){
 function ShowFavList(){
   clickMenu(true);
   var listArray = getLocalStorage("todo",listArray);
+  var favLength = 0;
   if (listArray !== null){
     //配列の数だけliを生成する
     for(var cnt=0; cnt < listArray.length; cnt++){
@@ -715,10 +733,14 @@ function ShowFavList(){
         createListEl(listArray[cnt]);
         addListFunction();
         $listEl.appendTo($outputArea);
+        favLength++;
       }
       // css操作
       $listEl.find($favBtn).addClass("is-active");
     }
+  }
+  if(favLength === 0){
+    $(".m-output-area").text("タスクの横にある星マークをクリックしてみよう");
   }
 }
 
@@ -786,7 +808,12 @@ function ShowCompList(){
     $(".m-fav-btn").css({display:"none"});
     $(".m-timer-btn").css({display:"none"});
 
+    // 完了アイコンにチェックつける
+    $(".m-comp-btn").addClass("is-active");
     }
+  }
+  if (compListArray.length === 0){
+    $(".m-output-area").text("完了したタスクはまだないよ");
   }
 }
 
@@ -866,7 +893,7 @@ function showStudy(){
   $cancelBtn.css({display:"none"});
   $menu.css({display:"block"});
   $study.css({display:"block"});
-  $header.css({background:"#fff"});
+  $header.css({background:"#007AFF"});
   $headerTitle.text("勉強時間");
 }
 
@@ -1019,7 +1046,6 @@ function doughnutChart(){
     }
     todayTotalTime = totalTime;
   }
-
     console.log(studyAllTimes);
     // もしまだひとつもタスクを完了していないか、勉強時間が0だったら
     if(compListArray[0] === undefined || todayTotalTime === 0){
@@ -1389,6 +1415,10 @@ function timer() {
     listArray[num].timerStudyTime = 0;
     listArray[num].timerStartTime = 0;
     setLocalStorage("todo",listArray);
+
+    btnFlug = 0;
+    $(".button").removeClass("is-active");
+    $("#start").text("スタート");
   });
 
 }); //html実行後
