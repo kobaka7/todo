@@ -1,6 +1,6 @@
 /*======================== 背景画像 ============================*/
 body {
-  background-color: #ddd;
+  background-color: #f2f2f2;
   font-size: 14px;
 }
 a {
@@ -12,7 +12,6 @@ button {
  margin: 0;
 }
 /*========================== ヘッダー ============================*/
-
 .l-header {
   width: 100%;
   background-color: #007AFF;
@@ -34,6 +33,79 @@ button {
   bottom: 50%;
   font-size: 16px;
   font-weight: 500;
+}
+.m-add-title,
+.m-edit-title {
+  display: none;
+}
+.m-header-back:before {
+  content: "";
+  height: 24px;
+  width: 12px;
+  background: url(img/ic_back.png) 0 no-repeat;
+  background-size: 100%;
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  transform: translateY(-50%);
+}
+.m-header-cancel:before {
+  content: "";
+  height: 18px;
+  width: 18px;
+  background: url(img/ic_cancel.png) 0 no-repeat;
+  background-size: 100%;
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+}
+.m-header-back,
+.m-header-cancel {
+  display: none;
+}
+/*======================== タブ ============================*/
+.l-task-tab,
+.l-study-tab {
+  width: 100%;
+  background-color: #fff;
+  border-bottom: 1px solid rgba(189,189,189 ,0.4);
+  box-sizing: border-box;
+  padding: 64px 0 0 0;
+}
+.l-task-tab-list li.is-active span,
+.l-study-tab-list li.is-active span {
+  background-color: #007AFF;
+  color: #fff;
+  border-radius: 30px;
+}
+.l-task-tab-list li span,
+.l-study-tab-list li span {
+  padding: 8px 15px;
+  display: inline-block;
+}
+.l-task-tab-list,
+.l-study-tab-list {
+  width: 93%;
+  margin: 15px auto;
+  display: table;
+  border-radius: 4px;
+  font-size: 12px;
+}
+.l-task-tab-list > li,
+.l-study-tab-list > li {
+  color: #007AFF;
+  padding: 0 8px;
+  text-align: center;
+  display: table-cell;
+  width: 33%;
+  font-size: 13px;
+}
+.l-task-tab-list > li:first-child,
+.l-study-tab-list > li:first-child {
+  border-left: none;
 }
 /*==========================　メニュー ============================*/
 .l-menu {
@@ -118,51 +190,15 @@ button {
   left: 50%;
   transform: translateX(-50%);
 }
-
 li.l-menu-list-add {
   width: 10%;
 }
-
-/*==========================　メイン画面 ============================*/
+/*==========================　タスク画面 ============================*/
 .l-task {
   height: 100%;
   display: block;
   overflow: hidden;
   overflow-y: auto;
-}
-/* ------------ インプット ------------ */
-.l-input-wrapper {
-  position: relative;
-}
-.m-input {
-  width: 100%;
-  margin: 0 0 4px 0;
-  padding: 16px 0 16px 16px;
-  background-color: #000;
-  border: 1px solid #000;
-  border-radius: 4px;
-  font-size: 14px;
-  box-sizing: border-box;
-  opacity: 0.6;
-  color: #fff;
-  position: relative;
-}
-.m-input::-webkit-input-placeholder {
-  color: #fff;
-  font-size: 14px;
-  font-weight: inherit;
-}
-.m-input-edit {
-  width: 100%;
-  margin: 0 0 4px 0;
-  padding: 16px 0 16px 16px;
-  background-color: #fff;
-  border: 1px solid #000;
-  border-radius: 4px;
-  font-size: 14px;
-  box-sizing: border-box;
-  opacity: 0.6;
-  color: #000;
 }
 .m-output-area > li {
   padding: 19px 12px;
@@ -194,9 +230,19 @@ li.l-menu-list-add {
   color: rgba(189,189,189 ,1);
   text-decoration: line-through;
 }
-
+.m-output-area {
+  width: 100%;
+  padding: 0 0 50px 0;
+}
+.m-task-none {
+  display: none;
+}
+.m-task-none img{
+  width: 90%;
+  display: block;
+  margin: 16px auto 0;
+}
 /*======================== お気に入りボタン ============================*/
-
 .m-fav-btn {
   width: 60px;
   height: 50px;
@@ -211,9 +257,29 @@ li.l-menu-list-add {
   background-position: -3524px 0;
   transition: background 0.5s steps(55);
 }
-
+/*======================== 完了ボタン ============================*/
+.m-comp-btn {
+  width: 20px;
+  height: 20px;
+  background: #FFF;
+  border: 1px solid #999;
+  border-radius: 70px;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 16px 0 0;
+}
+.m-comp-btn:hover{
+  border: 1px solid #999;
+  background: url(img/ic_done.png) no-repeat;
+  background-size: 100%;
+}
+.m-comp-btn.is-active {
+  border: 1px solid #000;
+  background: url(img/ic_done.png) no-repeat;
+  background-size: 100%;
+  opacity: 0.2;
+}
 /*======================== タイマー関連 ============================*/
-
 .m-timer-btn {
   width: 28px;
   height: 28px;
@@ -225,7 +291,6 @@ li.l-menu-list-add {
   opacity: 0.12;
   transform: translateY(-50%);
 }
-
 .l-timer {
   display: none;
   padding: 100px 0 0 0;
@@ -302,35 +367,12 @@ li.l-menu-list-add {
   width: 0;
   background-color: #007AFF;
 }
-/*======================== 完了アイコン ============================*/
-
-.m-comp-btn {
-  width: 20px;
-  height: 20px;
-  background: #FFF;
-  border: 1px solid #999;
-  border-radius: 70px;
-  display: inline-block;
-  vertical-align: middle;
-  margin: 0 16px 0 0;
-}
-.m-comp-btn:hover{
-  border: 1px solid #999;
-  background: url(img/ic_done.png) no-repeat;
-  background-size: 100%;
-}
-.m-comp-btn.is-active {
-  border: 1px solid #000;
-  background: url(img/ic_done.png) no-repeat;
-  background-size: 100%;
-  opacity: 0.2;
-}
-/*======================== 追加 ============================*/
+/*======================== 新規追加画面 ============================*/
 .m-add-btn img {
-    width: 64px;
-    position: absolute;
-    right: 0;
-    bottom: 16px;
+  width: 64px;
+  position: absolute;
+  right: 0;
+  bottom: 16px;
 }
 .m-add-btn {
   display: block;
@@ -339,6 +381,7 @@ li.l-menu-list-add {
   bottom: 0;
   right: 0;
 }
+/*======================== 横スライド系 ============================*/
 .l-add-list,
 .l-edit,
 .l-comp-edit {
@@ -383,19 +426,7 @@ li.l-menu-list-add {
   left: 50%;
   transform: translate(-50%,-50%);
 }
-.m-comp-cancel-btn {
-  background-color: #fff;
-  display: block;
-  margin: 24px auto;
-  text-decoration: underline;
-}
-.m-comp-img {
-  width: 70%;
-  height: 70%;
-}
-
 /*======================== 編集画面 ============================*/
-
 .m-edit-tab {
   text-align: center;
   background-color: #fff;
@@ -413,62 +444,6 @@ li.l-menu-list-add {
 .m-edit-studytime {
   text-align: left;
 }
-
-/*======================== メイン画面タブ ============================*/
-
-.l-task-tab,
-.l-study-tab {
-  width: 100%;
-  background-color: #fff;
-  border-bottom: 1px solid rgba(189,189,189 ,0.4);
-  box-sizing: border-box;
-  padding: 64px 0 0 0;
-}
-.l-task-tab-list li.is-active span,
-.l-study-tab-list li.is-active span {
-  background-color: #007AFF;
-  color: #fff;
-  border-radius: 30px;
-}
-.l-task-tab-list li span,
-.l-study-tab-list li span {
-  padding: 8px 15px;
-  display: inline-block;
-}
-.m-output-area {
-  width: 100%;
-  padding: 0 0 50px 0;
-}
-.m-task-none {
-  display: none;
-}
-.m-task-none img{
-  width: 90%;
-  display: block;
-  margin: 16px auto 0;
-}
-.l-task-tab-list,
-.l-study-tab-list {
-  width: 93%;
-  margin: 15px auto;
-  display: table;
-  border-radius: 4px;
-  font-size: 12px;
-}
-.l-task-tab-list > li,
-.l-study-tab-list > li {
-  color: #007AFF;
-  padding: 0 8px;
-  text-align: center;
-  display: table-cell;
-  width: 33%;
-  font-size: 13px;
-}
-.l-task-tab-list > li:first-child,
-.l-study-tab-list > li:first-child {
-  border-left: none;
-}
-
 /*======================== 編集画面タブ ============================*/
 
 .m-edit-tab {
@@ -497,40 +472,7 @@ li.l-menu-list-add {
   background-color: #007AFF;
   color: #fff;
 }
-/*======================== ヘッダー ============================*/
 
-.m-add-title,
-.m-edit-title {
-  display: none;
-}
-.m-header-back:before {
-  content: "";
-  height: 24px;
-  width: 12px;
-  background: url(img/ic_back.png) 0 no-repeat;
-  background-size: 100%;
-  display: inline-block;
-  position: absolute;
-  top: 50%;
-  left: 16px;
-  transform: translateY(-50%);
-}
-.m-header-cancel:before {
-  content: "";
-  height: 18px;
-  width: 18px;
-  background: url(img/ic_cancel.png) 0 no-repeat;
-  background-size: 100%;
-  display: inline-block;
-  position: absolute;
-  top: 50%;
-  right: 16px;
-  transform: translateY(-50%);
-}
-.m-header-back,
-.m-header-cancel {
-  display: none;
-}
 /*======================== 勉強時間 ============================*/
 
 .l-study {
@@ -566,23 +508,27 @@ li.l-menu-list-add {
 .m-comp-time-hours {
   width: 60px;
 }
-
 .m-comp-time-minutes {
   width: 60px;
 }
 .m-comp-time {
   display: inline-block;
 }
+.m-comp-cancel-btn {
+  background-color: #fff;
+  display: block;
+  margin: 24px auto;
+  text-decoration: underline;
+}
+.m-comp-img {
+  width: 70%;
+  height: 70%;
+}
 /*======================== グラフ ============================*/
 @import "compass/reset/";
 @import "compass/css3/";
 @import url(//fonts.googleapis.com/css?family=Oswald:400);
 
-
-body {
-  background: #f9f9f9;
-  font-family: "Oswald", "Helvetica Newe", Helvetica, sans-serif;
-}
 .l-study-today,
 .l-study-all {
   position: absolute;
@@ -710,7 +656,7 @@ path:hover {
 .m-study-all-num p{
   font-size: 24px;
 }
-/*======================== input ============================*/
+/*======================== input要素 ============================*/
 input,textarea {
     width: 100%;
     padding: 10px;
@@ -722,7 +668,6 @@ input,textarea {
 }
 input:focus,textarea:focus { outline: none;}
 input[type=radio], input[type=checkbox]{ display: none;}
-
 .input_text{
     border-bottom: 1px solid #ccc;
     box-shadow: -999px 5px 0px #ccc;
@@ -735,7 +680,6 @@ input[type=radio], input[type=checkbox]{ display: none;}
     -webkit-transition: all 500ms;
     transition: all 500ms;
 }
-
 select {
   margin: 16px 0 0 0 ;
   border: 0;
