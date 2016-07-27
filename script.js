@@ -683,10 +683,8 @@ function doneEdit(){
     // もしnum番目のふぁぼがactiveだったら
     if ($outputArea.find("li").eq(num).find(".m-fav-btn").hasClass("is-active")){
       createNewTodo(num,num,true);
-      $outputArea.find("li").eq(num).find(".m-fav").addClass("is-active");
     } else {
       createNewTodo(num,num,false);
-      $outputArea.find("li").eq(num).find(".m-fav").removeClass("is-active");
     }
     // ローカルストレージの編集
     listArray[num].task = $inputTxt;
@@ -706,7 +704,6 @@ function doneEdit(){
     }
     if ($outputArea.find("li").eq(num).find(".m-fav-btn").hasClass("is-active")){
       createNewTodo(num,num,true);
-      $outputArea.find("li").eq(num).find(".m-fav").addClass("is-active");
     } else {
       $outputArea.find("li").eq(num).remove();
       listArray[cnt].fav = false;

@@ -2,6 +2,7 @@
 body {
   background-color: #f2f2f2;
   font-size: 14px;
+  font-family: "Hiragino sans","ヒラギノ角ゴ Pro","Hiragino Kaku Gothic Pro";
 }
 a {
   text-decoration: none;
@@ -444,52 +445,7 @@ li.l-menu-list-add {
 .m-edit-studytime {
   text-align: left;
 }
-/*======================== 編集画面タブ ============================*/
-
-.m-edit-tab {
-  width: 100%;
-  background-color: #fff;
-  border: 1px solid rgba(189,189,189 ,0.1);
-  box-sizing: border-box;
-  padding: 16px 0;
-}
-
-.l-edit-tab-list {
-  margin: 0 auto;
-  display: table;
-  border: 1px solid #007AFF;
-  border-radius: 4px;
-  font-size: 12px;
-}
-.l-edit-tab-list > li {
-  color: #007AFF;
-  padding: 6px 16px;
-  text-align: center;
-  display: inline-block;
-  width: 156px;
-}
-.l-edit-tab-list > li.is-active{
-  background-color: #007AFF;
-  color: #fff;
-}
-
-/*======================== 勉強時間 ============================*/
-
-.l-study {
-  display: none;
-  background-color: #fff;
-}
-
-.m-fav.is-active {
-  width: 12px;
-  height: 12px;
-  background: url(img/ic_fav.png) no-repeat;
-  background-size: 100%;
-  display: inline-block;
-}
-
 /*======================== 完了画面 ============================*/
-
 .l-comp {
   width: 80%;
   height: 300px;
@@ -525,10 +481,11 @@ li.l-menu-list-add {
   height: 70%;
 }
 /*======================== グラフ ============================*/
-@import "compass/reset/";
-@import "compass/css3/";
-@import url(//fonts.googleapis.com/css?family=Oswald:400);
-
+.l-study {
+  display: none;
+  background-color: #fff;
+  margin: 0 0 50px 0;
+}
 .l-study-today,
 .l-study-all {
   position: absolute;
