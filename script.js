@@ -44,6 +44,9 @@ var $studyTabToday = null;
 var $studyTabWeek = null;
 var $studyTabAll = null;
 var $taskNoneImg = null;
+var $todayNoneImg = null;
+var $allNoneImg = null;
+var $weekNoneImg = null;
 var num = 0;
 var studyTimes = 0;
 var time = 0; //タイマーの中
@@ -198,6 +201,9 @@ function setObj(){
   $outputArea = $(".m-output-area");
   $timerBtn = $(".m-timer-btn");
   $taskNoneImg = $(".m-task-none");
+  $todayNoneImg = $(".m-study-today-none");
+  $allNoneImg = $(".m-study-all-none");
+  $weekNoneImg = $(".m-study-week-none");
 
   // 新規作成画面
   $addList = $(".l-add-list");
@@ -235,6 +241,7 @@ function setObj(){
   $todayMode = $(".l-study-today");
   $weekMode = $("#container");
   $allMode = $(".l-study-all");
+  $studyTimeNoneImg = $(".m-study-time-none");
 }
 
 // ボタン操作まとめ
@@ -254,8 +261,10 @@ function showTask(){
   $backBtn.css({display:"none"});
   $cancelBtn.css({display:"none"});
   $studyTab.css({display:"none"});
+  $taskNoneImg.css({display:"none"});
   $headerTitle.text("");
   $header.css({backgroundColor:"#007AFF"});
+
 
   // 非表示にする
   $("#doughnutChart").find("svg").remove();
@@ -344,6 +353,8 @@ function setBtn(){
     $todayMode.css({display:"block"});
     $weekMode.css({display:"none"});
     $allMode.css({display:"none"});
+    circleGraphFrag = false;
+    doughnutChart();
     allCircleGraphTabFrag = false;
   });
   $studyTabWeek.on("click",function(evt){
@@ -534,13 +545,14 @@ function showAddList(){
   $menu.css({display:"none"});
   $logo.css({display:"none"});
   $comp.css({display:"none"});
+  $studyTab.css({display:"none"});
   $addList.css({display:"block"});
   $backBtn.css({display:"none"});
   $cancelBtn.css({display:"block"});
   $headerTitle.text("タスクの新規作成");
   $header.css({background:"#fff"});
   // 最初からフォーカスを当ててくれる
-  $addListInput.focus();
+  // $addListInput.focus();
 }
 
 // ------------- li生成 -----------
@@ -726,6 +738,7 @@ function ShowFavList(){
   clickMenu(true);
   var listArray = getLocalStorage("todo",listArray);
   var favLength = 0;
+  $taskNoneImg.css({display:"none"});
   if (listArray !== null){
     //配列の数だけliを生成する
     for(var cnt=0; cnt < listArray.length; cnt++){
@@ -740,7 +753,7 @@ function ShowFavList(){
     }
   }
   if(favLength === 0){
-    $(".m-output-area").text("タスクの横にある星マークをクリックしてみよう");
+    $taskNoneImg.css({display:"block"});
   }
 }
 
@@ -793,6 +806,7 @@ function favBtn(aTarget) {
 // ======================================================================
 
 function ShowCompList(){
+  $taskNoneImg.css({display:"none"});
   $outputArea.empty();
   var compListArray = getLocalStorage("compTodo",compListArray);
   if (compListArray !== null){
@@ -813,10 +827,9 @@ function ShowCompList(){
     }
   }
   if (compListArray.length === 0){
-    $(".m-output-area").text("完了したタスクはまだないよ");
+    $taskNoneImg.css({display:"block"});
   }
 }
-
 // ======================================================================
                                 // 完了編集画面
 // ======================================================================
@@ -963,6 +976,8 @@ function allDoughnutChart(){
   if(allCircleGraphFrag === false){
     var compListArray = getLocalStorage("compTodo",compListArray);
     var studyAllTimes = 0;
+    $todayNoneImg.css({display:"none"});
+    $weekNoneImg.css({display:"none"});
 
     // 全ての勉強時間（分）（数値）
     for(var cnt=0; cnt<compListArray.length; cnt++){
@@ -972,7 +987,7 @@ function allDoughnutChart(){
 
     // もしまだひとつもタスクを完了していないか、勉強時間が0だったら
     if(compListArray[0] === undefined || studyAllTimes === 0){
-      $("#allDoughnutChart").find("p").text("完了したタスクがまだないよ");
+      $allNoneImg.css({display:"block"});
     } else {
       $("#allDoughnutChart").find("p").text("");
       console.log("合計の国語の勉強時間は" + studyJapaneseTime);
@@ -1038,6 +1053,8 @@ function doughnutChart(){
   if(circleGraphFrag === false){
     var compListArray = getLocalStorage("compTodo",compListArray);
     var studyAllTimes = 0;
+    $weekNoneImg.css({display:"none"});
+    $allNoneImg.css({display:"none"});
 
   // 本日の合計勉強時間
   for(var cnt=0;cnt<compListArray.length;cnt++){
@@ -1046,10 +1063,10 @@ function doughnutChart(){
     }
     todayTotalTime = totalTime;
   }
-    console.log(studyAllTimes);
+    console.log(compListArray[0]);
     // もしまだひとつもタスクを完了していないか、勉強時間が0だったら
     if(compListArray[0] === undefined || todayTotalTime === 0){
-      $("#doughnutChart").find("p").text("今日完了したタスクはまだないよ");
+      $todayNoneImg.css({display:"block"});
     } else {
       $("#doughnutChart").find("p").text("");
       $("#doughnutChart").drawDoughnutChart([
