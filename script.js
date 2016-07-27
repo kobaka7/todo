@@ -153,13 +153,9 @@ setEvent();
                                 //初期化系
 // ======================================================================
 
-// マテリアルデザイン対応
-$(document).ready(function() {
-  $('select').material_select();
-});
-
-$(document).ready(function(){
-  $('.modal-trigger').leanModal();
+// モーダル
+$('[data-remodal-id=modal2]').remodal({
+  modifier: 'with-red-theme'
 });
 
 function setObj(){
@@ -431,7 +427,7 @@ function clickMenu(aTruthValue){
 function createListEl(aTask){
   // もし未完了なら
   if(aTask.comp !== null){
-    $listEl = $("<li><div class='list-item'><button data-target='modal1' class='m-comp-btn modal-trigger'></button><p class='m-list-txt'>" + aTask.task + "</p><span class='m-timer-btn'></span><span class='m-fav-btn'></span></div></li>");
+    $listEl = $("<li><div class='list-item'><a href='#modal2' class='m-comp-btn'></a><p class='m-list-txt'>" + aTask.task + "</p><span class='m-timer-btn'></span><span class='m-fav-btn'></span></div></li>");
     // 星済みだったら
     if(aTask.fav === true){
       $listEl.find(".m-fav-btn").addClass("is-active");
@@ -688,6 +684,7 @@ function doneEdit(){
 
 function showComp(aTarget){
   aTarget.find(".m-comp-btn").on("click",function(evt){
+
     evt.stopPropagation(); //liへのイベント伝播禁止
     var listArray = getLocalStorage("todo",listArray);
 
