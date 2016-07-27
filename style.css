@@ -641,3 +641,6 @@ path:hover {
 .waves-effect .btn-large:hover{
   background-color: #4AA9FF;
 }
+.input-field label {
+  text-align: left;
+}
