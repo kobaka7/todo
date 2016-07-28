@@ -1001,7 +1001,12 @@ function doneRemove(num){
   setLocalStorage("compTodo",compListArray);
 
   // 画面切り替え
-  showTask();
+  if($(".m-task-tab-comp").hasClass("is-active")){
+    showTask();
+     ShowCompList();
+  } else {
+    showTask();
+  }
 }
 
 // ======================================================================

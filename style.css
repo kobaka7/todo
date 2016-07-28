@@ -457,6 +457,7 @@ li.l-menu-list-add {
 .m-edit-studytime {
   text-align: left;
   padding: 0 0 0 16px;
+  font-size: 16px;
 }
 .m-edit-studytime-title {
   font-size: 12px;
@@ -545,7 +546,7 @@ li.l-menu-list-add {
   border: 1px solid #777;
   border-radius: 0;
   background-color: #fff;
-  margin: 0 16px 0 0;
+  margin: 0 8px 0 0;
 }
 .m-comp-time-hours-label,
 .m-comp-time-minutes-label {
@@ -558,7 +559,7 @@ li.l-menu-list-add {
   background: url(img/ic_select.png) no-repeat;
   background-size: 15px;
   position: absolute;
-  right: 27px;
+  right: 18px;
   top: 0px;
 }
 .m-comp-time-minutes-label::after {
@@ -568,7 +569,7 @@ li.l-menu-list-add {
   background: url(img/ic_select.png) no-repeat;
   background-size: 15px;
   position: absolute;
-  right: 22px;
+  right: 13px;
   top: 0px;
 }
 .m-comp-title {
@@ -585,7 +586,7 @@ li.l-menu-list-add {
   background: url(img/ic_title.png) no-repeat;
   background-size: 18px;
   position: absolute;
-  left: 60px;
+  left: 82px;
   top: -2px;
 }
 /*======================== グラフ ============================*/
@@ -888,7 +889,7 @@ input[type=radio], input[type=checkbox]{ display: none;}
   background: transparent;
   border-radius: 0;
   height: 44px;
-  padding: 8px 0 8px 40px;
+  padding: 8px 0 10px 40px;
   width: 100%;
   position: relative;
   z-index: 1;
@@ -904,7 +905,7 @@ input[type=radio], input[type=checkbox]{ display: none;}
   width: 16px;
   background: #ccc;
   position: absolute;
-  top: 50%;
+  top: 48%;
   transform: translateY(-50%);
   left: 16px;
   border-radius: 50%;
