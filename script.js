@@ -57,6 +57,7 @@ var weekGraphScroll = false;
 var circleGraphFrag = false;
 var allCircleGraphFrag = false;
 var allCircleGraphTabFrag = false;
+var menuStudyFlag = false;
 var totalWeekTime = 0;
 var SunTotalTime = null;
 var SunJapaneseTime = null;
@@ -242,7 +243,7 @@ function setObj(){
   $allMode = $(".l-study-all");
   $studyTimeNoneImg = $(".m-study-time-none");
 }
-
+console.log(menuStudyFlag);
 // ボタン操作まとめ
 function showTask(){
   $header.css({backgroundColor:"#007AFF"});
@@ -309,6 +310,7 @@ function setBtn(){
       showTask();
     }
     menuListClick($(this));
+    menuStudyFlag = false;
     $("body").removeClass("bg-white");
   });
   $taskTabAll.on("click",function(evt){
@@ -1014,23 +1016,27 @@ function doneRemove(num){
 // ======================================================================
 
 function clickMenuStudy(){
+  console.log(menuStudyFlag);
   $menuStudy.on("click",function(evt){
-    today = new Date();
-    year = today.getFullYear();
-    month = today.getMonth();
-    date = today.getDate();
-    week = today.getDay();
-    menuListClick($(this));
-    showStudy();
-    showTodayTime();
-    doughnutChart();
-    $studyTab.css({display:"block"});
+    if(menuStudyFlag === false){
+      today = new Date();
+      year = today.getFullYear();
+      month = today.getMonth();
+      date = today.getDate();
+      week = today.getDay();
+      menuListClick($(this));
+      showStudy();
+      showTodayTime();
+      doughnutChart();
+      $studyTab.css({display:"block"});
 
-    $("body").addClass("bg-white");
-    // 戻ってきたときにもし「合計」が表示されていたら最初から合計表示
-    if(allCircleGraphTabFrag === true){
-      showAllTime();
-      allDoughnutChart();
+      $("body").addClass("bg-white");
+      // 戻ってきたときにもし「合計」が表示されていたら最初から合計表示
+      if(allCircleGraphTabFrag === true){
+        showAllTime();
+        allDoughnutChart();
+      }
+      menuStudyFlag = true;
     }
   });
 }
