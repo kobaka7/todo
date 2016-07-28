@@ -1177,12 +1177,12 @@ function doughnutChart(){
           { title: "数学", value:  todayMathTime,   color: "#F5A623" },
           { title: "未設定", value:  todayUnsetTime,   color: "#ccc" },
       ]);
+      // テキスト表示
+      $(".m-study-today-jp").text("国語" + todayJapaneseTime);
+      $(".m-study-today-english").text("英語" + todayEnglishTime);
+      $(".m-study-today-math").text("数学" + todayMathTime);
+      $(".m-study-today-unset").text("未設定" + todayUnsetTime);
     }
-    // テキスト表示
-    $(".m-study-today-jp").text("国語" + todayJapaneseTime);
-    $(".m-study-today-english").text("英語" + todayEnglishTime);
-    $(".m-study-today-math").text("数学" + todayMathTime);
-    $(".m-study-today-unset").text("未設定" + todayUnsetTime);
   }
   circleGraphFrag = true;
 }
