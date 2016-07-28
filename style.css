@@ -21,6 +21,9 @@ button {
   height: 64px;
   position: absolute;
   border-bottom: 1px solid #ccc;
+  position: relative;
+  top: 0px;
+  z-index: 100;
 }
 .m-logo {
   height: 32px;
@@ -76,7 +79,10 @@ button {
   background-color: #fff;
   border-bottom: 1px solid rgba(189,189,189 ,0.4);
   box-sizing: border-box;
-  padding: 64px 0 0 0;
+  padding: 1px 0 0 0;
+  position: relative;
+  top: 0px;
+  z-index: 0;
 }
 .l-task-tab-list li.is-active span,
 .l-study-tab-list li.is-active span {

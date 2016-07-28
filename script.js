@@ -245,6 +245,12 @@ function setObj(){
 
 // ボタン操作まとめ
 function showTask(){
+  $header.fadeIn(400);
+  $task.fadeIn(400);
+  $taskTab.fadeIn(400);
+  $header.css({backgroundColor:"#007AFF"});
+  $header.css({display:"block"});
+
   var listArray = getLocalStorage("todo",listArray);
   $addList.css({display:"none"});
   $edit.css({display:"none"});
@@ -256,13 +262,11 @@ function showTask(){
   $taskTab.css({display:"block"});
   $menu.css({display:"block"});
   $logo.css({display:"block"});
-  $header.css({display:"block"});
   $backBtn.css({display:"none"});
   $cancelBtn.css({display:"none"});
   $studyTab.css({display:"none"});
   $taskNoneImg.css({display:"none"});
   $headerTitle.text("");
-  $header.css({backgroundColor:"#007AFF"});
 
   // 非表示にする
   $("#doughnutChart").find("svg").remove();
@@ -274,11 +278,6 @@ function showTask(){
   // メニューアクティブ操作
   $(".l-menu-list > li").removeClass("is-active");
   $(".l-menu-list-task").addClass("is-active");
-
-  // 表示するものがない場合
-  // if($(".m-output-area > li").length === 0){
-  //   $taskNoneImg.css({display:"block"});
-  // }
 
   if(listArray.length === 0){
     $taskNoneImg.css({display:"block"});
@@ -552,6 +551,8 @@ function reload(){
 // ======================================================================
 
 function showAddList(){
+  $addList.fadeIn(400);
+
   $task.css({display:"none"});
   $taskTab.css({display:"none"});
   $study.css({display:"none"});
@@ -564,6 +565,7 @@ function showAddList(){
   $cancelBtn.css({display:"block"});
   $headerTitle.text("タスクの新規作成");
   $header.css({background:"#fff"});
+
 
   // 科目色初期化
   selectedSubject = $('select.m-add-subject').val();
