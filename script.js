@@ -374,6 +374,7 @@ function setBtn(){
     $todayMode.css({display:"block"});
     $weekMode.css({display:"none"});
     $allMode.css({display:"none"});
+    $(".m-study-week-text").css({display:"none"});
     circleGraphFrag = false;
     allCircleGraphTabFrag = false;
   });
@@ -393,6 +394,7 @@ function setBtn(){
     $todayMode.css({display:"none"});
     $weekMode.css({display:"none"});
     $allMode.css({display:"block"});
+    $(".m-study-week-text").css({display:"none"});
     showAllTime();
     allDoughnutChart();
     allCircleGraphTabFrag = true;
@@ -471,7 +473,7 @@ function createListEl(aTask){
       $listEl.find(".m-fav-btn").addClass("is-active");
     }
     if (aTask.timerStartTime !== 0){
-      $listEl.find(".m-timer-btn").css({'opacity':1});
+      $listEl.find(".m-timer-btn").css({'opacity':0.6});
     }
   }
   // 科目ごとの色分け
@@ -571,6 +573,7 @@ function showAddList(){
   $backBtn.css({display:"none"});
   $cancelBtn.css({display:"block"});
   $headerTitle.text("タスクの新規作成");
+  $headerTitle.css({color:"#333"});
   $header.css({background:"#fff"});
 
 
@@ -661,6 +664,7 @@ function showEdit(aTarget){
     $cancelBtn.css({display:"none"});
     $header.css({background:"#fff"});
     $headerTitle.text("編集");
+    $headerTitle.css({color:"#333"});
 
     // liのテキストを最初から表示させる
     var $inputText = aTarget.find(".m-list-txt").text();
@@ -958,6 +962,7 @@ function showCompEdit(aTarget){
     $cancelBtn.css({display:"none"});
     $header.css({background:"#fff"});
     $headerTitle.text("完了したタスク");
+    $headerTitle.css({color:"#333"});
     $("body").addClass("bg-white");
 
     // liのテキストを最初から表示させる
@@ -1037,6 +1042,7 @@ function showStudy(){
   $study.css({display:"block"});
   $header.css({background:"#007AFF"});
   $headerTitle.text("勉強時間");
+  $headerTitle.css({color:"#fff"});
 }
 
 // ======================================================================
@@ -1132,10 +1138,12 @@ function allDoughnutChart(){
           { title: "未設定", value: studyAllUnsetTimes, color: "#ccc" },
       ]);
       // テキスト表示
-      $(".m-study-all-jp").text("国語" + studyAllJapaneseTimes);
-      $(".m-study-all-english").text("英語" + studyAllEnglishTimes);
-      $(".m-study-all-math").text("数学" + studyAllMathTimes);
-      $(".m-study-all-unset").text("未設定" + studyAllUnsetTimes);
+      $(".m-study-all-num").css({display:"flex"});
+      $(".m-study-all-bg").css({display:"block"});
+      $(".m-study-all-jp").find("p").text(studyAllJapaneseTimes);
+      $(".m-study-all-english").find("p").text(studyAllEnglishTimes);
+      $(".m-study-all-math").find("p").text(studyAllMathTimes);
+      $(".m-study-all-unset").find("p").text(studyAllUnsetTimes);
     }
   }
   allCircleGraphFrag = true;
@@ -1216,10 +1224,12 @@ function doughnutChart(){
           { title: "未設定", value:  todayUnsetTime,   color: "#ccc" },
       ]);
       // テキスト表示
-      $(".m-study-today-jp").text("国語" + todayJapaneseTime);
-      $(".m-study-today-english").text("英語" + todayEnglishTime);
-      $(".m-study-today-math").text("数学" + todayMathTime);
-      $(".m-study-today-unset").text("未設定" + todayUnsetTime);
+      $(".m-study-today-num").css({display:"flex"});
+      $(".m-study-today-bg").css({display:"block"});
+      $(".m-study-today-jp").find("p").text(todayJapaneseTime);
+      $(".m-study-today-english").find("p").text(todayEnglishTime);
+      $(".m-study-today-math").find("p").text(todayMathTime);
+      $(".m-study-today-unset").find("p").text(todayUnsetTime);
     }
   }
   circleGraphFrag = true;
@@ -1288,6 +1298,7 @@ function getWeekStudyTime(){
           totalUnsetTime += compListArray[cnt].study;
         }
       }
+      $(".m-study-week-text").css({display:"block"});
     }
     startTime = startTime + 86400000;
     // １週間分の勉強時間
@@ -1376,6 +1387,9 @@ function weekGraph(){
           headerFormat: '<b>{point.x}</b><br/>',
           pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
       },
+      legend: {
+        enabled: false,
+      },
       plotOptions: {
           column: {
               stacking: 'normal',
@@ -1441,9 +1455,8 @@ function weekGraph(){
   $(".highcharts-legend-item rect").eq(1).css({fill:"#BA78FF"});
   $(".highcharts-legend-item rect").eq(2).css({fill:"#F5A623"});
   $(".highcharts-legend-item rect").eq(3).css({fill:"#ccc"});
-  $(".highcharts-container").css({position:"relative"});
-  $(".highcharts-container").css({left:"-5%"});
   $(".highcharts-grid > path").css({stroke:"#ddd"}).css({opacity:0.4});
+  $(".highcharts-grid").css({opacity:0.6});
 }
 
 // ======================================================================
@@ -1478,6 +1491,7 @@ function showTimer(aTarget){
     $timer.css({display:"block"});
     $header.css({background:"#fff"});
     $headerTitle.text("タイマー");
+    $headerTitle.css({color:"#333"});
     $("body").addClass("bg-white");
     setTimer();
   });
@@ -1559,7 +1573,7 @@ function timer() {
       listArray[num].timerStartTime = (new Date()).getTime();
       listArray[num].btnFlug = 1;
       setLocalStorage("todo",listArray);
-      $outputArea.find("li").eq(num).find(".m-timer-btn").css({'opacity':1});
+      $outputArea.find("li").eq(num).find(".m-timer-btn").css({'opacity':0.6});
       $(".button").addClass("is-active");
       $("#start").text("ストップ");
     } else {

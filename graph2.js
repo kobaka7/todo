@@ -24,7 +24,7 @@
                 tipOffsetY: -45,
                 tipClassName: "doughnutTip",
                 summaryClass: "doughnutSummary",
-                summaryTitle: "合計時間",
+                summaryTitle: "合計(時間)",
                 summaryTitleClass: "summaryTitle",
                 summaryNumberClass: "summaryNumber",
                 beforeDraw: function(){  },
