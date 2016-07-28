@@ -207,7 +207,6 @@ function setObj(){
   // 新規作成画面
   $addList = $(".l-add-list");
   $addListInput = $(".m-add-list-input");
-  $addCancelBtn = $(".m-add-list-cancel-btn");
   $doneAddBtn = $(".m-add-list-btn");
 
   // 編集画面
@@ -279,14 +278,20 @@ function showTask(){
   // if($(".m-output-area > li").length === 0){
   //   $taskNoneImg.css({display:"block"});
   // }
+
   if(listArray.length === 0){
     $taskNoneImg.css({display:"block"});
   }
+
+  $("body").removeClass("bg-white");
+
 }
+
 function setBtn(){
   // 新規作成ボタンを押したら
   $addBtn.on("click",function(){
     showAddList();
+    $("body").addClass("bg-white");
   });
   // 新規作成画面で追加ボタンを押したら
   $doneAddBtn.on("click",function(){
@@ -299,12 +304,15 @@ function setBtn(){
       alert("タスクを入力してください");
     }
   });
-  $addCancelBtn.on("click",function(){
-    showTask();
-  });
   $menuTask.on("click",function(evt){
-    showTask();
+    if($(".m-task-tab-comp").hasClass("is-active")){
+      showTask();
+       ShowCompList();
+    } else {
+      showTask();
+    }
     menuListClick($(this));
+    $("body").removeClass("bg-white");
   });
   $taskTabAll.on("click",function(evt){
     showTask();
@@ -329,11 +337,17 @@ function setBtn(){
   });
   $cancelBtn.on("click",function(evt){
     clearInterval(time);
-    showTask();
+    if($(".m-task-tab-comp").hasClass("is-active")){
+      showTask();
+       ShowCompList();
+    } else {
+      showTask();
+    }
   });
   // 編集画面の編集ボタン押したら
   $editBtn.on("click",function(evt){
     doneEdit();
+    $("body").addClass("bg-white");
   });
   $compEditCancelBtn.on("click",function(evt){
     showTask();
@@ -515,6 +529,10 @@ function menuListClick(aTarget){
 function reload(){
   clickMenu(false);
   showTask();
+
+  $(".l-task-tab-list > li").removeClass("is-active");
+  $(".m-task-tab-all").addClass("is-active");
+
   var listArray = getLocalStorage("todo",listArray);
   console.log(listArray);
   // もしローカルストレージにjsonがあったら
@@ -678,6 +696,7 @@ function showEdit(aTarget){
     $editHour.text(appendHour);
     $editMinute.text(appendMinute);
     $editSecond.text(appendSecond);
+    $("body").addClass("bg-white");
   });
 }
 
@@ -923,6 +942,7 @@ function showCompEdit(aTarget){
     var $inputText = $(this).find(".m-list-txt").text();
     $editCompInput.text($inputText);
 
+    $(".m-edit-studytime").text("完了したよん");
   });
 }
 
@@ -956,6 +976,7 @@ function clickMenuStudy(){
     doughnutChart();
     $studyTab.css({display:"block"});
 
+    $("body").addClass("bg-white");
     // 戻ってきたときにもし「合計」が表示されていたら最初から合計表示
     if(allCircleGraphTabFrag === true){
       showAllTime();
