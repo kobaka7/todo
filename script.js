@@ -245,8 +245,6 @@ function setObj(){
 
 // ボタン操作まとめ
 function showTask(){
-  $task.fadeIn("300");
-  $taskTab.fadeIn("300");
   $header.css({backgroundColor:"#007AFF"});
   $header.css({display:"block"});
 
@@ -1028,12 +1026,6 @@ function clickMenuStudy(){
 }
 
 function showStudy(){
-  $addList.css({display:"none"});
-  $header.css({display:"none"});
-  $study.fadeIn("300");
-  $header.fadeIn("300");
-  $studyTab.fadeIn("300");
-
   $addList.css({display:"none"});
   $edit.css({display:"none"});
   $task.css({display:"none"});
