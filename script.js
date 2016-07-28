@@ -333,7 +333,18 @@ function setBtn(){
     showTask();
   });
   $backBtn.on("click",function(evt){
-    showTask();
+    // showTask();
+
+    $edit.animate({left:'100%'},300, "easeOutQuad", function(){
+      showTask();
+    });
+
+
+
+
+
+
+
   });
   $cancelBtn.on("click",function(evt){
     clearInterval(time);
@@ -646,6 +657,10 @@ function showEdit(aTarget){
     $cancelBtn.css({display:"none"});
     $header.css({background:"#fff"});
     $headerTitle.text("編集");
+
+    $edit.animate({left:0},300, "easeOutQuad");
+    // ease-out
+
 
     // liのテキストを最初から表示させる
     var $inputText = aTarget.find(".m-list-txt").text();
