@@ -264,13 +264,16 @@ function showTask(){
   $headerTitle.text("");
   $header.css({backgroundColor:"#007AFF"});
 
-
   // 非表示にする
   $("#doughnutChart").find("svg").remove();
   $("#allDoughnutChart").find("svg").remove();
   $(".doughnutSummary").find("p").remove();
   circleGraphFrag = false;
   allCircleGraphFrag = false;
+
+  // メニューアクティブ操作
+  $(".l-menu-list > li").removeClass("is-active");
+  $(".l-menu-list-task").addClass("is-active");
 
   // 表示するものがない場合
   if(listArray.length === 0){
@@ -406,16 +409,6 @@ function setBtn(){
 
     // 画面切り替え
     showTask();
-  });
-  $('.button').click(function(){
-    if (btnFlug === 0){
-        btnFlug = 1;
-        $(this).addClass("is-active");
-    }else if (btnFlug === 1){
-       btnFlug = 0;
-       $(this).removeClass("is-active");
-    }
-    console.log(btnFlug);
   });
 }
 
@@ -596,6 +589,7 @@ function addListEl(){
     compTime:null,
     timerStartTime:0,
     timerStudyTime:0,
+    btnFlug:0,
   };
   createListEl(newList);
   addListFunction($listEl);
@@ -693,7 +687,7 @@ function doneEdit(){
   console.log($inputSbject);
 
   // 編集した内容を新しいオブジェクトとして生成し、元あった場所と置き換える
-  function createNewTodo(num,arrayNum,isFav){
+  function createNewTodo(num,arrayNum,isFav,isBtnFlug){
     var newTodo = {
       task:$inputTxt,
       comp:false,
@@ -704,6 +698,7 @@ function doneEdit(){
       compTime:null,
       timerStartTime:0,
       timerStudyTime:0,
+      btnFlug:isBtnFlug,
     };
     createListEl(newTodo);
     console.log($inputSbject);
@@ -711,15 +706,26 @@ function doneEdit(){
     $outputArea.find("li").eq(num).replaceWith($listEl);
     addListFunction($listEl);
     listArray[num].fav = isFav;
+    listArray[num].btnFlug = isBtnFlug;
   }
 
   // 全てのタスク一覧だったら
   if (menuStatus === false){
     // もしnum番目のふぁぼがactiveだったら
     if ($outputArea.find("li").eq(num).find(".m-fav-btn").hasClass("is-active")){
-      createNewTodo(num,num,true);
+      // かつタイマー判定
+      if(listArray[num].btnFlug === 0){
+        createNewTodo(num,num,true,0);
+      } else {
+        createNewTodo(num,num,true,1);
+      }
     } else {
-      createNewTodo(num,num,false);
+      // かつタイマー判定
+      if(listArray[num].btnFlug === 0){
+        createNewTodo(num,num,false,0);
+      } else {
+        createNewTodo(num,num,false,1);
+      }
     }
     // ローカルストレージの編集
     listArray[num].task = $inputTxt;
@@ -738,8 +744,13 @@ function doneEdit(){
       }
     }
     if ($outputArea.find("li").eq(num).find(".m-fav-btn").hasClass("is-active")){
-      createNewTodo(num,num,true);
-    } else {
+      // かつタイマー判定
+      if(listArray[num].btnFlug === 0){
+        createNewTodo(num,num,true,0);
+      } else {
+        createNewTodo(num,num,true,1);
+      }
+      } else {
       $outputArea.find("li").eq(num).remove();
       listArray[cnt].fav = false;
       }
@@ -1404,8 +1415,12 @@ function setTimer(){
     nowTime = (new Date()).getTime();
     currentTime = currentTime + (nowTime - listArray[num].timerStartTime);
     timer();
-    // $("#start").addClass("is-active");
-    // $("#start").text("ストップ");
+  }
+
+  // タイマーが動いてるとき
+  if(listArray[num].btnFlug === 1){
+    $(".button").addClass("is-active");
+    $("#start").text("ストップ");
   }
 
   // 追加する時間
@@ -1465,8 +1480,10 @@ function timer() {
 
       // 配列のthis番目のタイマー開始時間に代入
       listArray[num].timerStartTime = (new Date()).getTime();
+      listArray[num].btnFlug = 1;
       setLocalStorage("todo",listArray);
       $outputArea.find("li").eq(num).find(".m-timer-btn").css({'opacity':1});
+      $(".button").addClass("is-active");
       $("#start").text("ストップ");
     } else {
       nowTime = (new Date()).getTime();
@@ -1478,10 +1495,12 @@ function timer() {
       listArray[num].timerStudyTime = timerStudyTime + listArray[num].timerStudyTime;
       // タイマー開始時刻をリセットする
       listArray[num].timerStartTime = 0;
+      listArray[num].btnFlug = 0;
       setLocalStorage("todo",listArray);
       $outputArea.find("li").eq(num).find(".m-timer-btn").css({'opacity':0.1});
 
       clearInterval(time);
+      $(".button").removeClass("is-active");
       $("#start").text("スタート");
     }
   });
@@ -1499,6 +1518,7 @@ function timer() {
 
     listArray[num].timerStudyTime = 0;
     listArray[num].timerStartTime = 0;
+    listArray[num].btnFlug = 0;
     setLocalStorage("todo",listArray);
 
     btnFlug = 0;
@@ -1508,6 +1528,3 @@ function timer() {
 
 }); //html実行後
 })(); //即時関数
-
-// btnFlugをストレージにいれておく
-// showtaskのなかでメニューの切り替え
