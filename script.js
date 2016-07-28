@@ -785,10 +785,10 @@ function showComp(aTarget){
     console.log("勉強分は" + appendMinute);
 
     // 最初からタイマーの時間を表示させる
-    $("select.m-comp-time-hours").find("option").attr("selected",false);
-    $("select.m-comp-time-minutes").find("option").attr("selected",false);
-    $("select.m-comp-time-hours").find("option").eq(appendHour + 1).attr("selected",true);
-    $("select.m-comp-time-minutes").find("option").eq(appendMinute + 1).attr("selected",true);
+    $("select.m-comp-time-hours option:selected").prop("selected",false);
+    $("select.m-comp-time-minutes option:selected").prop("selected",false);
+    $("select.m-comp-time-hours").find("option").eq(appendHour + 1).prop("selected",true);
+    $("select.m-comp-time-minutes").find("option").eq(appendMinute + 1).prop("selected",true);
   });
 }
 
