@@ -245,8 +245,8 @@ function setObj(){
 
 // ボタン操作まとめ
 function showTask(){
-  $task.fadeIn("slow");
-  $taskTab.fadeIn("slow");
+  $task.fadeIn("300");
+  $taskTab.fadeIn("300");
   $header.css({backgroundColor:"#007AFF"});
   $header.css({display:"block"});
 
@@ -559,8 +559,8 @@ function reload(){
 
 function showAddList(){
   $header.css({display:"none"});
-  $addList.fadeIn(400);
-  $header.fadeIn("slow");
+  $addList.fadeIn("300");
+  $header.fadeIn("300");
 
   $task.css({display:"none"});
   $taskTab.css({display:"none"});
@@ -646,6 +646,11 @@ function showEdit(aTarget){
     num = aTarget.index(); //liのthis番目取得
     currentTime = 0;
     console.log(num);
+
+    $addList.css({display:"none"});
+    $header.css({display:"none"});
+    $edit.fadeIn("300");
+    $header.fadeIn("300");
 
     $task.css({display:"none"});
     $menu.css({display:"none"});
@@ -937,6 +942,11 @@ function showCompEdit(aTarget){
   aTarget.on("click",function(evt){
     var compListArray = getLocalStorage("compTodo",compListArray);
     $task.css({display:"none"});
+    $addList.css({display:"none"});
+    $header.css({display:"none"});
+    $edit.css({display:"none"});
+    $compEdit.fadeIn("300");
+    $header.fadeIn("300");
 
     num = $(this).index(); //liのthis番目取得
     $task.css({display:"none"});
@@ -1018,6 +1028,12 @@ function clickMenuStudy(){
 }
 
 function showStudy(){
+  $addList.css({display:"none"});
+  $header.css({display:"none"});
+  $study.fadeIn("300");
+  $header.fadeIn("300");
+  $studyTab.fadeIn("300");
+
   $addList.css({display:"none"});
   $edit.css({display:"none"});
   $task.css({display:"none"});
@@ -1454,6 +1470,12 @@ function showTimer(aTarget){
   aTarget.find(".m-timer-btn").on("click",function(evt){
     evt.stopPropagation(); //liへのイベント伝播禁止
     num = $(this).parent().parent().index(); //liのthis番目
+
+    $addList.css({display:"none"});
+    $header.css({display:"none"});
+    $timer.fadeIn("300");
+    $header.fadeIn("300");
+
     $task.css({display:"none"});
     $menu.css({display:"none"});
     $taskTab.css({display:"none"});
@@ -1464,6 +1486,7 @@ function showTimer(aTarget){
     $timer.css({display:"block"});
     $header.css({background:"#fff"});
     $headerTitle.text("タイマー");
+    $("body").addClass("bg-white");
     setTimer();
   });
 }
