@@ -187,7 +187,7 @@ function setObj(){
   $compEditCancelBtn = $(".m-comp-edit-cancel-btn");
   $compEditDelateBtn = $(".m-comp-edit-delate-btn");
   $compEditRevivalBtn = $(".m-comp-edit-revival-btn");
-  $editCompInput = $(".m-comp-edit-input");
+  $editCompInput = $(".l-comp-edit-text");
   $compEdit = $(".l-comp-edit");
 
   // メニューバー
@@ -245,9 +245,8 @@ function setObj(){
 
 // ボタン操作まとめ
 function showTask(){
-  $header.fadeIn(400);
-  $task.fadeIn(400);
-  $taskTab.fadeIn(400);
+  $task.fadeIn("slow");
+  $taskTab.fadeIn("slow");
   $header.css({backgroundColor:"#007AFF"});
   $header.css({display:"block"});
 
@@ -333,7 +332,12 @@ function setBtn(){
     showTask();
   });
   $backBtn.on("click",function(evt){
-    showTask();
+    if($(".m-task-tab-comp").hasClass("is-active")){
+      showTask();
+       ShowCompList();
+    } else {
+      showTask();
+    }
   });
   $cancelBtn.on("click",function(evt){
     clearInterval(time);
@@ -528,6 +532,9 @@ function menuListClick(aTarget){
 
 function reload(){
   clickMenu(false);
+  $header.css({display:"none"});
+  $task.css({display:"none"});
+  $taskTab.css({display:"none"});
   showTask();
 
   $(".l-task-tab-list > li").removeClass("is-active");
@@ -551,7 +558,9 @@ function reload(){
 // ======================================================================
 
 function showAddList(){
+  $header.css({display:"none"});
   $addList.fadeIn(400);
+  $header.fadeIn("slow");
 
   $task.css({display:"none"});
   $taskTab.css({display:"none"});
@@ -902,11 +911,11 @@ function ShowCompList(){
     //配列の数だけliを生成する
     for(var cnt=0; cnt < compListArray.length; cnt++){
       createListEl(compListArray[cnt]);
-      addListFunction();
+      showComp($listEl);
+      showCompEdit($listEl);
       $listEl.appendTo($outputArea);
 
       $listEl.find(".m-list-txt").addClass("is-active");
-      showCompEdit($listEl);
 
       // ボタン非表示
       $(".m-fav-btn").css({display:"none"});
@@ -925,9 +934,9 @@ function ShowCompList(){
 // ======================================================================
 
 function showCompEdit(aTarget){
-  console.log(aTarget);
   aTarget.on("click",function(evt){
-  $task.css({display:"none"});
+    var compListArray = getLocalStorage("compTodo",compListArray);
+    $task.css({display:"none"});
 
     num = $(this).index(); //liのthis番目取得
     $task.css({display:"none"});
@@ -941,12 +950,31 @@ function showCompEdit(aTarget){
     $cancelBtn.css({display:"none"});
     $header.css({background:"#fff"});
     $headerTitle.text("完了したタスク");
+    $("body").addClass("bg-white");
 
     // liのテキストを最初から表示させる
-    var $inputText = $(this).find(".m-list-txt").text();
-    $editCompInput.text($inputText);
+    var $inputText = aTarget.find(".m-list-txt").text();
+    $editInputText.val($inputText);
 
-    $(".m-edit-studytime").text("完了したよん");
+    // 科目の初期値を取得する
+    var subjectNum = 0;
+    switch(compListArray[num].subject){
+      case "国語":
+          subjectNum = 1;
+          break;
+      case "英語":
+          subjectNum = 2;
+          break;
+      case "数学":
+          subjectNum = 3;
+          break;
+      default:
+          subjectNum = 0;
+          break;
+    }
+    $("select.m-edit-subject").find("option").eq(subjectNum + 1).prop("selected",true);
+    selectedSubject = $('select.m-edit-subject').val();
+    changeSubject();
   });
 }
 

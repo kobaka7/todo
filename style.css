@@ -394,7 +394,6 @@ li.l-menu-list-add {
 .l-add-list,
 .l-edit,
 .l-comp-edit {
-  padding: 64px 0 0 0;
   overflow: hidden;
   text-align: center;
   display: none;

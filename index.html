@@ -74,7 +74,7 @@
 
   <div class="l-edit">
   <form>
-    <p><input type="text" name="name" class="m-edit-input input_text" placeholder="名前"></p>
+    <p><input type="text" name="name" class="m-edit-input input_text" placeholder="科目"></p>
   </form>
 
 <label class="m-subject-label">
@@ -206,6 +206,18 @@
   <!-- ===== 完了編集画面 ===== -->
 
   <div class="l-comp-edit">
+  <form>
+    <p><input type="text" name="name" class="m-edit-input input_text" placeholder="科目"></p>
+  </form>
+    <label class="m-subject-label">
+      <select class="m-edit-subject">
+        <option value="" disabled selected>科目</option>
+          <option value="未設定">未設定</option>
+        <option value="国語">国語</option>
+        <option value="英語">英語</option>
+        <option value="数学">数学</option>
+      </select>
+    </label>
     <button class="m-comp-edit-delate-btn">削除</button>
   </div>
 
