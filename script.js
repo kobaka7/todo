@@ -276,6 +276,9 @@ function showTask(){
   $(".l-menu-list-task").addClass("is-active");
 
   // 表示するものがない場合
+  // if($(".m-output-area > li").length === 0){
+  //   $taskNoneImg.css({display:"block"});
+  // }
   if(listArray.length === 0){
     $taskNoneImg.css({display:"block"});
   }
@@ -778,8 +781,8 @@ function showComp(aTarget){
     // 追加する時間
     var appendHour = studytime / (1000 * 60 * 60) | 0; // 1/1000秒x60秒x60分
     var appendMinute = studytime % (1000 * 60 * 60) / (1000 * 60) | 0; // 時間で割った余りを割る
-    console.log(appendHour);
-    console.log(appendMinute);
+    console.log("勉強時間は" + appendHour);
+    console.log("勉強分は" + appendMinute);
 
     // 最初からタイマーの時間を表示させる
     $("select.m-comp-time-hours").find("option").attr("selected",false);
