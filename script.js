@@ -773,7 +773,12 @@ function doneEdit(){
 function showComp(aTarget){
   aTarget.find(".m-comp-btn").on("click",function(evt){
     num = aTarget.index();
+    // 完了一覧画面のモーダル禁止
+    if($(this).hasClass('is-active') === true){
+      evt.preventDefault();
+    }
     evt.stopPropagation(); //liへのイベント伝播禁止
+
     var listArray = getLocalStorage("todo",listArray);
     // console.log(num);
     var studytime = listArray[num].timerStudyTime;
@@ -875,6 +880,7 @@ function ShowCompList(){
     //配列の数だけliを生成する
     for(var cnt=0; cnt < compListArray.length; cnt++){
       createListEl(compListArray[cnt]);
+      addListFunction();
       $listEl.appendTo($outputArea);
 
       $listEl.find(".m-list-txt").addClass("is-active");
