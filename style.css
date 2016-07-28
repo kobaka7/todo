@@ -637,12 +637,59 @@ input[type=radio], input[type=checkbox]{ display: none;}
     -webkit-transition: all 500ms;
     transition: all 500ms;
 }
-select {
-  margin: 16px 0 0 0 ;
+.m-add-subject,
+.m-edit-subject {
   border: 0;
   border-bottom: 1px solid #ccc;
-  background: #fff;
+  background: transparent;
   border-radius: 0;
-  padding: 8px 0px;
+  padding: 8px 10px;
   width: 100%;
+  position: relative;
+  z-index: 1;
+}
+.m-subject-label {
+  position: relative;
+  display: block;
+  margin: 16px 0 0;
+}
+.m-subject-label:before {
+  content: "";
+  height: 10px;
+  width: 10px;
+  background: #ccc;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+}
+.m-subject-label-jp:before {
+  content: "";
+  height: 10px;
+  width: 10px;
+  background: rgb(0, 204, 198);
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+}
+.m-subject-label-english:before {
+  content: "";
+  height: 10px;
+  width: 10px;
+  background: rgb(186, 120, 255);
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+}
+.m-subject-label-math:before {
+  content: "";
+  height: 10px;
+  width: 10px;
+  background: rgb(245, 166, 35);
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
 }

@@ -47,6 +47,7 @@ var $taskNoneImg = null;
 var $todayNoneImg = null;
 var $allNoneImg = null;
 var $weekNoneImg = null;
+var selectedSubject = null;
 var num = 0;
 var studyTimes = 0;
 var time = 0; //タイマーの中
@@ -548,10 +549,36 @@ function showAddList(){
   $cancelBtn.css({display:"block"});
   $headerTitle.text("タスクの新規作成");
   $header.css({background:"#fff"});
-  // 最初からフォーカスを当ててくれる
-  // $addListInput.focus();
+
+  // 科目色初期化
+  selectedSubject = $('select.m-add-subject').val();
+  changeSubject();
+  // 科目クリックするたびに色変わる
+  $('select.m-add-subject').on('change', function(evt){
+    selectedSubject = $(this.options[this.selectedIndex]).text();
+    changeSubject();
+  });
 }
 
+function changeSubject(){
+  if(selectedSubject === "国語"){
+    $(".m-subject-label").addClass("m-subject-label-jp");
+    $(".m-subject-label").removeClass("m-subject-label-english");
+    $(".m-subject-label").removeClass("m-subject-label-math");
+  } else if (selectedSubject === "英語"){
+    $(".m-subject-label").removeClass("m-subject-label-jp");
+    $(".m-subject-label").addClass("m-subject-label-english");
+    $(".m-subject-label").removeClass("m-subject-label-math");
+  } else if (selectedSubject === "数学"){
+    $(".m-subject-label").removeClass("m-subject-label-jp");
+    $(".m-subject-label").removeClass("m-subject-label-english");
+    $(".m-subject-label").addClass("m-subject-label-math");
+  } else {
+    $(".m-subject-label").removeClass("m-subject-label-jp");
+    $(".m-subject-label").removeClass("m-subject-label-english");
+    $(".m-subject-label").removeClass("m-subject-label-math");
+  }
+}
 // ------------- li生成 -----------
 
 function addListEl(){
@@ -580,6 +607,7 @@ function addListEl(){
   // 打った後空白
   $addListInput.val("");
 }
+
 
 // ======================================================================
                                 // 編集画面
@@ -624,8 +652,15 @@ function showEdit(aTarget){
           subjectNum = 0;
           break;
     }
-    $("select.m-edit-subject").find("option").eq(subjectNum).prop("selected",true);
+    $("select.m-edit-subject").find("option").eq(subjectNum + 1).prop("selected",true);
+    selectedSubject = $('select.m-edit-subject').val();
+    changeSubject();
 
+    // 科目クリックするたびに変わる
+    $('select.m-edit-subject').on('change', function(evt){
+      selectedSubject = $(this.options[this.selectedIndex]).text();
+      changeSubject();
+    });
     // 勉強時間を表示する
     currentTime = listArray[num].timerStudyTime;
 
@@ -723,10 +758,10 @@ function doneEdit(){
 
 function showComp(aTarget){
   aTarget.find(".m-comp-btn").on("click",function(evt){
-
+    num = aTarget.index();
     evt.stopPropagation(); //liへのイベント伝播禁止
     var listArray = getLocalStorage("todo",listArray);
-
+    // console.log(num);
     var studytime = listArray[num].timerStudyTime;
     console.log(studytime);
     // 追加する時間
@@ -736,8 +771,8 @@ function showComp(aTarget){
     console.log(appendMinute);
 
     // 最初からタイマーの時間を表示させる
-    // $("select.m-comp-time-hours").find("option").attr("selected",false);
-    // $("select.m-comp-time-minutes").find("option").attr("selected",false);
+    $("select.m-comp-time-hours").find("option").attr("selected",false);
+    $("select.m-comp-time-minutes").find("option").attr("selected",false);
     $("select.m-comp-time-hours").find("option").eq(appendHour + 1).attr("selected",true);
     $("select.m-comp-time-minutes").find("option").eq(appendMinute + 1).attr("selected",true);
   });
@@ -1473,3 +1508,6 @@ function timer() {
 
 }); //html実行後
 })(); //即時関数
+
+// btnFlugをストレージにいれておく
+// showtaskのなかでメニューの切り替え

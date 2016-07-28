@@ -57,12 +57,15 @@
     <p><input type="text" name="name" class="m-add-list-input input_text" placeholder="名前"></p>
   </form>
 
-  <select class="m-add-subject">
-    <option value="" disabled selected>未設定</option>
-    <option value="国語">国語</option>
-    <option value="英語">英語</option>
-    <option value="数学">数学</option>
-  </select>
+  <label class="m-subject-label">
+    <select class="m-add-subject">
+      <option value="" disabled selected>科目</option>
+      <option value="未設定">未設定</option>
+      <option value="国語">国語</option>
+      <option value="英語">英語</option>
+      <option value="数学">数学</option>
+    </select>
+  </label>
 
     <button class="m-add-list-btn"></button>
   </div>
@@ -74,12 +77,15 @@
     <p><input type="text" name="name" class="m-edit-input input_text" placeholder="名前"></p>
   </form>
 
+<label class="m-subject-label">
   <select class="m-edit-subject">
-    <option value="" disabled selected>未設定</option>
+    <option value="" disabled selected>科目</option>
+      <option value="未設定">未設定</option>
     <option value="国語">国語</option>
     <option value="英語">英語</option>
     <option value="数学">数学</option>
   </select>
+</label>
 
   <div class="m-edit-studytime">
     <span class="m-edit-hour">00</span>
@@ -252,7 +258,7 @@
   <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="https://code.highcharts.com/highcharts.js"></script>
   <script src="https://code.highcharts.com/modules/exporting.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.0-rc.2/jquery-ui.min.js" integrity="sha256-55Jz3pBCF8z9jBO1qQ7cIf0L+neuPTD1u7Ytzrp2dqo=" crossorigin="anonymous"></script>
+<!--   <script src="https://code.jquery.com/ui/1.12.0-rc.2/jquery-ui.min.js" integrity="sha256-55Jz3pBCF8z9jBO1qQ7cIf0L+neuPTD1u7Ytzrp2dqo=" crossorigin="anonymous"></script> -->
   <script src="remodal.js"></script>
   <script src="graph2.js"></script>
   <script src="script.js"></script>
