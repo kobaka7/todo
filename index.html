@@ -53,52 +53,53 @@
 <!-- ===== 新規作成画面 ===== -->
 
   <div class="l-add-list">
+    <p class="m-add-task-title">タスク内容</p>
+    <form>
+      <p>
+        <input type="text" name="name" class="m-add-list-input input_text" placeholder="タスクを入力しよう">
+      </p>
+    </form>
 
-  <p class="m-add-task-title">タスク内容</p>
-  <form>
-    <p><input type="text" name="name" class="m-add-list-input input_text" placeholder="タスクを入力しよう"></p>
-  </form>
-
-  <p class="m-add-subject-title">科目</p>
-  <label class="m-subject-label">
-    <select class="m-add-subject">
-      <option value="" disabled selected>科目</option>
-      <option value="未設定">未設定</option>
-      <option value="国語">国語</option>
-      <option value="英語">英語</option>
-      <option value="数学">数学</option>
-    </select>
-  </label>
-
-    <button class="m-add-list-btn"></button>
-  </div>
-
-<!-- ===== 編集画面 ===== -->
-
-  <div class="l-edit">
-  <p class="m-edit-task-title">タスク内容</p>
-  <form>
-    <p><input type="text" name="name" class="m-edit-input input_text" placeholder="科目"></p>
-  </form>
-
-  <p class="m-edit-subject-title">科目</p>
-  <label class="m-subject-label">
-    <select class="m-edit-subject">
-      <option value="" disabled selected>科目</option>
+    <p class="m-add-subject-title">科目</p>
+    <label class="m-subject-label">
+      <select class="m-add-subject">
+        <option value="" disabled selected>科目</option>
         <option value="未設定">未設定</option>
-      <option value="国語">国語</option>
-      <option value="英語">英語</option>
-      <option value="数学">数学</option>
-    </select>
-  </label>
+        <option value="国語">国語</option>
+        <option value="英語">英語</option>
+        <option value="数学">数学</option>
+      </select>
+    </label>
 
-  <div class="m-edit-studytime">
-    <p class="m-edit-studytime-title">タイマーで計測した勉強時間</p>
-    <span class="m-edit-hour">00</span>
-    :
-    <span class="m-edit-minute">00</span>
-    :
-    <span class="m-edit-second">00</span>
+      <button class="m-add-list-btn"></button>
+    </div>
+
+  <!-- ===== 編集画面 ===== -->
+
+    <div class="l-edit">
+    <p class="m-edit-task-title">タスク内容</p>
+    <form>
+      <p><input type="text" name="name" class="m-edit-input input_text" placeholder="科目"></p>
+    </form>
+
+    <p class="m-edit-subject-title">科目</p>
+    <label class="m-subject-label">
+      <select class="m-edit-subject">
+        <option value="" disabled selected>科目</option>
+          <option value="未設定">未設定</option>
+        <option value="国語">国語</option>
+        <option value="英語">英語</option>
+        <option value="数学">数学</option>
+      </select>
+    </label>
+
+    <div class="m-edit-studytime">
+      <p class="m-edit-studytime-title">タイマーで計測した勉強時間</p>
+      <span class="m-edit-hour">00</span>
+      :
+      <span class="m-edit-minute">00</span>
+      :
+      <span class="m-edit-second">00</span>
     </div>
     <button class="m-edit-btn"></button>
   </div><!-- l-edit -->
@@ -118,6 +119,7 @@
   </div>
 
   <!-- ===== 完了画面 ===== -->
+
   <div data-remodal-id="modal2" role="dialog" aria-labelledby="modal2Title" aria-describedby="modal2Desc">
   <div class="l-comp-wrapper">
     <p class="m-comp-title">おつかれさま！</p>
@@ -212,7 +214,6 @@
       </label>
     </div>
     <button data-remodal-action="confirm" class="m-comp-done-btn remodal-confirm">完了する</button>
-    </div>
   </div>
 
   <!-- ===== 完了編集画面 ===== -->
@@ -220,7 +221,9 @@
   <div class="l-comp-edit">
   <p class="m-comp-task-title">タスク内容</p>
   <form>
-    <p><input type="text" name="name" class="m-edit-input input_text" placeholder="科目"></p>
+    <p>
+      <input type="text" name="name" class="m-edit-input input_text" placeholder="科目">
+    </p>
   </form>
   <p class="m-comp-task-title">科目</p>
     <label class="m-subject-label">

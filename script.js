@@ -1,4 +1,3 @@
-
 ;(function(){
 $(function(){
 var $outputArea = null;
@@ -49,9 +48,6 @@ var $todayNoneImg = null;
 var $allNoneImg = null;
 var $weekNoneImg = null;
 var selectedSubject = null;
-var num = 0;
-var studyTimes = 0;
-var time = 0; //タイマーの中
 var menuStatus = false;
 var weekGraphScroll = false;
 var circleGraphFrag = false;
@@ -99,13 +95,6 @@ var todayJapaneseTime = null;
 var todayEnglishTime = null;
 var todayMathTime = null;
 var toDayUnsetTime = null;
-var totalTime = 0;
-var totalJapaneseTime = 0;
-var totalMathTime = 0;
-var totalEnglishTime = 0;
-var totalUnsetTime = 0;
-var studyClickTime = 0;
-var btnFlug = 0;
 var today = null;
 var year = null;
 var month = null;
@@ -115,30 +104,23 @@ var startDay = null;
 var endDay = null;
 var startTime = null;
 var endTime = null;
-// var FevDate =...;
-// 月ごとのマックスの日数
-var maxDate = [31,28,31,30,31,30,31,31,30,31,30,31];
 var weekStartDay = null;
 var weekEndDay = null;
 var startDay = null;
 var startMonth = null;
 var startYaer = null;
-
-// ストップウォッチ全体
-var watch = $("#watch");
-// 時間の表示
-var hour = $("#hour");
-// 分の表示
-var minute = $("#minute");
-// 秒の表示
-var second = $("#second");
-// スタートボタンを操作する変数
-var btnStart = $("#start");
-// リセットボタンを操作する変数
-var btnReset = $("#reset");
-// 経過時間（最初は0）
+var totalTime = 0;
+var totalJapaneseTime = 0;
+var totalMathTime = 0;
+var totalEnglishTime = 0;
+var totalUnsetTime = 0;
+var studyClickTime = 0;
+var btnFlug = 0;
+var num = 0;
+var studyTimes = 0;
+var time = 0;
+var maxDate = [31,28,31,30,31,30,31,31,30,31,30,31];
 var currentTime = 0;
-// タイマーで表示されている勉強時間
 var timerStudyTime = 0;
 var nowTime = 0;
 var studyAllTimes = 0;
@@ -150,6 +132,12 @@ var studyEnglishTime = 0;
 var studyAllEnglishTimes = 0;
 var studyUnsetTime = 0;
 var studyAllUnsetTimes = 0;
+var watch = $("#watch");
+var hour = $("#hour");
+var minute = $("#minute");
+var second = $("#second");
+var btnStart = $("#start");
+var btnReset = $("#reset");
 
 setObj();
 setBtn();
@@ -243,7 +231,7 @@ function setObj(){
   $allMode = $(".l-study-all");
   $studyTimeNoneImg = $(".m-study-time-none");
 }
-console.log(menuStudyFlag);
+
 // ボタン操作まとめ
 function showTask(){
   $header.css({backgroundColor:"#007AFF"});
@@ -509,7 +497,6 @@ function addListFunction(){
   showEdit($listEl);
   showComp($listEl);
   showTimer($listEl);
-  // timerBtn($listEl);
 }
 
 // ======================================================================
@@ -578,7 +565,6 @@ function showAddList(){
   $headerTitle.css({color:"#333"});
   $header.css({background:"#fff"});
 
-
   // 科目色初期化
   selectedSubject = $('select.m-add-subject').val();
   changeSubject();
@@ -638,7 +624,6 @@ function addListEl(){
   $addListInput.val("");
 }
 
-
 // ======================================================================
                                 // 編集画面
 // ======================================================================
@@ -648,7 +633,6 @@ function showEdit(aTarget){
     var listArray = getLocalStorage("todo",listArray);
     num = aTarget.index(); //liのthis番目取得
     currentTime = 0;
-    console.log(num);
 
     $addList.css({display:"none"});
     $header.css({display:"none"});
@@ -711,9 +695,6 @@ function showEdit(aTarget){
     appendSecond = appendSecond < 10 ? "0" + appendSecond : appendSecond;
 
     // 時間をHTMLに記述する
-    console.log(appendHour);
-    console.log(appendMinute);
-    console.log(appendSecond);
     $editHour.text(appendHour);
     $editMinute.text(appendMinute);
     $editSecond.text(appendSecond);
@@ -727,7 +708,6 @@ function doneEdit(){
   var listArray = getLocalStorage("todo",listArray);
   var $inputTxt = $editInputText.val();
   var $inputSbject = $("select.m-edit-subject").val();
-  console.log($inputSbject);
 
   // 編集した内容を新しいオブジェクトとして生成し、元あった場所と置き換える
   function createNewTodo(num,arrayNum,isFav,isBtnFlug){
@@ -744,7 +724,6 @@ function doneEdit(){
       btnFlug:isBtnFlug,
     };
     createListEl(newTodo);
-    console.log($inputSbject);
     // 元々あったliと新しいliを置き換える
     $outputArea.find("li").eq(num).replaceWith($listEl);
     addListFunction($listEl);
@@ -820,15 +799,10 @@ function showComp(aTarget){
     evt.stopPropagation(); //liへのイベント伝播禁止
 
     var listArray = getLocalStorage("todo",listArray);
-    // console.log(num);
     var studytime = listArray[num].timerStudyTime;
-    console.log(num);
-    console.log(studytime);
     // 追加する時間
     var appendHour = studytime / (1000 * 60 * 60) | 0; // 1/1000秒x60秒x60分
     var appendMinute = studytime % (1000 * 60 * 60) / (1000 * 60) | 0; // 時間で割った余りを割る
-    console.log("勉強時間は" + appendHour);
-    console.log("勉強分は" + appendMinute);
 
     // 最初からタイマーの時間を表示させる
     $("select.m-comp-time-hours option:selected").prop("selected",false);
@@ -872,7 +846,8 @@ function ShowFavList(){
 
 function favBtn(aTarget) {
   aTarget.find(".m-fav-btn").on("click",function(evt){
-    evt.stopPropagation(); //liへのイベント伝播禁止
+    //liへのイベント伝播禁止
+    evt.stopPropagation();
     num = $(this).parent().parent().index(); //liのthis番目
     $(this).toggleClass("is-active"); //isactiveなければつける
     var listArray = getLocalStorage("todo",listArray);
@@ -895,7 +870,6 @@ function favBtn(aTarget) {
       });
       var favCounter = 0;
       for(var cnt=0; cnt<listArray.length; cnt++){
-        console.log(listArray[cnt].fav);
         if(listArray[cnt].fav === true){
           if(favCounter === num){
             break;
@@ -925,7 +899,6 @@ function ShowCompList(){
       showComp($listEl);
       showCompEdit($listEl);
       $listEl.appendTo($outputArea);
-
       $listEl.find(".m-list-txt").addClass("is-active");
 
       // ボタン非表示
@@ -1080,9 +1053,7 @@ function showAllTime(){
   for(var cnt=0; cnt<compListArray.length; cnt++){
     studyTime = Number(compListArray[cnt].study);
     studyAllTimes += studyTime;
-    console.log(compListArray[cnt].study);
   }
-  console.log("全ての勉強時間は " + studyAllTimes);
 
   // 国語の勉強時間（分）（数値）
   for(var cnt=0; cnt<compListArray.length; cnt++){
@@ -1091,7 +1062,6 @@ function showAllTime(){
       studyAllJapaneseTimes += studyJapaneseTime;
     }
   }
-  console.log("全ての国語の勉強時間は " + studyAllJapaneseTimes);
 
   // 数学の勉強時間（分）（数値）
   for(var cnt=0; cnt<compListArray.length; cnt++){
@@ -1100,7 +1070,6 @@ function showAllTime(){
       studyAllMathTimes += studyMathTime;
     }
   }
-  console.log("全ての数学の勉強時間は " + studyAllMathTimes);
 
   // 英語の勉強時間（分）（数値）
   for(var cnt=0; cnt<compListArray.length; cnt++){
@@ -1109,7 +1078,6 @@ function showAllTime(){
       studyAllEnglishTimes += studyEnglishTime;
     }
   }
-  console.log("全ての英語の勉強時間は " + studyAllEnglishTimes);
 
     // 英語の勉強時間（分）（数値）
   for(var cnt=0; cnt<compListArray.length; cnt++){
@@ -1224,7 +1192,6 @@ function doughnutChart(){
     }
     todayTotalTime = totalTime;
   }
-    console.log(compListArray[0]);
     // もしまだひとつもタスクを完了していないか、勉強時間が0だったら
     if(compListArray[0] === undefined || todayTotalTime === 0){
       $todayNoneImg.css({display:"block"});
@@ -1251,12 +1218,18 @@ function doughnutChart(){
                             // 今週の勉強時間
 // ======================================================================
 
+// 今日を基準に1週間を取得するための処理
+// date = 今日の「日」
+// month = 今日の「月」
+// year = 今日の「年」
+// week = 今日の曜日（日曜=0,月曜=1...）
+
 function showWeekTime(){
   $todayNoneImg.css({display:"none"});
   $weekNoneImg.css({display:"none"});
   $allNoneImg.css({display:"none"});
-  // 曜日の数字分引いてから7足した分までの1日分の勉強時間を出してあげる＝7日分
   // startDayは通常0になる
+  console.log(date);
   startDay = date - week;
   startMonth = month;
   startYaer = year;
@@ -1279,21 +1252,15 @@ function getWeekStudyTime(){
   var compListArray = getLocalStorage("compTodo",compListArray);
   StartDay = new Date(startYaer, startMonth, startDay, 0, 0, 0);
   startTime = StartDay.getTime();
-  console.log("今週初めは  " + StartDay);
-  console.log("週の始まりは  " + new Date(startTime));
-  console.log("週の終わりは  " + new Date(startTime + 86400000*6));
 
   // 開始日から7日分取得する
   for(var dayCnt=0;dayCnt<=6;dayCnt++){
-    console.log("なのか分のはじめ  " + new Date(startTime));
     endTime = startTime + 86400000; //24時間
     totalTime = 0;
     totalJapaneseTime = 0;
     totalEnglishTime = 0;
     totalMathTime = 0;
     totalUnsetTime = 0;
-    console.log(new Date(startTime));
-    console.log(new Date(endTime));
     for(var cnt=0;cnt<compListArray.length;cnt++){
       // もし勉強完了した時間がその日の0:00-23:59だったら
       if(compListArray[cnt].compTime >= startTime && compListArray[cnt].compTime < endTime){
@@ -1359,113 +1326,106 @@ function getWeekStudyTime(){
       SatUnsetTime = Math.floor(totalUnsetTime/60*10)/10;
     }
   }
-
-
-
-
-
-
 }
 
 function weekGraph(){
   console.log(MonUnsetTime);
   $('#container').highcharts({
       chart: {
-          type: 'column',
-          events: {
-              afterPrint : function(evt) {
-                  alert();
-              }
+        type: 'column',
+        events: {
+          afterPrint : function(evt) {
+            alert();
           }
+        }
       },
       title: {
-          text: ''
+        text: ''
       },
       xAxis: {
-          max: 6,
-          categories: ['日','月', '火', '水', '木', '金','土']
+        max: 6,
+        categories: ['日','月', '火', '水', '木', '金','土']
       },
       credits: {
-          enabled: false
+        enabled: false
       },
       yAxis: {
-          // max: maxVal,
-          min: 0,
-          title: {
-              text: 'Total fruit consumption'
-          },
-          stackLabels: {
-              enabled: true,
-              style: {
-                  fontWeight: 'bold',
-                  color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
-              }
+        // max: maxVal,
+        min: 0,
+        title: {
+          text: 'Total fruit consumption'
+        },
+        stackLabels: {
+          enabled: true,
+          style: {
+            fontWeight: 'bold',
+            color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
           }
+        }
       },
       tooltip: {
-          headerFormat: '<b>{point.x}</b><br/>',
-          pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+        headerFormat: '<b>{point.x}</b><br/>',
+        pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
       },
       legend: {
         enabled: false,
       },
       plotOptions: {
-          column: {
-              stacking: 'normal',
-              pointWidth: 10,
-          }
+        column: {
+          stacking: 'normal',
+          pointWidth: 10,
+        }
       },
       series: [{
-          name: '国語',
-          data: [
-          SunJapaneseTime,
-          MonJapaneseTime,
-          TueJapaneseTime,
-          WedJapaneseTime,
-          ThuJapaneseTime,
-          FriJapaneseTime,
-          SatJapaneseTime,
-          ]
+        name: '国語',
+        data: [
+        SunJapaneseTime,
+        MonJapaneseTime,
+        TueJapaneseTime,
+        WedJapaneseTime,
+        ThuJapaneseTime,
+        FriJapaneseTime,
+        SatJapaneseTime,
+        ]
       }, {
-          name: '英語',
-          data: [
-          SunEnglishTime,
-          MonEnglishTime,
-          TueEnglishTime,
-          WedEnglishTime,
-          ThuEnglishTime,
-          FriEnglishTime,
-          SatEnglishTime,
-          ]
+        name: '英語',
+        data: [
+        SunEnglishTime,
+        MonEnglishTime,
+        TueEnglishTime,
+        WedEnglishTime,
+        ThuEnglishTime,
+        FriEnglishTime,
+        SatEnglishTime,
+        ]
       }, {
-          name: '数学',
-          data: [
-          SunMathTime,
-          MonMathTime,
-          TueMathTime,
-          WedMathTime,
-          ThuMathTime,
-          FriMathTime,
-          SatMathTime,
-          ]
+        name: '数学',
+        data: [
+        SunMathTime,
+        MonMathTime,
+        TueMathTime,
+        WedMathTime,
+        ThuMathTime,
+        FriMathTime,
+        SatMathTime,
+        ]
       },{
-          name: '未設定',
-          data: [
-          SunUnsetTime,
-          MonUnsetTime,
-          TueUnsetTime,
-          WedUnsetTime,
-          ThuUnsetTime,
-          FriUnsetTime,
-          SatUnsetTime,
-          ]
+        name: '未設定',
+        data: [
+        SunUnsetTime,
+        MonUnsetTime,
+        TueUnsetTime,
+        WedUnsetTime,
+        ThuUnsetTime,
+        FriUnsetTime,
+        SatUnsetTime,
+        ]
       },
       ]
   });
-
-  $(".highcharts-axis").remove();
   $(".highcharts-tracker rect").css({strokeWidth:"0"});
   $(".highcharts-button").remove();
+  $(".highcharts-axis").remove();
   $(".highcharts-series-0 rect").css({fill:"#00CCC6"});
   $(".highcharts-series-1 rect").css({fill:"#BA78FF"});
   $(".highcharts-series-2 rect").css({fill:"#F5A623"});
@@ -1482,17 +1442,23 @@ function weekGraph(){
                             // タイマー
 // ======================================================================
 
-// スタートを押してないときは0
-// 押したらスタート時刻をgettime（=timerStartTime）して
-// タイマーが市っぱなしのときは再度表示したときに現在時刻-スタート時刻する
-// そこからカウントアップ
-// startTimeはストップボタンを押すたびにリセットされて
-// studyTimeに時間が反映される。
-// 再度スタートするときはstudyTimeを表示を繰り返す
+// 変数名
+// スタート時刻（=timerStartTime）
+// 合計勉強時間（=timerStudyTime）
+
+// スタートを押してないときは必ず timerStartTime = 0
+// 押した時刻 = timerStartTime
+// タイマーが押しっぱなしのときは再度表示したときに（再度表示した時の時刻-timerStartTime）する
+// そこから1秒ずつカウントアップ
+
+// < --- ストップボタンを押すと --- >
+// timerStartTime=0にする。
+// studyTimeに合計時間が反映される
+// 再度スタートするときはstudyTimeを表示する
 
 function showTimer(aTarget){
   aTarget.find(".m-timer-btn").on("click",function(evt){
-    evt.stopPropagation(); //liへのイベント伝播禁止
+    evt.stopPropagation();
     num = $(this).parent().parent().index(); //liのthis番目
 
     $addList.css({display:"none"});
@@ -1520,14 +1486,19 @@ function showTimer(aTarget){
 function setTimer(){
   var listArray = getLocalStorage("todo",listArray);
   currentTime = listArray[num].timerStudyTime;
+
   // タイマーが動いてるとき
+  // つまりもしそのタスクのtimerStartTimeが0じゃなかったら
+  // 現在時刻を取得して、もともとある合計勉強時間 + 現在時刻 - timerStartTimeする
   if(listArray[num].timerStartTime !== 0){
     nowTime = (new Date()).getTime();
+    // currentTime = 経過時刻
     currentTime = currentTime + (nowTime - listArray[num].timerStartTime);
     timer();
   }
 
   // タイマーが動いてるとき
+  // ボタンアニメーションよ用のフラグ
   if(listArray[num].btnFlug === 1){
     $(".button").addClass("is-active");
     $("#start").text("ストップ");
@@ -1577,9 +1548,9 @@ function timer() {
         minute.html(appendMinute);
         second.html(appendSecond);
 
-    }, interval); // ←これが間隔
+    }, interval);
 
-} // ここまで timer
+}
 
 // スタート/ストップボタン
   $("#start").on("click",function (){
@@ -1608,7 +1579,6 @@ function timer() {
       listArray[num].btnFlug = 0;
       setLocalStorage("todo",listArray);
       $outputArea.find("li").eq(num).find(".m-timer-btn").css({'opacity':0.1});
-      // $outputArea.find("li").eq(num).find(".m-timer-btn").css({background:"url(img/ic_timer_active.png) center center /80% no-repeat"}).css({opacity:"1"});
       clearInterval(time);
       $(".button").removeClass("is-active");
       $("#start").text("スタート");
