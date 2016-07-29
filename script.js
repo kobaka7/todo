@@ -1608,7 +1608,7 @@ function timer() {
       listArray[num].btnFlug = 0;
       setLocalStorage("todo",listArray);
       $outputArea.find("li").eq(num).find(".m-timer-btn").css({'opacity':0.1});
-
+      // $outputArea.find("li").eq(num).find(".m-timer-btn").css({background:"url(img/ic_timer_active.png) center center /80% no-repeat"}).css({opacity:"1"});
       clearInterval(time);
       $(".button").removeClass("is-active");
       $("#start").text("スタート");

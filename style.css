@@ -16,6 +16,10 @@ button {
 .bg-white {
   background-color:#fff;
 }
+select {
+  -webkit-appearance: none;
+  appearance: none;
+}
 /*========================== ヘッダー ============================*/
 .l-header {
   width: 100%;
@@ -260,7 +264,7 @@ li.l-menu-list-add {
   background: url(img/fav.jpg) no-repeat;
   background-position: -4px 0;
   position: absolute;
-  top: 3px;
+  top: 4px;
   right: -9px;
   transform: scale(0.7);
 }
@@ -501,21 +505,19 @@ li.l-menu-list-add {
 .m-comp-cancel-btn {
   background-color: #fff;
   display: block;
-  margin: -24px auto 12px;
+  margin: 190px auto 12px;
   text-decoration: underline;
   color: #999;
 }
 .m-comp-img {
-  width: 240px;
-  height: 200px;
+    height: 200px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
-.remodal.remodal-is-initialized.with-red-theme.remodal-is-opened {
+.l-comp-wrapper {
+  height: 412px;
   position: relative;
-  height: 408px;
-  padding: 32px 0;
-}
-.l-comp {
-
 }
 .m-comp-done-btn.remodal-confirm {
   color: #fff;
@@ -529,13 +531,12 @@ li.l-menu-list-add {
 }
 .m-comp-text {
   text-align: left;
-  padding: 4px 0 14px 0;
+  padding: 0 0 14px 0;
   font-size: 12px;
   color: #999;
 }
 .m-comp-time-wrapper {
   position: absolute;
-  left: 16px;
   top: 268px;
 }
 .m-comp-time-hours,
@@ -586,8 +587,8 @@ li.l-menu-list-add {
   background: url(img/ic_title.png) no-repeat;
   background-size: 18px;
   position: absolute;
-  left: 82px;
   top: -2px;
+  transform: translateX(-124%);
 }
 /*======================== グラフ ============================*/
 .l-study {
