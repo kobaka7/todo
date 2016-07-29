@@ -807,7 +807,7 @@ function doneEdit(){
 }
 
 // ======================================================================
-                            // 完了画面
+                            // 完了しました画面
 // ======================================================================
 
 function showComp(aTarget){
@@ -816,12 +816,13 @@ function showComp(aTarget){
     // 完了一覧画面のモーダル禁止
     if($(this).hasClass('is-active') === true){
       evt.preventDefault();
-    }
+    } else {
     evt.stopPropagation(); //liへのイベント伝播禁止
 
     var listArray = getLocalStorage("todo",listArray);
     // console.log(num);
     var studytime = listArray[num].timerStudyTime;
+    console.log(num);
     console.log(studytime);
     // 追加する時間
     var appendHour = studytime / (1000 * 60 * 60) | 0; // 1/1000秒x60秒x60分
@@ -834,6 +835,7 @@ function showComp(aTarget){
     $("select.m-comp-time-minutes option:selected").prop("selected",false);
     $("select.m-comp-time-hours").find("option").eq(appendHour + 1).prop("selected",true);
     $("select.m-comp-time-minutes").find("option").eq(appendMinute + 1).prop("selected",true);
+    }
   });
 }
 
@@ -1314,49 +1316,55 @@ function getWeekStudyTime(){
     startTime = startTime + 86400000;
     // １週間分の勉強時間
     if(dayCnt === 0){
-      SunTotalTime = totalTime;
-      SunJapaneseTime = totalJapaneseTime;
-      SunEnglishTime = totalEnglishTime;
-      SunMathTime = totalMathTime;
-      SunUnsetTime = totalUnsetTime;
+      SunTotalTime = Math.floor(totalTime/60*10)/10;
+      SunJapaneseTime = Math.floor(totalJapaneseTime/60*10)/10;
+      SunEnglishTime = Math.floor(totalEnglishTime/60*10)/10;
+      SunMathTime = Math.floor(totalMathTime/60*10)/10;
+      SunUnsetTime = Math.floor(totalUnsetTime/60*10)/10;
     } else if (dayCnt === 1) {
-      MonTotalTime = totalTime;
-      MonJapaneseTime = totalJapaneseTime;
-      MonEnglishTime = totalEnglishTime;
-      MonMathTime = totalMathTime;
-      MonUnsetTime = totalUnsetTime;
+      MonTotalTime = Math.floor(totalTime/60*10)/10;
+      MonJapaneseTime = Math.floor(totalJapaneseTime/60*10)/10;
+      MonEnglishTime = Math.floor(totalEnglishTime/60*10)/10;
+      MonMathTime = Math.floor(totalMathTime/60*10)/10;
+      MonUnsetTime = Math.floor(totalUnsetTime/60*10)/10;
     } else if (dayCnt === 2) {
-      TueTotalTime = totalTime;
-      TueJapaneseTime = totalJapaneseTime;
-      TueEnglishTime = totalEnglishTime;
-      TueMathTime = totalMathTime;
-      TueUnsetTime = totalUnsetTime;
+      TueTotalTime = Math.floor(totalTime/60*10)/10;
+      TueJapaneseTime = Math.floor(totalJapaneseTime/60*10)/10;
+      TueEnglishTime = Math.floor(totalEnglishTime/60*10)/10;
+      TueMathTime = Math.floor(totalMathTime/60*10)/10;
+      TueUnsetTime = Math.floor(totalUnsetTime/60*10)/10;
     } else if (dayCnt === 3) {
-      WedTotalTime = totalTime;
-      WedJapaneseTime = totalJapaneseTime;
-      WedEnglishTime = totalEnglishTime;
-      WedMathTime = totalMathTime;
-      WedUnsetTime = totalUnsetTime;
+      WedTotalTime = Math.floor(totalTime/60*10)/10;
+      WedJapaneseTime = Math.floor(totalJapaneseTime/60*10)/10;
+      WedEnglishTime = Math.floor(totalEnglishTime/60*10)/10;
+      WedMathTime = Math.floor(totalMathTime/60*10)/10;
+      WedUnsetTime = Math.floor(totalUnsetTime/60*10)/10;
     } else if (dayCnt === 4) {
-      ThuTotalTime = totalTime;
-      ThuJapaneseTime = totalJapaneseTime;
-      ThuEnglishTime = totalEnglishTime;
-      ThuMathTime = totalMathTime;
-      ThuUnsetTime = totalUnsetTime;
+      ThuTotalTime = Math.floor(totalTime/60*10)/10;
+      ThuJapaneseTime = Math.floor(totalJapaneseTime/60*10)/10;
+      ThuEnglishTime = Math.floor(totalEnglishTime/60*10)/10;
+      ThuMathTime = Math.floor(totalMathTime/60*10)/10;
+      ThuUnsetTime = Math.floor(totalUnsetTime/60*10)/10;
     } else if (dayCnt === 5) {
-      FriTotalTime = totalTime;
-      FriJapaneseTime = totalJapaneseTime;
-      FriEnglishTime = totalEnglishTime;
-      FriMathTime = totalMathTime;
-      FriUnsetTime = totalUnsetTime;
+      FriTotalTime = Math.floor(totalTime/60*10)/10;
+      FriJapaneseTime = Math.floor(totalJapaneseTime/60*10)/10;
+      FriEnglishTime = Math.floor(totalEnglishTime/60*10)/10;
+      FriMathTime = Math.floor(totalMathTime/60*10)/10;
+      FriUnsetTime = Math.floor(totalUnsetTime/60*10)/10;
     } else if (dayCnt === 6) {
-      SatTotalTime = totalTime;
-      SatJapaneseTime = totalJapaneseTime;
-      SatEnglishTime = totalEnglishTime;
-      SatMathTime = totalMathTime;
-      SatUnsetTime = totalUnsetTime;
+      SatTotalTime = Math.floor(totalTime/60*10)/10;
+      SatJapaneseTime = Math.floor(totalJapaneseTime/60*10)/10;
+      SatEnglishTime = Math.floor(totalEnglishTime/60*10)/10;
+      SatMathTime = Math.floor(totalMathTime/60*10)/10;
+      SatUnsetTime = Math.floor(totalUnsetTime/60*10)/10;
     }
   }
+
+
+
+
+
+
 }
 
 function weekGraph(){
